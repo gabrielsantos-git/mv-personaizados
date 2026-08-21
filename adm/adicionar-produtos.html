@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/adicionar-produtos.css">
+    <script type="module" src="../assets/admGuard.js"></script>
     <title>Adicionar Produto - Mv Personalizados</title>
 </head>
-<body>
+<body style="visibility: hidden;">
     <div class="layoutAdm">
         <aside class="sidebarAdm">
             <div class="logoSidebarAdm">
@@ -45,14 +46,19 @@
                         <p class="emailUsuarioAdm">admin@mv.com.br</p>
                     </div>
                 </div>
+
+                <button type="button" id="botaoSairAdm" class="botaoSairAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair
+                </button>
             </div>
         </aside>
 
         <div class="areaConteudoAdm">
             <div class="cabecalhoTopoAdm">
                 <div class="tituloTopoAdm">
-                    <h1>Adicionar Produto</h1>
-                    <p>Cadastre um novo produto no catálogo da loja.</p>
+                    <h1 id="tituloFormProduto">Adicionar Produto</h1>
+                    <p id="subtituloFormProduto">Cadastre um novo produto no catálogo da loja.</p>
                 </div>
 
                 <a href="produtos.html" class="botaoVoltarProdutos">
@@ -61,7 +67,7 @@
                 </a>
             </div>
 
-            <form class="cardFormProduto" action="">
+            <form class="cardFormProduto" action="" id="formAdicionarProduto">
                 <div class="secaoFormProduto">
                     <h3>Informações Básicas</h3>
                     <p class="descricaoSecaoForm">O código do produto é gerado automaticamente pelo sistema.</p>
@@ -140,6 +146,8 @@
                     <h3>Imagens do Produto</h3>
                     <p class="descricaoSecaoForm">Adicione uma ou mais imagens — elas aparecem no carrossel da página do produto.</p>
 
+                    <div class="listaImagensExistentes" id="listaImagensExistentes"></div>
+
                     <div class="listaUploadImagens">
                         <label class="uploadImagemItem">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -190,90 +198,338 @@
                         </button>
                     </div>
 
-                    <div class="listaVariacoesProduto">
-                        <div class="linhaVariacaoProduto">
-                            <div class="campoFormProduto">
-                                <label for="valorVariacao1">Valor da variação</label>
-                                <input type="text" id="valorVariacao1" placeholder="Ex: P, M, G ou Vermelho, Azul...">
-                            </div>
+                    <div class="listaVariacoesProduto" id="listaVariacoesProduto"></div>
 
-                            <div class="campoFormProduto campoPrecoVariacao">
-                                <label for="precoVariacao1">Preço adicional (R$)</label>
-                                <input type="text" id="precoVariacao1" placeholder="0,00 (opcional)">
-                            </div>
+                    <button type="button" class="botaoAdicionarVariacao" id="botaoAdicionarVariacao">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Adicionar variação
+                    </button>
+                </div>
 
-                            <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
+                <template id="templateLinhaVariacao">
+                    <div class="linhaVariacaoProduto">
+                        <div class="campoFormProduto">
+                            <label>Tipo</label>
+                            <select class="selectTipoVariacao"></select>
                         </div>
 
-                        <div class="linhaVariacaoProduto">
-                            <div class="campoFormProduto">
-                                <label for="valorVariacao2">Valor da variação</label>
-                                <input type="text" id="valorVariacao2" placeholder="Ex: P, M, G ou Vermelho, Azul...">
-                            </div>
-
-                            <div class="campoFormProduto campoPrecoVariacao">
-                                <label for="precoVariacao2">Preço adicional (R$)</label>
-                                <input type="text" id="precoVariacao2" placeholder="0,00 (opcional)">
-                            </div>
-
-                            <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
+                        <div class="campoFormProduto">
+                            <label>Valor da variação</label>
+                            <input type="text" class="inputValorVariacao" placeholder="Ex: P, M, G ou Vermelho, Azul...">
                         </div>
 
-                        <button type="button" class="botaoAdicionarVariacao">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            Adicionar variação
+                        <div class="campoFormProduto campoPrecoVariacao">
+                            <label>Preço adicional (R$)</label>
+                            <input type="text" class="inputPrecoVariacao" placeholder="0,00 (opcional)">
+                        </div>
+
+                        <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
                         </button>
                     </div>
-                </div>
+                </template>
+
+                <p class="mensagemFormProduto" id="mensagemFormProduto"></p>
 
                 <div class="acoesFormProduto">
                     <a href="produtos.html" class="botaoCancelarProduto">Cancelar</a>
-                    <button type="submit" class="botaoSalvarProduto">Salvar Produto</button>
+                    <button type="submit" class="botaoSalvarProduto" id="botaoSalvarProduto">Salvar Produto</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script>
-        (function () {
-            const lista = document.getElementById('listaTiposVariacao');
-            const input = document.getElementById('inputNovoTipoVariacao');
-            const botao = document.getElementById('botaoNovoTipoVariacao');
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
 
-            function criarTipoVariacao() {
-                const nome = input.value.trim();
-                if (!nome) {
-                    input.focus();
-                    return;
-                }
+        // ---------- Tipos de variação (chips) ----------
+        const listaTipos = document.getElementById('listaTiposVariacao');
+        const inputNovoTipo = document.getElementById('inputNovoTipoVariacao');
+        const botaoNovoTipo = document.getElementById('botaoNovoTipoVariacao');
 
-                const valor = nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
+        function tiposDisponiveis() {
+            return [...listaTipos.querySelectorAll('input[name="tipoVariacao"]')].map((input) => ({
+                valor: input.value,
+                nome: input.nextElementSibling.textContent,
+                marcado: input.checked
+            }));
+        }
 
-                const label = document.createElement('label');
-                label.className = 'chipVariacao';
-                label.innerHTML =
-                    '<input type="checkbox" name="tipoVariacao" value="' + valor + '" checked>' +
-                    '<span></span>';
-                label.querySelector('span').textContent = nome;
-
-                lista.appendChild(label);
-
-                input.value = '';
-                input.focus();
-            }
-
-            botao.addEventListener('click', criarTipoVariacao);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    criarTipoVariacao();
+        function sincronizarSelectsDeTipo() {
+            const tipos = tiposDisponiveis();
+            document.querySelectorAll('.selectTipoVariacao').forEach((select) => {
+                const valorAtual = select.value;
+                select.innerHTML = '';
+                tipos.forEach((tipo) => {
+                    const option = document.createElement('option');
+                    option.value = tipo.valor;
+                    option.textContent = tipo.nome;
+                    select.appendChild(option);
+                });
+                if (tipos.some((t) => t.valor === valorAtual)) {
+                    select.value = valorAtual;
                 }
             });
-        })();
+        }
+
+        function criarTipoVariacao() {
+            const nome = inputNovoTipo.value.trim();
+            if (!nome) {
+                inputNovoTipo.focus();
+                return;
+            }
+
+            const valor = nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
+
+            const label = document.createElement('label');
+            label.className = 'chipVariacao';
+            label.innerHTML = '<input type="checkbox" name="tipoVariacao" value="' + valor + '" checked><span></span>';
+            label.querySelector('span').textContent = nome;
+
+            listaTipos.appendChild(label);
+
+            inputNovoTipo.value = '';
+            inputNovoTipo.focus();
+
+            sincronizarSelectsDeTipo();
+        }
+
+        botaoNovoTipo.addEventListener('click', criarTipoVariacao);
+        inputNovoTipo.addEventListener('keydown', (evento) => {
+            if (evento.key === 'Enter') {
+                evento.preventDefault();
+                criarTipoVariacao();
+            }
+        });
+        listaTipos.addEventListener('change', sincronizarSelectsDeTipo);
+
+        // ---------- Linhas de variação (valor + preço adicional) ----------
+        const listaVariacoes = document.getElementById('listaVariacoesProduto');
+        const templateLinha = document.getElementById('templateLinhaVariacao');
+        const botaoAdicionarVariacao = document.getElementById('botaoAdicionarVariacao');
+
+        function adicionarLinhaVariacao() {
+            const fragmento = templateLinha.content.cloneNode(true);
+            const linha = fragmento.querySelector('.linhaVariacaoProduto');
+
+            linha.querySelector('.botaoRemoverVariacao').addEventListener('click', () => linha.remove());
+
+            listaVariacoes.appendChild(linha);
+            sincronizarSelectsDeTipo();
+        }
+
+        botaoAdicionarVariacao.addEventListener('click', adicionarLinhaVariacao);
+
+        // ---------- Imagens: mostra o nome do arquivo escolhido ----------
+        document.querySelectorAll('.uploadImagemItem input[type="file"]').forEach((input) => {
+            const spanOriginal = input.previousElementSibling.textContent;
+            input.addEventListener('change', () => {
+                const span = input.previousElementSibling;
+                span.textContent = input.files[0] ? input.files[0].name : spanOriginal;
+            });
+        });
+
+        // ---------- Envio do formulário ----------
+        const form = document.getElementById('formAdicionarProduto');
+        const mensagem = document.getElementById('mensagemFormProduto');
+        const botaoSalvar = document.getElementById('botaoSalvarProduto');
+
+        function paraNumero(valorTexto) {
+            const limpo = (valorTexto || '').toString().trim().replace(/\./g, '').replace(',', '.');
+            const numero = parseFloat(limpo);
+            return isNaN(numero) ? 0 : numero;
+        }
+
+        // ---------- Modo edição (?id=...) ----------
+        const idEdicao = new URLSearchParams(window.location.search).get('id');
+        const listaImagensExistentes = document.getElementById('listaImagensExistentes');
+
+        function garantirChipTipo(tipoValor, tipoNomeSugerido) {
+            const existente = listaTipos.querySelector(`input[value="${tipoValor}"]`);
+            if (existente) {
+                existente.checked = true;
+                return;
+            }
+            const label = document.createElement('label');
+            label.className = 'chipVariacao';
+            label.innerHTML = '<input type="checkbox" name="tipoVariacao" value="' + tipoValor + '" checked><span></span>';
+            label.querySelector('span').textContent = tipoNomeSugerido || tipoValor;
+            listaTipos.appendChild(label);
+        }
+
+        function renderizarImagemExistente(imagem) {
+            const item = document.createElement('div');
+            item.className = 'imagemExistenteItem';
+            item.dataset.id = imagem.id;
+            item.innerHTML = `
+                <img src="${imagem.url}" alt="Imagem do produto">
+                <button type="button" class="botaoRemoverImagemExistente" aria-label="Remover imagem">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                </button>`;
+
+            item.querySelector('.botaoRemoverImagemExistente').addEventListener('click', async () => {
+                if (!confirm('Remover essa imagem do produto?')) return;
+
+                const caminho = imagem.url.split('/produtos/').pop();
+                await supabase.storage.from('produtos').remove([caminho]);
+                await supabase.from('imagens_produto').delete().eq('id', imagem.id);
+
+                item.remove();
+            });
+
+            listaImagensExistentes.appendChild(item);
+        }
+
+        async function carregarProdutoParaEdicao(id) {
+            const [{ data: produto, error: erroProduto }, { data: variacoes }, { data: imagens }] = await Promise.all([
+                supabase.from('produtos').select('*').eq('id', id).single(),
+                supabase.from('variacoes_produto').select('*').eq('produto_id', id),
+                supabase.from('imagens_produto').select('*').eq('produto_id', id).order('ordem')
+            ]);
+
+            if (erroProduto || !produto) {
+                mensagem.textContent = 'Não foi possível carregar este produto.';
+                mensagem.classList.add('mensagemErro');
+                return;
+            }
+
+            document.getElementById('tituloFormProduto').textContent = 'Editar Produto';
+            document.getElementById('subtituloFormProduto').textContent = `Editando "${produto.nome}" (${produto.codigo})`;
+            botaoSalvar.textContent = 'Salvar Alterações';
+
+            document.getElementById('nomeProduto').value = produto.nome || '';
+            document.getElementById('categoriaProduto').value = produto.categoria || '';
+            document.getElementById('statusProduto').value = produto.status || 'ativo';
+            document.getElementById('precoProduto').value = Number(produto.preco).toFixed(2).replace('.', ',');
+            document.getElementById('estoqueProduto').value = produto.estoque;
+            document.getElementById('descricaoProduto').value = produto.descricao || '';
+            document.getElementById('visibilidadePublico').checked = !!produto.publico;
+            document.getElementById('visibilidadePrivado').checked = !produto.publico;
+
+            (variacoes || []).forEach((variacao) => {
+                garantirChipTipo(variacao.tipo, variacao.tipo);
+            });
+            sincronizarSelectsDeTipo();
+
+            (variacoes || []).forEach((variacao) => {
+                adicionarLinhaVariacao();
+                const linha = listaVariacoes.lastElementChild;
+                linha.querySelector('.selectTipoVariacao').value = variacao.tipo;
+                linha.querySelector('.inputValorVariacao').value = variacao.valor;
+                linha.querySelector('.inputPrecoVariacao').value = Number(variacao.preco_adicional || 0).toFixed(2).replace('.', ',');
+            });
+
+            (imagens || []).forEach(renderizarImagemExistente);
+
+            return produto;
+        }
+
+        async function enviarImagens(produtoId) {
+            const inputsImagem = [...document.querySelectorAll('.uploadImagemItem input[type="file"]')]
+                .filter((input) => input.files && input.files[0]);
+
+            for (let i = 0; i < inputsImagem.length; i++) {
+                const arquivo = inputsImagem[i].files[0];
+                const caminho = produtoId + '/' + Date.now() + '-' + i + '-' + arquivo.name;
+
+                const { error: erroUpload } = await supabase.storage.from('produtos').upload(caminho, arquivo);
+                if (erroUpload) throw erroUpload;
+
+                const { data: urlPublica } = supabase.storage.from('produtos').getPublicUrl(caminho);
+
+                const { error: erroInsert } = await supabase.from('imagens_produto').insert({
+                    produto_id: produtoId,
+                    url: urlPublica.publicUrl,
+                    ordem: i
+                });
+                if (erroInsert) throw erroInsert;
+            }
+        }
+
+        async function enviarVariacoes(produtoId) {
+            // Estratégia simples: substitui todas as variações do produto pelas linhas atuais do formulário.
+            const { error: erroLimpeza } = await supabase.from('variacoes_produto').delete().eq('produto_id', produtoId);
+            if (erroLimpeza) throw erroLimpeza;
+
+            const linhas = [...listaVariacoes.querySelectorAll('.linhaVariacaoProduto')];
+            const variacoes = linhas
+                .map((linha) => ({
+                    produto_id: produtoId,
+                    tipo: linha.querySelector('.selectTipoVariacao').value,
+                    valor: linha.querySelector('.inputValorVariacao').value.trim(),
+                    preco_adicional: paraNumero(linha.querySelector('.inputPrecoVariacao').value)
+                }))
+                .filter((variacao) => variacao.tipo && variacao.valor);
+
+            if (variacoes.length === 0) return;
+
+            const { error } = await supabase.from('variacoes_produto').insert(variacoes);
+            if (error) throw error;
+        }
+
+        form.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagem.textContent = '';
+            mensagem.classList.remove('mensagemErro');
+
+            const nome = document.getElementById('nomeProduto').value.trim();
+            const categoria = document.getElementById('categoriaProduto').value;
+            const status = document.getElementById('statusProduto').value;
+            const preco = paraNumero(document.getElementById('precoProduto').value);
+            const estoque = parseInt(document.getElementById('estoqueProduto').value, 10) || 0;
+            const descricao = document.getElementById('descricaoProduto').value.trim();
+            const publico = document.getElementById('visibilidadePublico').checked;
+
+            if (!nome || !categoria) {
+                mensagem.textContent = 'Preencha ao menos o nome e a categoria do produto.';
+                mensagem.classList.add('mensagemErro');
+                return;
+            }
+
+            botaoSalvar.disabled = true;
+            botaoSalvar.textContent = 'Salvando...';
+
+            try {
+                let produtoId = idEdicao;
+
+                if (idEdicao) {
+                    const { error: erroUpdate } = await supabase
+                        .from('produtos')
+                        .update({ nome, categoria, status, preco, estoque, descricao, publico })
+                        .eq('id', idEdicao);
+
+                    if (erroUpdate) throw erroUpdate;
+                } else {
+                    const { data: { session } } = await supabase.auth.getSession();
+
+                    const { data: produtoCriado, error: erroProduto } = await supabase
+                        .from('produtos')
+                        .insert({ nome, categoria, status, preco, estoque, descricao, publico, criado_por: session.user.id })
+                        .select()
+                        .single();
+
+                    if (erroProduto) throw erroProduto;
+                    produtoId = produtoCriado.id;
+                }
+
+                await enviarVariacoes(produtoId);
+
+                if (publico) {
+                    await enviarImagens(produtoId);
+                }
+
+                window.location.href = 'produtos.html';
+            } catch (erro) {
+                mensagem.textContent = 'Não foi possível salvar o produto: ' + erro.message;
+                mensagem.classList.add('mensagemErro');
+                botaoSalvar.disabled = false;
+                botaoSalvar.textContent = idEdicao ? 'Salvar Alterações' : 'Salvar Produto';
+            }
+        });
+
+        if (idEdicao) {
+            carregarProdutoParaEdicao(idEdicao);
+        }
     </script>
 </body>
 </html>

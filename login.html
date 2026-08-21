@@ -18,19 +18,21 @@
         </div>
 
         <div class="areaFormLogin">
-            <form action="" class="cardLogin">
+            <form action="" class="cardLogin" id="formLogin">
                 <h1>Login</h1>
 
                 <div class="campoLogin">
                     <label for="usuario">Usuário</label>
-                    <input type="text" name="usuario" id="usuario" placeholder="exemplo@email.com">
+                    <input type="email" name="usuario" id="usuario" placeholder="exemplo@email.com" required>
                 </div>
 
                 <div class="campoLogin">
                     <label for="senha">Senha</label>
-                    <input type="password" name="senha" id="senha" placeholder="Digite sua senha">
+                    <input type="password" name="senha" id="senha" placeholder="Digite sua senha" required>
                     <a href="esqueci-senha.html" class="linkEsqueciSenha">Esqueci minha senha</a>
                 </div>
+
+                <p class="mensagemAuth" id="mensagemLogin"></p>
 
                 <button type="submit" class="botaoFazerLogin">Fazer Login</button>
 
@@ -38,5 +40,36 @@
             </form>
         </div>
     </main>
+
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+
+        const form = document.getElementById('formLogin');
+        const mensagem = document.getElementById('mensagemLogin');
+        const botao = form.querySelector('.botaoFazerLogin');
+
+        form.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagem.textContent = '';
+
+            const email = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value;
+
+            botao.disabled = true;
+            botao.textContent = 'Entrando...';
+
+            const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
+
+            botao.disabled = false;
+            botao.textContent = 'Fazer Login';
+
+            if (error) {
+                mensagem.textContent = 'Email ou senha inválidos.';
+                return;
+            }
+
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>

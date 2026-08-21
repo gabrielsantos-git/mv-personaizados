@@ -463,6 +463,45 @@ body{
     color: #1d4ed8;
 }
 
+.categoriaArmarinho{
+    background-color: #f0fdf4;
+    color: #15803d;
+}
+
+.categoriaPapelaria{
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.categoriaVestuario{
+    background-color: #f5f3ff;
+    color: #6d28d9;
+}
+
+.selectFiltro{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.selectFiltro:focus{
+    outline: none;
+}
+
+.estadoVazioProdutos{
+    text-align: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #64748b;
+    padding: 20px 0 0;
+}
+
 .colProdPreco{
     width: 100px;
     flex-shrink: 0;
@@ -635,4 +674,31 @@ body{
     font-family: 'Almarai', sans-serif;
     font-size: 13px;
     color: #94a3b8;
+}
+
+.botaoSairAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px 4px;
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+}
+
+.botaoSairAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
 }

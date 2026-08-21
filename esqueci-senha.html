@@ -18,24 +18,112 @@
         </div>
 
         <div class="areaFormLogin">
-            <form action="" class="cardLogin">
-                <h1>Redefinir Senha</h1>
+            <form action="" class="cardLogin" id="formEsqueciSenha">
+                <h1 id="tituloEsqueciSenha">Redefinir Senha</h1>
 
-                <div class="campoLogin">
-                    <label for="novaSenha">Nova Senha</label>
-                    <input type="password" name="novaSenha" id="novaSenha" placeholder="Digite a nova senha">
+                <div class="campoLogin" id="campoEmailRecuperacao">
+                    <label for="emailRecuperacao">Email</label>
+                    <input type="email" name="emailRecuperacao" id="emailRecuperacao" placeholder="exemplo@email.com" required>
                 </div>
 
-                <div class="campoLogin">
-                    <label for="confirmarSenha">Confirmar Senha</label>
-                    <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder="Confirme a nova senha">
+                <div class="camposNovaSenha" id="camposNovaSenha">
+                    <div class="campoLogin">
+                        <label for="novaSenha">Nova Senha</label>
+                        <input type="password" name="novaSenha" id="novaSenha" placeholder="Digite a nova senha" minlength="6">
+                    </div>
+
+                    <div class="campoLogin">
+                        <label for="confirmarSenha">Confirmar Senha</label>
+                        <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder="Confirme a nova senha" minlength="6">
+                    </div>
                 </div>
 
-                <button type="submit" class="botaoFazerLogin">Redefinir Senha</button>
+                <p class="mensagemAuth" id="mensagemEsqueciSenha"></p>
+
+                <button type="submit" class="botaoFazerLogin" id="botaoEsqueciSenha">Enviar link de redefinição</button>
 
                 <a href="login.html" class="linkCriarConta">Voltar para Login</a>
             </form>
         </div>
     </main>
+
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+
+        const form = document.getElementById('formEsqueciSenha');
+        const titulo = document.getElementById('tituloEsqueciSenha');
+        const campoEmail = document.getElementById('campoEmailRecuperacao');
+        const camposSenha = document.getElementById('camposNovaSenha');
+        const botao = document.getElementById('botaoEsqueciSenha');
+        const mensagem = document.getElementById('mensagemEsqueciSenha');
+
+        let modoRedefinir = false;
+
+        // Quando o link do email de recuperação é aberto, o Supabase dispara esse
+        // evento e cria uma sessão temporária só pra trocar a senha.
+        supabase.auth.onAuthStateChange((evento) => {
+            if (evento === 'PASSWORD_RECOVERY') {
+                modoRedefinir = true;
+                campoEmail.style.display = 'none';
+                camposSenha.style.display = 'flex';
+                titulo.textContent = 'Escolha sua nova senha';
+                botao.textContent = 'Redefinir Senha';
+            }
+        });
+
+        // Estado inicial: só pede o email.
+        camposSenha.style.display = 'none';
+
+        form.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagem.textContent = '';
+
+            if (modoRedefinir) {
+                const novaSenha = document.getElementById('novaSenha').value;
+                const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+                if (novaSenha !== confirmarSenha) {
+                    mensagem.textContent = 'As senhas não coincidem.';
+                    return;
+                }
+
+                botao.disabled = true;
+                botao.textContent = 'Salvando...';
+
+                const { error } = await supabase.auth.updateUser({ password: novaSenha });
+
+                botao.disabled = false;
+
+                if (error) {
+                    botao.textContent = 'Redefinir Senha';
+                    mensagem.textContent = 'Não foi possível redefinir a senha.';
+                    return;
+                }
+
+                mensagem.textContent = 'Senha redefinida! Redirecionando para o login...';
+                setTimeout(() => window.location.href = 'login.html', 1800);
+                return;
+            }
+
+            const email = document.getElementById('emailRecuperacao').value.trim();
+
+            botao.disabled = true;
+            botao.textContent = 'Enviando...';
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.href.split('?')[0].split('#')[0]
+            });
+
+            botao.disabled = false;
+            botao.textContent = 'Enviar link de redefinição';
+
+            if (error) {
+                mensagem.textContent = 'Não foi possível enviar o email.';
+                return;
+            }
+
+            mensagem.textContent = 'Enviamos um link de redefinição para seu email.';
+        });
+    </script>
 </body>
 </html>

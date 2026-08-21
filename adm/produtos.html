@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/produtos-adm.css">
+    <script type="module" src="../assets/admGuard.js"></script>
     <title>Produtos - Mv Personalizados</title>
 </head>
-<body>
+<body style="visibility: hidden;">
     <div class="layoutAdm">
         <aside class="sidebarAdm">
             <div class="logoSidebarAdm">
@@ -45,6 +46,11 @@
                         <p class="emailUsuarioAdm">admin@mv.com.br</p>
                     </div>
                 </div>
+
+                <button type="button" id="botaoSairAdm" class="botaoSairAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair
+                </button>
             </div>
         </aside>
 
@@ -76,7 +82,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V7l-9-4-9 4v1"/><path d="M3 8l9 4 9-4"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">86</p>
+                    <p class="valorCardKpi" id="kpiTotalProdutos">–</p>
                 </div>
 
                 <div class="cardKpiAdm">
@@ -86,7 +92,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 17h.01"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">7</p>
+                    <p class="valorCardKpi" id="kpiEstoqueBaixo">–</p>
                 </div>
 
                 <div class="cardKpiAdm">
@@ -96,7 +102,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">2</p>
+                    <p class="valorCardKpi" id="kpiSemEstoque">–</p>
                 </div>
 
                 <div class="cardKpiAdm">
@@ -106,7 +112,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">9</p>
+                    <p class="valorCardKpi" id="kpiCategoriasAtivas">–</p>
                 </div>
             </div>
 
@@ -116,15 +122,27 @@
                     <input type="search" name="buscaProduto" id="buscaProduto" placeholder="Buscar por produto, categoria, código...">
                 </div>
 
-                <button type="button" class="filtroProdutos">
-                    <span>Categoria: <strong>Todas</strong></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
+                <div class="filtroProdutos">
+                    <span>Categoria:</span>
+                    <select id="filtroCategoria" class="selectFiltro">
+                        <option value="">Todas</option>
+                        <option value="personalizado">Personalizado</option>
+                        <option value="informatica">Informática</option>
+                        <option value="armarinho">Armarinho</option>
+                        <option value="papelaria">Papelaria</option>
+                        <option value="vestuario">Vestuário</option>
+                    </select>
+                </div>
 
-                <button type="button" class="filtroProdutos">
-                    <span>Estoque: <strong>Todos</strong></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
+                <div class="filtroProdutos">
+                    <span>Estoque:</span>
+                    <select id="filtroEstoque" class="selectFiltro">
+                        <option value="">Todos</option>
+                        <option value="ok">Em estoque</option>
+                        <option value="baixo">Estoque baixo</option>
+                        <option value="zero">Sem estoque</option>
+                    </select>
+                </div>
             </div>
 
             <div class="cardTabelaProdutos">
@@ -143,140 +161,158 @@
                         <span class="colProdAcoes">Ações</span>
                     </div>
 
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Caneca Personalizada Cerâmica</h4>
-                            <h6>CAN-PERS01</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
-                        <span class="colProdPreco">R$ 45,00</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueOk"></span>45 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusAtivo">Ativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Caneca Personalizada Cerâmica">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Caneca Personalizada Cerâmica">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Camiseta Básica Estampada</h4>
-                            <h6>CAM-BLK04</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
-                        <span class="colProdPreco">R$ 39,90</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueOk"></span>20 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusAtivo">Ativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Camiseta Básica Estampada">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Camiseta Básica Estampada">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Chaveiro Resinado Personalizado</h4>
-                            <h6>CHA-RES02</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
-                        <span class="colProdPreco">R$ 19,90</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueOk"></span>50 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusAtivo">Ativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Chaveiro Resinado Personalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Chaveiro Resinado Personalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Garrafa Térmica Inox 500ml</h4>
-                            <h6>GAR-RED50</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
-                        <span class="colProdPreco">R$ 65,00</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueBaixo"></span>5 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusAtivo">Ativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Garrafa Térmica Inox 500ml">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Garrafa Térmica Inox 500ml">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Mouse Pad Ergonômico Estampado</h4>
-                            <h6>MOU-ERG05</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaInformatica">Informática</span></span>
-                        <span class="colProdPreco">R$ 28,00</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueZero"></span>0 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusInativo">Inativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Mouse Pad Ergonômico Estampado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Mouse Pad Ergonômico Estampado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaProdutosAdm">
-                        <div class="colProdInfo">
-                            <h4>Caderno Executivo A5 Pautado</h4>
-                            <h6>CAD-EXE01</h6>
-                        </div>
-                        <span class="colProdCategoria"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
-                        <span class="colProdPreco">R$ 28,00</span>
-                        <span class="colProdEstoque"><span class="pontoEstoque pontoEstoqueOk"></span>18 un</span>
-                        <span class="colProdStatus"><span class="statusProdutoBadge statusAtivo">Ativo</span></span>
-                        <span class="colProdAcoes">
-                            <button type="button" class="botaoAcaoProduto" aria-label="Editar Caderno Executivo A5 Pautado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-                            </button>
-                            <button type="button" class="botaoAcaoProduto botaoExcluirProduto" aria-label="Excluir Caderno Executivo A5 Pautado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </span>
-                    </div>
+                    <div id="corpoTabelaProdutos"></div>
                 </div>
 
-                <div class="paginacaoProdutos">
-                    <p>Mostrando 1-6 de 86 produtos</p>
+                <p class="estadoVazioProdutos" id="estadoVazioProdutos" style="display:none;">Nenhum produto encontrado.</p>
 
-                    <div class="botoesPaginacao">
-                        <button type="button" class="botaoPagina" aria-label="Página anterior">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                        </button>
-                        <button type="button" class="botaoPagina paginaAtiva">1</button>
-                        <button type="button" class="botaoPagina">2</button>
-                        <button type="button" class="botaoPagina">3</button>
-                        <span class="reticenciasPaginacao">...</span>
-                        <button type="button" class="botaoPagina">9</button>
-                        <button type="button" class="botaoPagina" aria-label="Próxima página">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                        </button>
-                    </div>
+                <div class="paginacaoProdutos">
+                    <p id="contagemProdutos">Carregando produtos...</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
+
+        const corpoTabela = document.getElementById('corpoTabelaProdutos');
+        const estadoVazio = document.getElementById('estadoVazioProdutos');
+        const contagem = document.getElementById('contagemProdutos');
+        const inputBusca = document.getElementById('buscaProduto');
+        const selectCategoria = document.getElementById('filtroCategoria');
+        const selectEstoque = document.getElementById('filtroEstoque');
+
+        const nomesCategoria = {
+            personalizado: 'Personalizado',
+            informatica: 'Informática',
+            armarinho: 'Armarinho',
+            papelaria: 'Papelaria',
+            vestuario: 'Vestuário'
+        };
+
+        const classesCategoria = {
+            personalizado: 'categoriaPersonalizado',
+            informatica: 'categoriaInformatica',
+            armarinho: 'categoriaArmarinho',
+            papelaria: 'categoriaPapelaria',
+            vestuario: 'categoriaVestuario'
+        };
+
+        const iconeEditar = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
+        const iconeExcluir = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+
+        let todosProdutos = [];
+
+        function formatarPreco(preco) {
+            return 'R$ ' + Number(preco).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function classeEstoque(estoque) {
+            if (estoque <= 0) return 'pontoEstoqueZero';
+            if (estoque < 10) return 'pontoEstoqueBaixo';
+            return 'pontoEstoqueOk';
+        }
+
+        function linhaProdutoHtml(produto) {
+            return `
+                <div class="linhaTabelaProdutosAdm" data-id="${produto.id}">
+                    <div class="colProdInfo">
+                        <h4>${produto.nome}</h4>
+                        <h6>${produto.codigo || ''}</h6>
+                    </div>
+                    <span class="colProdCategoria"><span class="categoriaBadge ${classesCategoria[produto.categoria] || 'categoriaPersonalizado'}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
+                    <span class="colProdPreco">${formatarPreco(produto.preco)}</span>
+                    <span class="colProdEstoque"><span class="pontoEstoque ${classeEstoque(produto.estoque)}"></span>${produto.estoque} un</span>
+                    <span class="colProdStatus"><span class="statusProdutoBadge ${produto.status === 'ativo' ? 'statusAtivo' : 'statusInativo'}">${produto.status === 'ativo' ? 'Ativo' : 'Inativo'}</span></span>
+                    <span class="colProdAcoes">
+                        <button type="button" class="botaoAcaoProduto botaoEditarProduto" data-id="${produto.id}" aria-label="Editar ${produto.nome}">${iconeEditar}</button>
+                        <button type="button" class="botaoAcaoProduto botaoExcluirProduto" data-id="${produto.id}" data-nome="${produto.nome}" aria-label="Excluir ${produto.nome}">${iconeExcluir}</button>
+                    </span>
+                </div>`;
+        }
+
+        function atualizarKpis(produtos) {
+            document.getElementById('kpiTotalProdutos').textContent = produtos.length;
+            document.getElementById('kpiEstoqueBaixo').textContent = produtos.filter((p) => p.estoque > 0 && p.estoque < 10).length;
+            document.getElementById('kpiSemEstoque').textContent = produtos.filter((p) => p.estoque <= 0).length;
+            document.getElementById('kpiCategoriasAtivas').textContent = new Set(produtos.filter((p) => p.status === 'ativo').map((p) => p.categoria)).size;
+        }
+
+        function renderizarLista() {
+            const termo = inputBusca.value.trim().toLowerCase();
+            const categoria = selectCategoria.value;
+            const estoqueFiltro = selectEstoque.value;
+
+            const filtrados = todosProdutos.filter((produto) => {
+                const bateBusca = !termo
+                    || produto.nome.toLowerCase().includes(termo)
+                    || (produto.codigo || '').toLowerCase().includes(termo)
+                    || (nomesCategoria[produto.categoria] || '').toLowerCase().includes(termo);
+
+                const bateCategoria = !categoria || produto.categoria === categoria;
+
+                const bateEstoque = !estoqueFiltro
+                    || (estoqueFiltro === 'zero' && produto.estoque <= 0)
+                    || (estoqueFiltro === 'baixo' && produto.estoque > 0 && produto.estoque < 10)
+                    || (estoqueFiltro === 'ok' && produto.estoque >= 10);
+
+                return bateBusca && bateCategoria && bateEstoque;
+            });
+
+            corpoTabela.innerHTML = filtrados.map(linhaProdutoHtml).join('');
+            estadoVazio.style.display = filtrados.length === 0 ? 'block' : 'none';
+            contagem.textContent = `Mostrando ${filtrados.length} de ${todosProdutos.length} produtos`;
+        }
+
+        async function carregarProdutos() {
+            const { data, error } = await supabase
+                .from('produtos')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                contagem.textContent = 'Não foi possível carregar os produtos.';
+                return;
+            }
+
+            todosProdutos = data;
+            atualizarKpis(todosProdutos);
+            renderizarLista();
+        }
+
+        async function excluirProduto(id, nome) {
+            if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+
+            const { error } = await supabase.from('produtos').delete().eq('id', id);
+            if (error) {
+                alert('Não foi possível excluir o produto.');
+                return;
+            }
+
+            todosProdutos = todosProdutos.filter((p) => p.id !== id);
+            atualizarKpis(todosProdutos);
+            renderizarLista();
+        }
+
+        corpoTabela.addEventListener('click', (evento) => {
+            const botaoEditar = evento.target.closest('.botaoEditarProduto');
+            if (botaoEditar) {
+                window.location.href = `adicionar-produtos.html?id=${botaoEditar.dataset.id}`;
+                return;
+            }
+
+            const botaoExcluir = evento.target.closest('.botaoExcluirProduto');
+            if (botaoExcluir) {
+                excluirProduto(botaoExcluir.dataset.id, botaoExcluir.dataset.nome);
+            }
+        });
+
+        inputBusca.addEventListener('input', renderizarLista);
+        selectCategoria.addEventListener('change', renderizarLista);
+        selectEstoque.addEventListener('change', renderizarLista);
+
+        carregarProdutos();
+    </script>
 </body>
 </html>

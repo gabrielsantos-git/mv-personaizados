@@ -159,3 +159,21 @@
     color: var(--cor-secundaria);
     text-decoration: underline;
 }
+
+.mensagemAuth{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: var(--cor-secundaria);
+    text-align: center;
+    margin: -10px 0 0;
+}
+
+.mensagemAuth:empty{
+    display: none;
+}
+
+.camposNovaSenha{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

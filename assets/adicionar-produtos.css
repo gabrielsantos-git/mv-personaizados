@@ -357,6 +357,56 @@ body{
     display: flex;
 }
 
+.listaImagensExistentes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.listaImagensExistentes:empty{
+    display: none;
+}
+
+.imagemExistenteItem{
+    position: relative;
+
+    width: 150px;
+    height: 130px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.imagemExistenteItem img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.botaoRemoverImagemExistente{
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 26px;
+    height: 26px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    color: white;
+}
+
+.botaoRemoverImagemExistente:hover{
+    background-color: #dc2626;
+}
+
 .listaUploadImagens{
     display: flex;
     flex-direction: row;
@@ -537,8 +587,27 @@ body{
     gap: 16px;
 }
 
+.linhaVariacaoProduto .campoFormProduto:first-child{
+    max-width: 180px;
+}
+
 .campoPrecoVariacao{
     max-width: 200px;
+}
+
+.mensagemFormProduto{
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.mensagemFormProduto:empty{
+    display: none;
+}
+
+.mensagemFormProduto.mensagemErro{
+    color: #dc2626;
 }
 
 .botaoRemoverVariacao{
@@ -629,4 +698,31 @@ body{
 
 .botaoSalvarProduto:hover{
     background-color: var(--cor-quintenaria);
+}
+
+.botaoSairAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px 4px;
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+}
+
+.botaoSairAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
 }
