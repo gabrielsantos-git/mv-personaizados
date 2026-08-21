@@ -15,7 +15,7 @@ import { supabase } from './supabaseClient.js';
 
     const { data: perfil } = await supabase
         .from('profiles')
-        .select('nome, sobrenome, telefone, cep')
+        .select('nome, sobrenome, telefone, cep, cpf, rua, bairro, cidade, complemento')
         .eq('id', session.user.id)
         .single();
 

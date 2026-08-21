@@ -33,23 +33,40 @@
     <main>
         <div class="contaPage">
             <aside class="contaSidebar">
-                <div class="avatarUsuarioConta"></div>
-                <h3 class="nomeUsuarioConta"></h3>
-                <p class="emailUsuarioConta"></p>
-
+                <h3>Painel</h3>
+                <hr class="divisorConta">
                 <ul class="menuConta">
-                    <li><a href="minha-conta.html">Minha Conta</a></li>
-                    <li><a href="meus-pedidos.html" class="ativo">Meus Pedidos</a></li>
-                    <li><a href="meus-cartoes.html">Meus Cartões</a></li>
-                    <li class="itemSairConta"><button type="button" id="botaoSairConta">Sair</button></li>
+                    <li>
+                        <a href="minha-conta.html">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                            Minha Conta
+                        </a>
+                    </li>
+                    <li>
+                        <a href="meus-pedidos.html" class="ativo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+                            Meus Pedidos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="meus-cartoes.html">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                            Meus Cartões
+                        </a>
+                    </li>
                 </ul>
+                <div class="itemSairConta">
+                    <button type="button" class="linkSairConta" id="botaoSairConta">Sair da conta</button>
+                </div>
             </aside>
 
             <section class="contaConteudo">
-                <h1>Meus Pedidos</h1>
+                <div class="contaTopoConteudo">
+                    <h1>Meus Pedidos</h1>
+                </div>
 
-                <div class="cardConta">
-                    <div class="listaPedidos" id="listaPedidos">
+                <div class="listaPedidos" id="listaPedidos">
+                    <div class="cardConta">
                         <p class="mensagemConta">Carregando pedidos...</p>
                     </div>
                 </div>
@@ -116,14 +133,24 @@
 
         const nomesStatus = {
             pendente: 'Pendente',
-            em_producao: 'Em produção',
+            em_producao: 'Em Produção',
             enviado: 'Enviado',
             entregue: 'Entregue',
             cancelado: 'Cancelado'
         };
 
-        function formatarData(iso) {
-            return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const iconeMapPin = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+        const iconeCalendario = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>';
+        const iconeCaminhao = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 11h4l3 3v2h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg>';
+        const iconeLinkExterno = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg>';
+        const iconeOlho = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+        function formatarData(data) {
+            if (!data) return null;
+            const [ano, mes, dia] = data.split('-');
+            return data.includes('T')
+                ? new Date(data).toLocaleDateString('pt-BR')
+                : `${dia}/${mes}/${ano}`;
         }
 
         function formatarPreco(valor) {
@@ -139,53 +166,97 @@
         async function carregarPedidos() {
             const { data: pedidos, error } = await supabase
                 .from('pedidos')
-                .select('id, status, total, created_at, itens_pedido(nome_produto, quantidade, preco_unitario, subtotal)')
+                .select('id, status, total, created_at, endereco_entrega, previsao_entrega, codigo_rastreio, itens_pedido(nome_produto, quantidade, preco_unitario, subtotal)')
                 .eq('cliente_id', window.contaSession.user.id)
                 .order('created_at', { ascending: false });
 
             if (error) {
-                lista.innerHTML = '<p class="mensagemConta">Não foi possível carregar seus pedidos.</p>';
+                lista.innerHTML = '<div class="cardConta"><p class="mensagemConta">Não foi possível carregar seus pedidos.</p></div>';
                 return;
             }
 
             if (!pedidos || pedidos.length === 0) {
                 lista.innerHTML = `
-                    <div class="estadoVazioConta">
-                        <p>Você ainda não fez nenhum pedido.</p>
-                        <a href="produtos.html">Ver produtos</a>
+                    <div class="cardConta">
+                        <div class="estadoVazioConta">
+                            <p>Você ainda não fez nenhum pedido.</p>
+                            <a href="produtos.html">Ver produtos</a>
+                        </div>
                     </div>
                 `;
                 return;
             }
 
-            lista.innerHTML = pedidos.map((pedido) => {
+            lista.innerHTML = pedidos.map((pedido, indice) => {
                 const statusClasse = nomesStatus[pedido.status] ? pedido.status : 'pendente';
                 const statusNome = nomesStatus[pedido.status] || 'Pendente';
                 const idCurto = pedido.id.slice(0, 8).toUpperCase();
+                const titulo = indice === 0 ? 'Último Pedido' : `Pedido #${idCurto}`;
+
+                const linhasEntrega = [];
+                if (pedido.endereco_entrega) {
+                    linhasEntrega.push(`<div class="pedidoEntregaLinha">${iconeMapPin}<span><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega)}</span></div>`);
+                }
+                if (pedido.previsao_entrega) {
+                    linhasEntrega.push(`<div class="pedidoEntregaLinha">${iconeCalendario}<span><strong>Previsão de entrega:</strong> ${formatarData(pedido.previsao_entrega)}</span></div>`);
+                }
+                if (pedido.codigo_rastreio) {
+                    linhasEntrega.push(`<div class="pedidoEntregaLinha">${iconeCaminhao}<span><strong>Código de rastreio:</strong> ${escaparHtml(pedido.codigo_rastreio)}</span></div>`);
+                }
 
                 const itensHtml = (pedido.itens_pedido || []).map((item) => `
                     <div class="itemPedido">
                         <span>${escaparHtml(item.nome_produto)} × ${item.quantidade}</span>
                         <span>${formatarPreco(item.subtotal)}</span>
                     </div>
-                `).join('');
+                `).join('') || '<p class="mensagemConta">Nenhum item registrado.</p>';
 
                 return `
-                    <article class="pedidoCard">
-                        <div class="pedidoCabecalho">
-                            <div class="pedidoIdData">
-                                <span class="pedidoId">Pedido #${idCurto}</span>
-                                <span class="pedidoData">${formatarData(pedido.created_at)}</span>
-                            </div>
+                    <article class="cardConta">
+                        <div class="cabecalhoCardConta">
+                            <h2>${titulo}</h2>
                             <span class="statusPedido ${statusClasse}">${statusNome}</span>
                         </div>
+                        <hr class="divisorConta">
 
-                        ${itensHtml || '<p class="mensagemConta">Nenhum item registrado.</p>'}
+                        <div class="pedidoMetaLinha">
+                            <div class="pedidoMetaItem">
+                                <span>Código do Pedido</span>
+                                <span>#${idCurto}</span>
+                            </div>
+                            <div class="pedidoMetaItem valorPedido">
+                                <span>Valor Total</span>
+                                <span>${formatarPreco(pedido.total)}</span>
+                            </div>
+                        </div>
 
-                        <div class="pedidoRodape">Total: ${formatarPreco(pedido.total)}</div>
+                        ${linhasEntrega.length ? `
+                            <hr class="divisorConta">
+                            <div>
+                                <h3 style="margin-bottom: 16px;">Dados da Entrega</h3>
+                                <div class="pedidoEntregaLista">${linhasEntrega.join('')}</div>
+                            </div>
+                        ` : ''}
+
+                        <hr class="divisorConta">
+
+                        <div class="pedidoItensLista" id="itens-${pedido.id}">${itensHtml}</div>
+
+                        <div class="acoesPedido">
+                            ${pedido.codigo_rastreio ? `
+                                <button type="button" class="botaoConta">${iconeLinkExterno}<span>Acompanhar Entrega</span></button>
+                            ` : ''}
+                            <button type="button" class="botaoConta botaoContaOutline botaoDetalhesPedido" data-alvo="itens-${pedido.id}">${iconeOlho}<span>Detalhes do Pedido</span></button>
+                        </div>
                     </article>
                 `;
             }).join('');
+
+            lista.querySelectorAll('.botaoDetalhesPedido').forEach((botao) => {
+                botao.addEventListener('click', () => {
+                    document.getElementById(botao.dataset.alvo).classList.toggle('aberto');
+                });
+            });
         }
 
         document.addEventListener('contaAutenticada', carregarPedidos);

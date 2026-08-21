@@ -33,27 +33,44 @@
     <main>
         <div class="contaPage">
             <aside class="contaSidebar">
-                <div class="avatarUsuarioConta"></div>
-                <h3 class="nomeUsuarioConta"></h3>
-                <p class="emailUsuarioConta"></p>
-
+                <h3>Painel</h3>
+                <hr class="divisorConta">
                 <ul class="menuConta">
-                    <li><a href="minha-conta.html">Minha Conta</a></li>
-                    <li><a href="meus-pedidos.html">Meus Pedidos</a></li>
-                    <li><a href="meus-cartoes.html" class="ativo">Meus Cartões</a></li>
-                    <li class="itemSairConta"><button type="button" id="botaoSairConta">Sair</button></li>
+                    <li>
+                        <a href="minha-conta.html">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                            Minha Conta
+                        </a>
+                    </li>
+                    <li>
+                        <a href="meus-pedidos.html">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+                            Meus Pedidos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="meus-cartoes.html" class="ativo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                            Meus Cartões
+                        </a>
+                    </li>
                 </ul>
+                <div class="itemSairConta">
+                    <button type="button" class="linkSairConta" id="botaoSairConta">Sair da conta</button>
+                </div>
             </aside>
 
             <section class="contaConteudo">
-                <h1>Meus Cartões</h1>
+                <div class="contaTopoConteudo">
+                    <h1>Meus Cartões</h1>
+                    <button type="button" class="botaoConta" id="botaoNovoCartao">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                        <span>Adicionar Novo Cartão</span>
+                    </button>
+                </div>
 
                 <div class="cardConta">
-                    <p class="subtituloConta">Por segurança, guardamos só o apelido, o nome do titular, a bandeira e os últimos 4 dígitos do cartão. Nunca pedimos o número completo nem o CVV aqui.</p>
-
-                    <div class="gridCartoes" id="gridCartoes">
-                        <p class="mensagemConta">Carregando cartões...</p>
-                    </div>
+                    <p class="mensagemConta" style="color:#888;">Por segurança, guardamos só o apelido, o nome do titular, a bandeira e os últimos 4 dígitos do cartão. Nunca pedimos o número completo nem o CVV aqui.</p>
 
                     <div class="formNovoCartao" id="formNovoCartao">
                         <form class="formConta" id="formCartao">
@@ -101,9 +118,13 @@
 
                             <div class="acoesFormCartao">
                                 <button type="submit" class="botaoConta">Salvar cartão</button>
-                                <button type="button" class="botaoConta botaoContaSecundario" id="botaoCancelarCartao">Cancelar</button>
+                                <button type="button" class="botaoConta botaoContaOutline" id="botaoCancelarCartao">Cancelar</button>
                             </div>
                         </form>
+                    </div>
+
+                    <div class="gridCartoes" id="gridCartoes" style="margin-top: 24px;">
+                        <p class="mensagemConta">Carregando cartões...</p>
                     </div>
                 </div>
             </section>
@@ -170,6 +191,16 @@
         const form = document.getElementById('formCartao');
         const mensagemCartao = document.getElementById('mensagemCartao');
 
+        const iconeCartao = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>';
+
+        const nomesBandeira = {
+            visa: 'Visa',
+            mastercard: 'Mastercard',
+            elo: 'Elo',
+            amex: 'Amex',
+            outro: 'Cartão'
+        };
+
         function escaparHtml(texto) {
             const div = document.createElement('div');
             div.textContent = texto ?? '';
@@ -199,28 +230,33 @@
                 return;
             }
 
-            const cartoesHtml = (cartoes || []).map((cartao) => `
-                <div class="cartaoVisual ${cartao.principal ? 'principal' : ''}" data-id="${cartao.id}">
-                    ${cartao.principal ? '<span class="selinhoPrincipal">Principal</span>' : ''}
-                    <span class="cartaoApelido">${escaparHtml(cartao.apelido) || 'Cartão salvo'}</span>
+            if (!cartoes || cartoes.length === 0) {
+                grid.innerHTML = '<p class="mensagemConta" style="grid-column: 1 / -1;">Você ainda não salvou nenhum cartão.</p>';
+                return;
+            }
+
+            grid.innerHTML = cartoes.map((cartao) => `
+                <div class="cartaoVisual ${cartao.bandeira || 'outro'}" data-id="${cartao.id}">
+                    <div class="cartaoTopo">
+                        <span class="cartaoBandeira">${nomesBandeira[cartao.bandeira] || 'Cartão'}</span>
+                        ${iconeCartao}
+                    </div>
+                    ${cartao.apelido ? `<span class="cartaoApelido">${escaparHtml(cartao.apelido)}</span>` : ''}
                     <span class="cartaoNumero">•••• •••• •••• ${escaparHtml(cartao.ultimos_digitos)}</span>
+                    <hr class="cartaoDivisor">
                     <div class="cartaoRodape">
-                        <span class="cartaoTitular">${escaparHtml(cartao.nome_titular)}</span>
-                        <span>${String(cartao.validade_mes).padStart(2, '0')}/${String(cartao.validade_ano).slice(-2)}</span>
-                        <span class="cartaoBandeira">${escaparHtml(cartao.bandeira)}</span>
+                        <div>
+                            <span class="cartaoRodapeLabel">Titular</span>
+                            <span class="cartaoRodapeValor">${escaparHtml(cartao.nome_titular)}</span>
+                        </div>
+                        <div>
+                            <span class="cartaoRodapeLabel">Validade</span>
+                            <span class="cartaoRodapeValor">${String(cartao.validade_mes).padStart(2, '0')}/${cartao.validade_ano}</span>
+                        </div>
                     </div>
-                    <div class="acoesCartao">
-                        ${cartao.principal ? '' : `<button type="button" class="botaoTornarPrincipal" data-id="${cartao.id}">Tornar principal</button>`}
-                        <button type="button" class="botaoRemoverCartao" data-id="${cartao.id}">Remover</button>
-                    </div>
+                    <button type="button" class="botaoRemoverCartao" data-id="${cartao.id}">Remover Cartão</button>
                 </div>
             `).join('');
-
-            grid.innerHTML = cartoesHtml + `
-                <button type="button" class="cartaoNovoBotao" id="botaoNovoCartao">+ Adicionar cartão</button>
-            `;
-
-            document.getElementById('botaoNovoCartao').addEventListener('click', abrirFormulario);
 
             grid.querySelectorAll('.botaoRemoverCartao').forEach((botao) => {
                 botao.addEventListener('click', async () => {
@@ -229,16 +265,9 @@
                     carregarCartoes();
                 });
             });
-
-            grid.querySelectorAll('.botaoTornarPrincipal').forEach((botao) => {
-                botao.addEventListener('click', async () => {
-                    await supabase.from('cartoes').update({ principal: false }).eq('user_id', window.contaSession.user.id);
-                    await supabase.from('cartoes').update({ principal: true }).eq('id', botao.dataset.id);
-                    carregarCartoes();
-                });
-            });
         }
 
+        document.getElementById('botaoNovoCartao').addEventListener('click', abrirFormulario);
         document.getElementById('botaoCancelarCartao').addEventListener('click', fecharFormulario);
 
         form.addEventListener('submit', async (evento) => {
@@ -251,7 +280,7 @@
                 return;
             }
 
-            const botao = form.querySelector('.botaoConta');
+            const botao = form.querySelector('button[type="submit"]');
             botao.disabled = true;
             botao.textContent = 'Salvando...';
 
