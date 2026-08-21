@@ -230,6 +230,59 @@ body{
     white-space: nowrap;
 }
 
+.linhaKpiAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.cardKpiAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoCardKpi{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalhoCardKpi span{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.iconeCardKpi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(167, 12, 36, 0.06);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--cor-primaria);
+}
+
+.valorCardKpi{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
 .linhaFiltrosPedidos{
     display: flex;
     flex-direction: row;
@@ -271,6 +324,53 @@ body{
 
 .buscaPedidos input:focus{
     outline: none;
+}
+
+.filtroProdutos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 10px 16px;
+    white-space: nowrap;
+    color: #64748b;
+}
+
+.filtroProdutos span{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #64748b;
+}
+
+.selectFiltro{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.selectFiltro:focus{
+    outline: none;
+}
+
+.estadoVazioProdutos{
+    text-align: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #64748b;
+    padding: 20px 0 0;
 }
 
 .filtroPedidos{
@@ -432,12 +532,21 @@ body{
 }
 
 .colPrio{
-    width: 140px;
+    width: 150px;
     flex-shrink: 0;
 }
 
+.colTotal{
+    width: 110px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
 .colAcoes{
-    width: 160px;
+    width: 220px;
     flex-shrink: 0;
 
     display: flex;
@@ -470,6 +579,125 @@ body{
 .prioridadeLongoPrazo{
     background-color: #fef3c7;
     color: #b45309;
+}
+
+.statusPed{
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.statusPed.pendente{
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.statusPed.em_producao{
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.statusPed.enviado{
+    background-color: #ede9fe;
+    color: #6d28d9;
+}
+
+.statusPed.entregue{
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.statusPed.cancelado{
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.botaoDetalhes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px;
+    color: #64748b;
+}
+
+.botaoDetalhes:hover{
+    background-color: #f8fafc;
+    color: var(--cor-primaria);
+}
+
+.botaoCancelarPedido{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px;
+    color: #dc2626;
+}
+
+.botaoCancelarPedido:hover{
+    background-color: #fef2f2;
+}
+
+.botaoAcaoProduto:disabled,
+.botaoFinalizado:disabled{
+    opacity: 0.4;
+    cursor: default;
+}
+
+.linhaDetalhesPedido{
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 16px 20px;
+    margin-top: -8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+}
+
+.linhaDetalhesPedido.aberta{
+    display: flex;
+}
+
+.linhaDetalhesPedido h5{
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+}
+
+.listaItensDetalhe{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemDetalhePedido{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.infoExtraPedido{
+    font-size: 14px;
+    color: #475569;
+}
+
+.infoExtraPedido strong{
+    color: #1e293b;
 }
 
 .botaoImprimir{

@@ -62,33 +62,72 @@
                 </div>
 
                 <div class="acoesTopoPedidos">
-                    <button type="button" class="botaoNovoPedido">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Novo Pedido
-                    </button>
-
                     <div class="badgeDataAdm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                        <span>20/08/2026</span>
+                        <span id="badgeDataHoje">–</span>
                     </div>
+                </div>
+            </div>
+
+            <div class="linhaKpiAdm">
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Total de Pedidos</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiTotalPedidos">–</p>
+                </div>
+
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Pendentes</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiPendentes">–</p>
+                </div>
+
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Em Produção / Enviados</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 11h4l3 3v2h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiAndamento">–</p>
+                </div>
+
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Faturamento Total</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiFaturamento">–</p>
                 </div>
             </div>
 
             <div class="linhaFiltrosPedidos">
                 <div class="buscaPedidos">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="search" name="buscaPedido" id="buscaPedido" placeholder="Pesquisar pedido...">
+                    <input type="search" name="buscaPedido" id="buscaPedido" placeholder="Pesquisar por código ou cliente...">
                 </div>
 
-                <button type="button" class="filtroPedidos">
-                    <span>Categoria: <strong>Todas</strong></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-
-                <button type="button" class="filtroPedidos">
-                    <span>Prioridade: <strong>Todos</strong></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
+                <div class="filtroProdutos">
+                    <span>Status:</span>
+                    <select id="filtroStatus" class="selectFiltro">
+                        <option value="">Todos</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="em_producao">Em produção</option>
+                        <option value="enviado">Enviado</option>
+                        <option value="entregue">Entregue</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
             </div>
 
             <div class="cardTabelaPedidos">
@@ -101,224 +140,287 @@
                     <div class="linhaTabelaPedidosAdm cabecalhoColunasPedidos">
                         <span class="colPed">Pedido</span>
                         <span class="colCli">Cliente</span>
-                        <span class="colProd">Produto adquirido</span>
-                        <span class="colId">ID Produto</span>
+                        <span class="colProd">Itens</span>
                         <span class="colTel">Telefone</span>
-                        <span class="colEntrega">Data de Entrega</span>
-                        <span class="colPrio">Prioridade</span>
+                        <span class="colEntrega">Data do Pedido</span>
+                        <span class="colTotal">Total</span>
+                        <span class="colPrio">Status</span>
                         <span class="colAcoes">Ações</span>
                     </div>
 
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3052</span>
-                        <span class="colCli">Mariana Souza</span>
-                        <span class="colProd">Garrafa Térmica Inox Vermelha 500ml</span>
-                        <span class="colId">GAR-RED50</span>
-                        <span class="colTel">(71) 99881-2211</span>
-                        <span class="colEntrega">Hoje, 17:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeUrgente">Urgente</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3052">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3051</span>
-                        <span class="colCli">Cláudio Ferreira</span>
-                        <span class="colProd">Caneca Porcelana Alça Coração</span>
-                        <span class="colId">CAN-POR03</span>
-                        <span class="colTel">(11) 98711-3040</span>
-                        <span class="colEntrega">Amanhã, 12:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeUrgente">Urgente</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3051">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3050</span>
-                        <span class="colCli">Ana Júlia Pinheiro</span>
-                        <span class="colProd">Camiseta Básica Logo Preta (G)</span>
-                        <span class="colId">CAM-BLK04</span>
-                        <span class="colTel">(21) 99112-4433</span>
-                        <span class="colEntrega">24 Set, 10:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeNormal">Normal</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3050">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3049</span>
-                        <span class="colCli">Roberto Albuquerque</span>
-                        <span class="colProd">Azulejo Decorativo Namorados 15x15</span>
-                        <span class="colId">AZU-DEC01</span>
-                        <span class="colTel">(81) 98122-9988</span>
-                        <span class="colEntrega">25 Set, 15:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeLongoPrazo">Longo Prazo</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3049">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3048</span>
-                        <span class="colCli">Juliana Mendes</span>
-                        <span class="colProd">Caneca Personalizada Dia dos Pais</span>
-                        <span class="colId">CAN-POR01</span>
-                        <span class="colTel">(71) 99334-5566</span>
-                        <span class="colEntrega">26 Set, 09:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeNormal">Normal</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3048">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3047</span>
-                        <span class="colCli">Rodrigo Souza</span>
-                        <span class="colProd">Chaveiro Resinado Personalizado</span>
-                        <span class="colId">CHA-RES02</span>
-                        <span class="colTel">(71) 99778-1122</span>
-                        <span class="colEntrega">28 Set, 14:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeLongoPrazo">Longo Prazo</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3047">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3046</span>
-                        <span class="colCli">Amanda Oliveira</span>
-                        <span class="colProd">Caderno A5 Minimalista + Caneta</span>
-                        <span class="colId">CAD-EXE01</span>
-                        <span class="colTel">(11) 98223-7744</span>
-                        <span class="colEntrega">29 Set, 11:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeNormal">Normal</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3046">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3045</span>
-                        <span class="colCli">Carlos Eduardo</span>
-                        <span class="colProd">Mouse Pad Ergonômico Estampado</span>
-                        <span class="colId">MOU-ERG05</span>
-                        <span class="colTel">(21) 97554-1100</span>
-                        <span class="colEntrega">02 Out, 16:30</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeLongoPrazo">Longo Prazo</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3045">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3044</span>
-                        <span class="colCli">Beatriz Costa</span>
-                        <span class="colProd">Taça de Acrílico Degradê 400ml</span>
-                        <span class="colId">TAC-ACR02</span>
-                        <span class="colTel">(71) 98844-3322</span>
-                        <span class="colEntrega">05 Out, 18:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeNormal">Normal</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3044">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="linhaTabelaPedidosAdm">
-                        <span class="colPed">#3043</span>
-                        <span class="colCli">Felipe Andrade</span>
-                        <span class="colProd">Bolsa Ecológica Algodão Cru</span>
-                        <span class="colId">BOL-ECO01</span>
-                        <span class="colTel">(81) 99655-2244</span>
-                        <span class="colEntrega">08 Out, 10:00</span>
-                        <span class="colPrio"><span class="prioridadeBadge prioridadeLongoPrazo">Longo Prazo</span></span>
-                        <span class="colAcoes">
-                            <button type="button" class="botaoImprimir" aria-label="Imprimir pedido #3043">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                            </button>
-                            <button type="button" class="botaoFinalizado">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                Finalizado
-                            </button>
-                        </span>
-                    </div>
+                    <div id="corpoTabelaPedidos"></div>
                 </div>
 
-                <div class="paginacaoPedidos">
-                    <p>Mostrando 1-10 de 142 pedidos</p>
+                <p class="estadoVazioProdutos" id="estadoVazioPedidos" style="display:none;">Nenhum pedido encontrado.</p>
 
-                    <div class="botoesPaginacao">
-                        <button type="button" class="botaoPagina" aria-label="Página anterior">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                        </button>
-                        <button type="button" class="botaoPagina paginaAtiva">1</button>
-                        <button type="button" class="botaoPagina">2</button>
-                        <button type="button" class="botaoPagina">3</button>
-                        <span class="reticenciasPaginacao">...</span>
-                        <button type="button" class="botaoPagina">15</button>
-                        <button type="button" class="botaoPagina" aria-label="Próxima página">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                        </button>
-                    </div>
+                <div class="paginacaoPedidos">
+                    <p id="contagemPedidos">Carregando pedidos...</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
+
+        const corpoTabela = document.getElementById('corpoTabelaPedidos');
+        const estadoVazio = document.getElementById('estadoVazioPedidos');
+        const contagem = document.getElementById('contagemPedidos');
+        const inputBusca = document.getElementById('buscaPedido');
+        const selectStatus = document.getElementById('filtroStatus');
+
+        document.getElementById('badgeDataHoje').textContent = new Date().toLocaleDateString('pt-BR');
+
+        const nomesStatus = {
+            pendente: 'Pendente',
+            em_producao: 'Em produção',
+            enviado: 'Enviado',
+            entregue: 'Entregue',
+            cancelado: 'Cancelado'
+        };
+
+        const proximoStatus = {
+            pendente: 'em_producao',
+            em_producao: 'enviado',
+            enviado: 'entregue'
+        };
+
+        const textoAvancar = {
+            pendente: 'Marcar em produção',
+            em_producao: 'Marcar como enviado',
+            enviado: 'Marcar como entregue'
+        };
+
+        const iconeImprimir = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>';
+        const iconeCheck = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        const iconeOlho = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+        const iconeX = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+        let todosPedidos = [];
+
+        function formatarPreco(valor) {
+            return 'R$ ' + Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatarData(iso) {
+            return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        function resumoItens(pedido) {
+            const itens = pedido.itens_pedido || [];
+            if (itens.length === 0) return 'Sem itens';
+            const texto = itens.map((i) => `${i.nome_produto} ×${i.quantidade}`).join(', ');
+            return texto;
+        }
+
+        function linhaPedidoHtml(pedido) {
+            const idCurto = pedido.id.slice(0, 8).toUpperCase();
+            const cliente = pedido.perfilCliente;
+            const nomeCliente = cliente ? [cliente.nome, cliente.sobrenome].filter(Boolean).join(' ') : 'Cliente';
+            const telefone = cliente?.telefone || '–';
+            const podeAvancar = !!proximoStatus[pedido.status];
+            const podeCancelar = pedido.status !== 'entregue' && pedido.status !== 'cancelado';
+
+            return `
+                <div class="linhaTabelaPedidosAdm" data-id="${pedido.id}">
+                    <span class="colPed">#${idCurto}</span>
+                    <span class="colCli">${escaparHtml(nomeCliente)}</span>
+                    <span class="colProd" title="${escaparHtml(resumoItens(pedido))}">${escaparHtml(resumoItens(pedido))}</span>
+                    <span class="colTel">${escaparHtml(telefone)}</span>
+                    <span class="colEntrega">${formatarData(pedido.created_at)}</span>
+                    <span class="colTotal">${formatarPreco(pedido.total)}</span>
+                    <span class="colPrio"><span class="prioridadeBadge statusPed ${pedido.status}">${nomesStatus[pedido.status] || pedido.status}</span></span>
+                    <span class="colAcoes">
+                        <button type="button" class="botaoDetalhes botaoVerDetalhes" data-id="${pedido.id}" aria-label="Ver detalhes do pedido #${idCurto}">${iconeOlho}</button>
+                        <button type="button" class="botaoImprimir botaoImprimirPedido" data-id="${pedido.id}" aria-label="Imprimir pedido #${idCurto}">${iconeImprimir}</button>
+                        ${podeAvancar ? `<button type="button" class="botaoFinalizado botaoAvancarPedido" data-id="${pedido.id}">${iconeCheck} ${textoAvancar[pedido.status]}</button>` : ''}
+                        ${podeCancelar ? `<button type="button" class="botaoCancelarPedido botaoCancelarPedidoAcao" data-id="${pedido.id}" aria-label="Cancelar pedido #${idCurto}">${iconeX}</button>` : ''}
+                    </span>
+                </div>
+                <div class="linhaDetalhesPedido" id="detalhes-${pedido.id}">
+                    <div>
+                        <h5>Itens do pedido</h5>
+                        <div class="listaItensDetalhe">
+                            ${(pedido.itens_pedido || []).map((i) => `<div class="itemDetalhePedido"><span>${escaparHtml(i.nome_produto)} × ${i.quantidade}</span><span>${formatarPreco(i.subtotal)}</span></div>`).join('') || '<span>Sem itens registrados.</span>'}
+                        </div>
+                    </div>
+                    <p class="infoExtraPedido"><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</p>
+                    <p class="infoExtraPedido"><strong>Forma de pagamento:</strong> ${escaparHtml(pedido.forma_pagamento) || '–'}</p>
+                    ${pedido.observacoes ? `<p class="infoExtraPedido"><strong>Observações:</strong> ${escaparHtml(pedido.observacoes)}</p>` : ''}
+                    ${cliente?.telefone ? `<p class="infoExtraPedido"><strong>Contato do cliente:</strong> ${escaparHtml(cliente.telefone)}</p>` : ''}
+                </div>
+            `;
+        }
+
+        function atualizarKpis(pedidos) {
+            document.getElementById('kpiTotalPedidos').textContent = pedidos.length;
+            document.getElementById('kpiPendentes').textContent = pedidos.filter((p) => p.status === 'pendente').length;
+            document.getElementById('kpiAndamento').textContent = pedidos.filter((p) => p.status === 'em_producao' || p.status === 'enviado').length;
+            const faturamento = pedidos.filter((p) => p.status !== 'cancelado').reduce((soma, p) => soma + Number(p.total || 0), 0);
+            document.getElementById('kpiFaturamento').textContent = formatarPreco(faturamento);
+        }
+
+        function renderizarLista() {
+            const termo = inputBusca.value.trim().toLowerCase();
+            const status = selectStatus.value;
+
+            const filtrados = todosPedidos.filter((pedido) => {
+                const idCurto = pedido.id.slice(0, 8).toLowerCase();
+                const nomeCliente = pedido.perfilCliente
+                    ? [pedido.perfilCliente.nome, pedido.perfilCliente.sobrenome].filter(Boolean).join(' ').toLowerCase()
+                    : '';
+
+                const bateBusca = !termo || idCurto.includes(termo) || nomeCliente.includes(termo);
+                const bateStatus = !status || pedido.status === status;
+
+                return bateBusca && bateStatus;
+            });
+
+            corpoTabela.innerHTML = filtrados.map(linhaPedidoHtml).join('');
+            estadoVazio.style.display = filtrados.length === 0 ? 'block' : 'none';
+            contagem.textContent = `Mostrando ${filtrados.length} de ${todosPedidos.length} pedidos`;
+        }
+
+        async function carregarPedidos() {
+            const { data: pedidos, error } = await supabase
+                .from('pedidos')
+                .select('*, itens_pedido(*)')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                contagem.textContent = 'Não foi possível carregar os pedidos.';
+                return;
+            }
+
+            const idsClientes = [...new Set((pedidos || []).map((p) => p.cliente_id).filter(Boolean))];
+            let perfis = {};
+
+            if (idsClientes.length > 0) {
+                const { data: dadosPerfis } = await supabase
+                    .from('profiles')
+                    .select('id, nome, sobrenome, telefone')
+                    .in('id', idsClientes);
+
+                perfis = Object.fromEntries((dadosPerfis || []).map((p) => [p.id, p]));
+            }
+
+            todosPedidos = (pedidos || []).map((pedido) => ({ ...pedido, perfilCliente: perfis[pedido.cliente_id] }));
+            atualizarKpis(todosPedidos);
+            renderizarLista();
+        }
+
+        async function avancarStatus(id) {
+            const pedido = todosPedidos.find((p) => p.id === id);
+            if (!pedido) return;
+
+            const novoStatus = proximoStatus[pedido.status];
+            if (!novoStatus) return;
+
+            const { error } = await supabase.from('pedidos').update({ status: novoStatus }).eq('id', id);
+            if (error) {
+                alert('Não foi possível atualizar o status do pedido.');
+                return;
+            }
+
+            pedido.status = novoStatus;
+            atualizarKpis(todosPedidos);
+            renderizarLista();
+        }
+
+        async function cancelarPedido(id) {
+            if (!confirm('Cancelar este pedido? O cliente não será notificado automaticamente.')) return;
+
+            const { error } = await supabase.from('pedidos').update({ status: 'cancelado' }).eq('id', id);
+            if (error) {
+                alert('Não foi possível cancelar o pedido.');
+                return;
+            }
+
+            const pedido = todosPedidos.find((p) => p.id === id);
+            if (pedido) pedido.status = 'cancelado';
+            atualizarKpis(todosPedidos);
+            renderizarLista();
+        }
+
+        function imprimirPedido(id) {
+            const pedido = todosPedidos.find((p) => p.id === id);
+            if (!pedido) return;
+
+            const idCurto = pedido.id.slice(0, 8).toUpperCase();
+            const cliente = pedido.perfilCliente;
+            const nomeCliente = cliente ? [cliente.nome, cliente.sobrenome].filter(Boolean).join(' ') : 'Cliente';
+            const itensHtml = (pedido.itens_pedido || []).map((i) => `<tr><td>${escaparHtml(i.nome_produto)}</td><td>${i.quantidade}</td><td>${formatarPreco(i.subtotal)}</td></tr>`).join('');
+
+            const janela = window.open('', '_blank', 'width=700,height=900');
+            if (!janela) return;
+
+            janela.document.write(`
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Pedido #${idCurto}</title>
+                    <style>
+                        body{ font-family: Arial, sans-serif; padding: 32px; color: #1e293b; }
+                        h1{ font-size: 20px; }
+                        table{ width: 100%; border-collapse: collapse; margin-top: 16px; }
+                        th, td{ text-align: left; padding: 8px; border-bottom: 1px solid #e2e8f0; }
+                        .total{ text-align: right; font-weight: bold; margin-top: 16px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Pedido #${idCurto} — Mv Personalizados</h1>
+                    <p><strong>Cliente:</strong> ${escaparHtml(nomeCliente)}</p>
+                    <p><strong>Telefone:</strong> ${escaparHtml(cliente?.telefone || '–')}</p>
+                    <p><strong>Data:</strong> ${formatarData(pedido.created_at)}</p>
+                    <p><strong>Status:</strong> ${nomesStatus[pedido.status] || pedido.status}</p>
+                    <p><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</p>
+                    <table>
+                        <thead><tr><th>Produto</th><th>Qtd</th><th>Subtotal</th></tr></thead>
+                        <tbody>${itensHtml}</tbody>
+                    </table>
+                    <p class="total">Total: ${formatarPreco(pedido.total)}</p>
+                    <script>window.print();<\/script>
+                </body>
+                </html>
+            `);
+            janela.document.close();
+        }
+
+        corpoTabela.addEventListener('click', (evento) => {
+            const botaoDetalhes = evento.target.closest('.botaoVerDetalhes');
+            if (botaoDetalhes) {
+                document.getElementById(`detalhes-${botaoDetalhes.dataset.id}`).classList.toggle('aberta');
+                return;
+            }
+
+            const botaoImprimir = evento.target.closest('.botaoImprimirPedido');
+            if (botaoImprimir) {
+                imprimirPedido(botaoImprimir.dataset.id);
+                return;
+            }
+
+            const botaoAvancar = evento.target.closest('.botaoAvancarPedido');
+            if (botaoAvancar) {
+                avancarStatus(botaoAvancar.dataset.id);
+                return;
+            }
+
+            const botaoCancelar = evento.target.closest('.botaoCancelarPedidoAcao');
+            if (botaoCancelar) {
+                cancelarPedido(botaoCancelar.dataset.id);
+            }
+        });
+
+        inputBusca.addEventListener('input', renderizarLista);
+        selectStatus.addEventListener('change', renderizarLista);
+
+        carregarPedidos();
+    </script>
 </body>
 </html>
