@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cookie&display=swap');
+
+:root{
+    --cor-primaria: #A70C24;
+    --cor-secundaria: #FFFF;
+    --cor-terciaria: #a70c2380;
+    --cor-quaternaria: #a70c2352;
+    --cor-quintenaria: #E32F4C;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Almarai', sans-serif;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--cor-primaria);
+}
+
+.logo img{
+    width: 100px;
+    height: 100px;
+}
+
+.cart-button,
+.profile-button{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    color: var(--cor-secundaria);
+}
+
+.profile-button{
+    margin-left: -15px
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-top: 13px;
+}
+
+#search{
+    width: 500px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#search:focus{
+    outline: none;
+}
+
+#search::placeholder{
+    color: var(--cor-terciaria);
+}
+
+nav ul, a{
+    margin-top: -2px;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 20px;
+
+    color: var(--cor-secundaria);
+    list-style: none;
+    text-decoration: none;
+    font-weight: 100;
+    font-size: 15px;
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+
+    margin-top: 200px;
+}
+
+.footerInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    gap: 100px;
+
+    margin-top: 16px;
+}
+
+.infoEmpresa{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 25px;
+}
+
+.infoEmpresa img{
+    width: 150px;
+    height: 150px;
+}
+
+.infoEmpresa a{
+    height: 5px;
+
+    display: flex;
+    align-items: center;
+}
+
+.infoEmpresa h6{
+    font-size: 13px;
+    font-weight: 100;
+}
+
+.buttonFooter{
+    background-color: var(--cor-quintenaria);
+    border: none;
+    cursor: pointer;
+
+    color: var(--cor-secundaria);
+
+    width: 180px;
+    height: 50px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: -6px;
+}
+
+.title{
+    margin-bottom: -9px;
+}
+
+.InfoAtendimento h6,
+.InfoPoliticas h6,
+.InfoOndeFicamos h6{
+    font-weight: 200;
+    font-size: 13px;
+}
+
+.InfoAtendimento a,
+.InfoPoliticas a,
+.InfoOndeFicamos a{
+
+    display: flex;
+    align-items: center;
+
+    margin-top: 10px;
+
+    height: 26px;
+}
+
+.InfoOndeFicamos h6{
+    width: 250px;
+}
+
+.footerCopyright h5{
+    font-weight: 200;
+}

@@ -1,0 +1,638 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cookie&display=swap');
+
+:root{
+    --cor-primaria: #A70C24;
+    --cor-secundaria: #FFFF;
+    --cor-terciaria: #a70c2380;
+    --cor-quaternaria: #a70c2352;
+    --cor-quintenaria: #E32F4C;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Almarai', sans-serif;
+    background-color: #f8fafc;
+}
+
+.layoutAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    min-height: 100vh;
+}
+
+.sidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    background-color: var(--cor-primaria);
+    width: 280px;
+    flex-shrink: 0;
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.logoSidebarAdm{
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: 16px;
+}
+
+.logoSidebarAdm img{
+    width: 160px;
+    height: auto;
+}
+
+.menuAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemMenuAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    padding: 14px 20px;
+
+    text-decoration: none;
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--cor-secundaria);
+    opacity: 0.8;
+}
+
+.itemMenuAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.itemMenuAtivo{
+    background-color: #780013;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.itemMenuAtivo:hover{
+    background-color: #780013;
+}
+
+.rodapeSidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.divisorSidebarAdm{
+    background-color: white;
+    opacity: 0.2;
+    height: 1px;
+    width: 100%;
+}
+
+.perfilUsuarioAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarUsuarioAdm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.infoUsuarioAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nomeUsuarioAdm{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.emailUsuarioAdm{
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+    margin: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.areaConteudoAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTopoAdm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tituloTopoAdm h1{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.tituloTopoAdm p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.acoesTopoProdutos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.botaoNovoProduto{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+
+    padding: 10px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.botaoNovoProduto:hover{
+    background-color: var(--cor-quintenaria);
+}
+
+.badgeDataAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+}
+
+.linhaKpiAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.cardKpiAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoCardKpi{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalhoCardKpi span{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.iconeCardKpi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(167, 12, 36, 0.06);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--cor-primaria);
+}
+
+.valorCardKpi{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.linhaFiltrosProdutos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.buscaProdutosAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+
+    color: #94a3b8;
+}
+
+.buscaProdutosAdm input{
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.buscaProdutosAdm input::placeholder{
+    color: #94a3b8;
+}
+
+.buscaProdutosAdm input:focus{
+    outline: none;
+}
+
+.filtroProdutos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 10px 16px;
+    white-space: nowrap;
+    color: #64748b;
+}
+
+.filtroProdutos span{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #64748b;
+}
+
+.filtroProdutos span strong{
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.cardTabelaProdutos{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTabelaCard h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.cabecalhoTabelaCard p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.tabelaProdutosAdm{
+    display: flex;
+    flex-direction: column;
+}
+
+.linhaTabelaProdutosAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaTabelaProdutosAdm:nth-child(even):not(.cabecalhoColunasProdutos){
+    background-color: #f8fafc;
+}
+
+.cabecalhoColunasProdutos{
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border-bottom: none;
+    padding: 12px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colProdInfo{
+    flex: 1;
+    min-width: 0;
+}
+
+.linhaTabelaProdutosAdm > .colProdInfo h4{
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 2px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.linhaTabelaProdutosAdm > .colProdInfo h6{
+    font-size: 11px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.colProdCategoria{
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.categoriaBadge{
+    display: inline-block;
+    border-radius: 6px;
+    padding: 4px 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.categoriaPersonalizado{
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.categoriaInformatica{
+    background-color: #eff6ff;
+    color: #1d4ed8;
+}
+
+.colProdPreco{
+    width: 100px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.cabecalhoColunasProdutos .colProdPreco{
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colProdEstoque{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+
+    width: 100px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #1e293b;
+}
+
+.pontoEstoque{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pontoEstoqueOk{
+    background-color: #22c55e;
+}
+
+.pontoEstoqueBaixo{
+    background-color: #f59e0b;
+}
+
+.pontoEstoqueZero{
+    background-color: #dc2626;
+}
+
+.colProdStatus{
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.statusProdutoBadge{
+    display: inline-block;
+    border-radius: 6px;
+    padding: 4px 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.statusAtivo{
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.statusInativo{
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.colProdAcoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+
+    width: 90px;
+    flex-shrink: 0;
+}
+
+.botaoAcaoProduto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px;
+    color: #64748b;
+}
+
+.botaoAcaoProduto:hover{
+    background-color: #f8fafc;
+    color: var(--cor-primaria);
+}
+
+.botaoExcluirProduto:hover{
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+.paginacaoProdutos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 8px 0;
+}
+
+.paginacaoProdutos p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.botoesPaginacao{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.botaoPagina{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+
+    min-width: 30px;
+    height: 30px;
+    padding: 0 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.botaoPagina:hover{
+    background-color: #f8fafc;
+}
+
+.paginaAtiva{
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    font-weight: 700;
+    color: white;
+}
+
+.paginaAtiva:hover{
+    background-color: var(--cor-primaria);
+}
+
+.reticenciasPaginacao{
+    padding: 0 6px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: #94a3b8;
+}

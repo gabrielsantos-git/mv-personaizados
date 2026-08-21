@@ -1,0 +1,285 @@
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.galeriaCompra{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+
+    width: 60vw;
+    margin-top: 40px;
+}
+
+.galeriaProduto{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.imgProdutoPrincipal{
+    width: 380px;
+    height: 370px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgProdutoPrincipal img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imgProdutosMiniaturas{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.imgMiniatura{
+    width: 108px;
+    height: 100px;
+    border: 2px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.imgMiniatura img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.infoCompraProduto{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    max-width: 500px;
+    padding-top: 5px;
+}
+
+.tituloProduto h2{
+    font-size: 26px;
+    font-weight: 700;
+    color: black;
+    margin: 0;
+}
+
+.tituloProduto h5{
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+    margin: 5px 0 0;
+}
+
+.descricaoCompraProduto{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.descricaoCompraProduto p{
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+    margin: 0;
+}
+
+.quantidadeCompra{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+}
+
+.barraQuantidade{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.barraQuantidade input{
+    width: 55px;
+    height: 30px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.btnQuantidade{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: var(--cor-primaria);
+}
+
+.botaoOrcamento{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    background-color: #eee;
+    border: none;
+    border-radius: 21px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+
+    width: 260px;
+    height: 58px;
+
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    font-family: 'Almarai', sans-serif;
+}
+
+.botaoOrcamento:hover{
+    background-color: #e2e2e2;
+}
+
+.linhaProdutoRelacionado{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 60vw;
+    margin-top: 100px;
+}
+
+.infoLinhaProduto{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+.infoLinhaProduto h4{
+    color: var(--cor-primaria);
+}
+
+.infoLinhaProduto a{
+    height: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.linhaScrollProdutos{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 35px;
+
+    margin-top: 20px;
+}
+
+.imgProduto{
+    width: 200px;
+    height: 200px;
+    border-radius: 23px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.082);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgProduto img{
+    width: 200px;
+    height: 200px;
+}
+
+.nomeProduto{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+
+    margin-top: 15px;
+}
+
+.descricaoProduto{
+    margin-top: -30px;
+    width: 200px;
+    color: black;
+}
+
+.preco{
+    color: black;
+}
+
+.infoProduto{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    height: 40px;
+
+    margin-top: -10px;
+}
+
+.infoProduto h4{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.cartDescricao{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.cartDescricao:hover{
+    color: var(--cor-primaria);
+}
+
+.anuncio{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 35px;
+
+    width: 60vw;
+    margin-top: 100px;
+}
+
+.cardAnuncio{
+    width: 350px;
+    height: 350px;
+    border-radius: 23px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.082);
+    background-image: url(Carrossel\ dia\ das\ Mães-01.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

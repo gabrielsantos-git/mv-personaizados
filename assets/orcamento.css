@@ -1,0 +1,211 @@
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orcamentoPage{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 80px;
+
+    width: 90vw;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+.resumoOrcamento{
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+
+    width: 420px;
+}
+
+.produtoResumo{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.imgProdutoResumo{
+    width: 180px;
+    height: 174px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+    flex-shrink: 0;
+}
+
+.imgProdutoResumo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.infoProdutoResumo h2{
+    font-size: 22px;
+    font-weight: 700;
+    color: black;
+    margin: 0;
+}
+
+.infoProdutoResumo h5{
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+    margin: 5px 0 20px;
+}
+
+.quantidadeCompra{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+}
+
+.barraQuantidade{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.barraQuantidade input{
+    width: 50px;
+    height: 28px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.btnQuantidade{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    font-size: 18px;
+    color: var(--cor-primaria);
+}
+
+.infoAdicionalOrcamento h3,
+.uploadArte h3{
+    font-size: 22px;
+    font-weight: 700;
+    color: black;
+    margin: 0 0 12px;
+    width: 300px;
+}
+
+.infoAdicionalOrcamento textarea{
+    width: 100%;
+    height: 70px;
+    border: 1px solid black;
+    border-radius: 9px;
+    padding: 10px;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    resize: vertical;
+}
+
+.uploadArte{
+    width: 210px;
+}
+
+.uploadBox{
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 9px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.uploadBox input{
+    width: 100%;
+}
+
+.dadosCliente{
+    width: 420px;
+}
+
+.dadosCliente h2{
+    font-size: 22px;
+    font-weight: 700;
+    color: black;
+    margin: 0 0 25px;
+}
+
+.formDadosCliente{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.campoDados{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.campoDados label{
+    width: 85px;
+    flex-shrink: 0;
+
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+}
+
+.campoDados input{
+    flex: 1;
+    height: 36px;
+    border: 1px solid black;
+    border-radius: 9px;
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+}
+
+.campoDados input:focus{
+    outline: none;
+}
+
+.botaoEnviarOrcamento{
+    align-self: flex-end;
+    margin-top: 15px;
+
+    background-color: #eee;
+    border: none;
+    border-radius: 21px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+
+    width: 220px;
+    height: 55px;
+
+    font-size: 18px;
+    font-weight: 800;
+    color: black;
+    font-family: 'Almarai', sans-serif;
+}
+
+.botaoEnviarOrcamento:hover{
+    background-color: #e2e2e2;
+}

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/adicionar-produtos.css">
+    <title>Adicionar Produto - Mv Personalizados</title>
+</head>
+<body>
+    <div class="layoutAdm">
+        <aside class="sidebarAdm">
+            <div class="logoSidebarAdm">
+                <img src="../assets/MvPersonalizados.svg" alt="Logo Mv Personalizados">
+            </div>
+
+            <nav class="menuAdm">
+                <a href="diagnostico.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Diagnóstico</span>
+                </a>
+
+                <a href="produtos.html" class="itemMenuAdm itemMenuAtivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V7l-9-4-9 4v1"/><path d="M3 8l9 4 9-4"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/></svg>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="pedidos-loja.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span>Pedidos</span>
+                </a>
+
+                <a href="venda.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.6 13.4a2 2 0 0 1-2 1.6H6.6a2 2 0 0 1-2-1.6L3 6z"/></svg>
+                    <span>Vendas</span>
+                </a>
+            </nav>
+
+            <div class="rodapeSidebarAdm">
+                <div class="divisorSidebarAdm"></div>
+
+                <div class="perfilUsuarioAdm">
+                    <div class="avatarUsuarioAdm">SM</div>
+                    <div class="infoUsuarioAdm">
+                        <p class="nomeUsuarioAdm">Suporte MV</p>
+                        <p class="emailUsuarioAdm">admin@mv.com.br</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="areaConteudoAdm">
+            <div class="cabecalhoTopoAdm">
+                <div class="tituloTopoAdm">
+                    <h1>Adicionar Produto</h1>
+                    <p>Cadastre um novo produto no catálogo da loja.</p>
+                </div>
+
+                <a href="produtos.html" class="botaoVoltarProdutos">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    Voltar para Produtos
+                </a>
+            </div>
+
+            <form class="cardFormProduto" action="">
+                <div class="secaoFormProduto">
+                    <h3>Informações Básicas</h3>
+                    <p class="descricaoSecaoForm">O código do produto é gerado automaticamente pelo sistema.</p>
+
+                    <div class="campoFormProduto campoFormProdutoFull">
+                        <label for="nomeProduto">Nome do Produto</label>
+                        <input type="text" name="nomeProduto" id="nomeProduto" placeholder="Ex: Caneca Personalizada Cerâmica">
+                    </div>
+
+                    <div class="linhaFormProduto">
+                        <div class="campoFormProduto">
+                            <label for="categoriaProduto">Categoria</label>
+                            <select name="categoriaProduto" id="categoriaProduto">
+                                <option value="">Selecione</option>
+                                <option value="personalizado">Personalizado</option>
+                                <option value="informatica">Informática</option>
+                                <option value="armarinho">Armarinho</option>
+                                <option value="papelaria">Papelaria</option>
+                                <option value="vestuario">Vestuário</option>
+                            </select>
+                        </div>
+
+                        <div class="campoFormProduto">
+                            <label for="statusProduto">Status</label>
+                            <select name="statusProduto" id="statusProduto">
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto">
+                    <h3>Preço e Estoque</h3>
+
+                    <div class="linhaFormProduto">
+                        <div class="campoFormProduto">
+                            <label for="precoProduto">Preço (R$)</label>
+                            <input type="text" name="precoProduto" id="precoProduto" placeholder="0,00">
+                        </div>
+
+                        <div class="campoFormProduto">
+                            <label for="estoqueProduto">Estoque (un)</label>
+                            <input type="number" name="estoqueProduto" id="estoqueProduto" min="0" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto">
+                    <h3>Descrição</h3>
+
+                    <div class="campoFormProduto campoFormProdutoFull">
+                        <label for="descricaoProduto">Detalhes do produto</label>
+                        <textarea name="descricaoProduto" id="descricaoProduto" placeholder="Descreva o produto: material, tamanho, capacidade, personalização disponível..."></textarea>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto">
+                    <h3>Visibilidade</h3>
+                    <p class="descricaoSecaoForm">Esse produto vai aparecer para todos os clientes comprarem na loja?</p>
+
+                    <div class="opcoesVisibilidade">
+                        <label class="chipVisibilidade">
+                            <input type="radio" name="visibilidade" id="visibilidadePublico" checked>
+                            <span>Sim, aparecer para todos</span>
+                        </label>
+
+                        <label class="chipVisibilidade">
+                            <input type="radio" name="visibilidade" id="visibilidadePrivado">
+                            <span>Não, manter privado</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto secaoImagensProduto">
+                    <h3>Imagens do Produto</h3>
+                    <p class="descricaoSecaoForm">Adicione uma ou mais imagens — elas aparecem no carrossel da página do produto.</p>
+
+                    <div class="listaUploadImagens">
+                        <label class="uploadImagemItem">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Imagem principal</span>
+                            <input type="file" name="imagemProduto1" accept="image/*">
+                        </label>
+
+                        <label class="uploadImagemItem">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Imagem do carrossel</span>
+                            <input type="file" name="imagemProduto2" accept="image/*">
+                        </label>
+
+                        <label class="uploadImagemItem">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Imagem do carrossel</span>
+                            <input type="file" name="imagemProduto3" accept="image/*">
+                        </label>
+
+                        <button type="button" class="botaoAdicionarImagem">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>Adicionar imagem</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto">
+                    <h3>Tipos de Variação</h3>
+                    <p class="descricaoSecaoForm">Selecione uma ou mais variações que esse produto pode ter.</p>
+
+                    <div class="opcoesVariacao" id="listaTiposVariacao">
+                        <label class="chipVariacao">
+                            <input type="checkbox" name="tipoVariacao" value="tamanho">
+                            <span>Tamanho</span>
+                        </label>
+
+                        <label class="chipVariacao">
+                            <input type="checkbox" name="tipoVariacao" value="cor">
+                            <span>Cor</span>
+                        </label>
+                    </div>
+
+                    <div class="novoTipoVariacao">
+                        <input type="text" id="inputNovoTipoVariacao" placeholder="Ex: Material, Sabor, Voltagem...">
+                        <button type="button" id="botaoNovoTipoVariacao">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Criar novo tipo
+                        </button>
+                    </div>
+
+                    <div class="listaVariacoesProduto">
+                        <div class="linhaVariacaoProduto">
+                            <div class="campoFormProduto">
+                                <label for="valorVariacao1">Valor da variação</label>
+                                <input type="text" id="valorVariacao1" placeholder="Ex: P, M, G ou Vermelho, Azul...">
+                            </div>
+
+                            <div class="campoFormProduto campoPrecoVariacao">
+                                <label for="precoVariacao1">Preço adicional (R$)</label>
+                                <input type="text" id="precoVariacao1" placeholder="0,00 (opcional)">
+                            </div>
+
+                            <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="linhaVariacaoProduto">
+                            <div class="campoFormProduto">
+                                <label for="valorVariacao2">Valor da variação</label>
+                                <input type="text" id="valorVariacao2" placeholder="Ex: P, M, G ou Vermelho, Azul...">
+                            </div>
+
+                            <div class="campoFormProduto campoPrecoVariacao">
+                                <label for="precoVariacao2">Preço adicional (R$)</label>
+                                <input type="text" id="precoVariacao2" placeholder="0,00 (opcional)">
+                            </div>
+
+                            <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                            </button>
+                        </div>
+
+                        <button type="button" class="botaoAdicionarVariacao">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Adicionar variação
+                        </button>
+                    </div>
+                </div>
+
+                <div class="acoesFormProduto">
+                    <a href="produtos.html" class="botaoCancelarProduto">Cancelar</a>
+                    <button type="submit" class="botaoSalvarProduto">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const lista = document.getElementById('listaTiposVariacao');
+            const input = document.getElementById('inputNovoTipoVariacao');
+            const botao = document.getElementById('botaoNovoTipoVariacao');
+
+            function criarTipoVariacao() {
+                const nome = input.value.trim();
+                if (!nome) {
+                    input.focus();
+                    return;
+                }
+
+                const valor = nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
+
+                const label = document.createElement('label');
+                label.className = 'chipVariacao';
+                label.innerHTML =
+                    '<input type="checkbox" name="tipoVariacao" value="' + valor + '" checked>' +
+                    '<span></span>';
+                label.querySelector('span').textContent = nome;
+
+                lista.appendChild(label);
+
+                input.value = '';
+                input.focus();
+            }
+
+            botao.addEventListener('click', criarTipoVariacao);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    criarTipoVariacao();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

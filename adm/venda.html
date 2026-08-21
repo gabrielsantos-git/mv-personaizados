@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/venda.css">
+    <title>Ponto de Vendas - Mv Personalizados</title>
+</head>
+<body>
+    <div class="layoutAdm">
+        <aside class="sidebarAdm">
+            <div class="logoSidebarAdm">
+                <img src="../assets/MvPersonalizados.svg" alt="Logo Mv Personalizados">
+            </div>
+
+            <nav class="menuAdm">
+                <a href="diagnostico.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Diagnóstico</span>
+                </a>
+
+                <a href="produtos.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V7l-9-4-9 4v1"/><path d="M3 8l9 4 9-4"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/></svg>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="pedidos-loja.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span>Pedidos</span>
+                </a>
+
+                <a href="venda.html" class="itemMenuAdm itemMenuAtivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.6 13.4a2 2 0 0 1-2 1.6H6.6a2 2 0 0 1-2-1.6L3 6z"/></svg>
+                    <span>Vendas</span>
+                </a>
+            </nav>
+
+            <div class="rodapeSidebarAdm">
+                <div class="divisorSidebarAdm"></div>
+
+                <div class="perfilUsuarioAdm">
+                    <div class="avatarUsuarioAdm">SM</div>
+                    <div class="infoUsuarioAdm">
+                        <p class="nomeUsuarioAdm">Suporte MV</p>
+                        <p class="emailUsuarioAdm">admin@mv.com.br</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="areaConteudoAdm">
+            <div class="cabecalhoTopoAdm">
+                <div class="tituloTopoAdm">
+                    <h1>Ponto de Vendas (PDV)</h1>
+                    <p>Registre novas saídas de produtos personalizados de forma rápida e segura.</p>
+                </div>
+
+                <div class="badgeDataAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <span>20/08/2026</span>
+                </div>
+            </div>
+
+            <div class="linhaConteudoVendas">
+                <div class="painelProdutosVenda">
+                    <div class="cabecalhoPainelProdutos">
+                        <h3>Produtos Disponíveis</h3>
+                        <p>8 itens cadastrados</p>
+                    </div>
+
+                    <div class="buscaProdutosVenda">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="search" name="buscaProduto" id="buscaProduto" placeholder="Pesquisar produto...">
+                    </div>
+
+                    <div class="tabelaProdutosVenda">
+                        <div class="linhaTabelaProdutosVenda cabecalhoColunasProdutos">
+                            <span class="colNomeProd">Nome do Produto</span>
+                            <span class="colValorProd">Valor</span>
+                            <span class="colCatProd">Categoria</span>
+                            <span class="colEstoqueProd">Estoque</span>
+                            <span class="colAcaoProd">Ações</span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Caneca Personalizada Cerâmica</h4>
+                                <h6>CAN-PERS01</h6>
+                            </div>
+                            <span class="colValorProd">R$ 35.00</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueOk"></span>45 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Caneca Personalizada Cerâmica">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Mouse Pad Gamer Speed MV</h4>
+                                <h6>INF-MPG03</h6>
+                            </div>
+                            <span class="colValorProd">R$ 89.90</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaInformatica">Informática</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueOk"></span>12 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Mouse Pad Gamer Speed MV">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Kit Costura Completo Profissional</h4>
+                                <h6>ARM-KCT02</h6>
+                            </div>
+                            <span class="colValorProd">R$ 24.50</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaArmarinho">Armarinho</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueBaixo"></span>5 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Kit Costura Completo Profissional">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Camiseta Branca Algodão MV</h4>
+                                <h6>CAM-BRAN04</h6>
+                            </div>
+                            <span class="colValorProd">R$ 42.00</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueBaixo"></span>8 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Camiseta Branca Algodão MV">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Garrafa Térmica Inox Vermelha 500ml</h4>
+                                <h6>GAR-RED50</h6>
+                            </div>
+                            <span class="colValorProd">R$ 65.00</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueOk"></span>22 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Garrafa Térmica Inox Vermelha 500ml">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Caderno Executivo A5 Minimalista</h4>
+                                <h6>CAD-MIN05</h6>
+                            </div>
+                            <span class="colValorProd">R$ 28.00</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueOk"></span>18 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Caderno Executivo A5 Minimalista">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Caneta Executiva Metálica Preta</h4>
+                                <h6>CAN-MET08</h6>
+                            </div>
+                            <span class="colValorProd">R$ 18.00</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaPersonalizado">Personalizado</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueOk"></span>50 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Caneta Executiva Metálica Preta">+</button></span>
+                        </div>
+
+                        <div class="linhaTabelaProdutosVenda">
+                            <div class="colNomeProd">
+                                <h4>Pen Drive 32GB Kingston Original</h4>
+                                <h6>INF-PD32</h6>
+                            </div>
+                            <span class="colValorProd">R$ 49.90</span>
+                            <span class="colCatProd"><span class="categoriaBadge categoriaInformatica">Informática</span></span>
+                            <span class="colEstoqueProd"><span class="pontoEstoque pontoEstoqueBaixo"></span>3 un</span>
+                            <span class="colAcaoProd"><button type="button" class="botaoAdicionarVenda" aria-label="Adicionar Pen Drive 32GB Kingston Original">+</button></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="painelCarrinhoVenda">
+                    <div class="cabecalhoCarrinhoVenda">
+                        <h3>Venda Atual</h3>
+                        <span class="badgeQtdItens">3 Itens</span>
+                    </div>
+
+                    <div class="listaCarrinhoVenda">
+                        <div class="itemCarrinhoVenda">
+                            <div class="infoItemCarrinho">
+                                <h4>Caneca Personalizada Cerâmica</h4>
+                                <h6>R$ 35.00 / un</h6>
+                            </div>
+
+                            <div class="qtdItemCarrinho">
+                                <button type="button" class="btnQtdCarrinho" aria-label="Diminuir quantidade">−</button>
+                                <span>2</span>
+                                <button type="button" class="btnQtdCarrinho" aria-label="Aumentar quantidade">+</button>
+                            </div>
+
+                            <span class="subtotalItemCarrinho">R$ 70.00</span>
+
+                            <button type="button" class="botaoRemoverCarrinho" aria-label="Remover item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="itemCarrinhoVenda">
+                            <div class="infoItemCarrinho">
+                                <h4>Mouse Pad Gamer Speed MV</h4>
+                                <h6>R$ 89.90 / un</h6>
+                            </div>
+
+                            <div class="qtdItemCarrinho">
+                                <button type="button" class="btnQtdCarrinho" aria-label="Diminuir quantidade">−</button>
+                                <span>1</span>
+                                <button type="button" class="btnQtdCarrinho" aria-label="Aumentar quantidade">+</button>
+                            </div>
+
+                            <span class="subtotalItemCarrinho">R$ 89.90</span>
+
+                            <button type="button" class="botaoRemoverCarrinho" aria-label="Remover item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="totaisVenda">
+                        <div class="linhaSubtotalVenda">
+                            <span>Subtotal</span>
+                            <span>R$ 159,90</span>
+                        </div>
+
+                        <div class="divisorTotalVenda"></div>
+
+                        <div class="linhaValorTotalVenda">
+                            <span>Valor Total</span>
+                            <span>R$ 159,90</span>
+                        </div>
+                    </div>
+
+                    <div class="formaPagamentoVenda">
+                        <h4>Forma de Pagamento</h4>
+
+                        <div class="gradePagamentoVenda">
+                            <button type="button" class="chipPagamento">Dinheiro</button>
+                            <button type="button" class="chipPagamento chipPagamentoAtivo">PIX</button>
+                            <button type="button" class="chipPagamento">Cartão de Crédito</button>
+                            <button type="button" class="chipPagamento">Cartão de Débito</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="botaoFinalizarVenda">Finalizar Venda</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/cadastro.css">
+    <title>Criar Conta - Mv Personalizados</title>
+</head>
+<body>
+    <header class="headerLogin">
+        <a href="index.html"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
+    </header>
+
+    <main class="loginPage">
+        <div class="faixaLogin">
+            <img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados" class="logoFaixaLogin">
+        </div>
+
+        <div class="areaFormLogin">
+            <form action="" class="cardLogin cardCadastro">
+                <h1>Criar Conta</h1>
+
+                <div class="linhaCampoLogin">
+                    <div class="campoLogin">
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" id="nome" placeholder="Seu nome">
+                    </div>
+
+                    <div class="campoLogin">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input type="text" name="sobrenome" id="sobrenome" placeholder="Seu sobrenome">
+                    </div>
+                </div>
+
+                <div class="campoLogin">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="exemplo@email.com">
+                </div>
+
+                <div class="linhaCampoLogin">
+                    <div class="campoLogin">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" name="telefone" id="telefone" placeholder="(71) 99999-9999">
+                    </div>
+
+                    <div class="campoLogin">
+                        <label for="cep">CEP</label>
+                        <input type="text" name="cep" id="cep" placeholder="00000-000">
+                    </div>
+                </div>
+
+                <div class="linhaCampoLogin">
+                    <div class="campoLogin">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" id="senha" placeholder="Escolha uma senha">
+                    </div>
+
+                    <div class="campoLogin">
+                        <label for="confirmarSenha">Confirmar Senha</label>
+                        <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder="Confirme a senha">
+                    </div>
+                </div>
+
+                <button type="submit" class="botaoFazerLogin">Criar Conta</button>
+
+                <a href="login.html" class="linkCriarConta">Já tenho uma conta</a>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

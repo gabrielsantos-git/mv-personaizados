@@ -1,0 +1,582 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cookie&display=swap');
+
+:root{
+    --cor-primaria: #A70C24;
+    --cor-secundaria: #FFFF;
+    --cor-terciaria: #a70c2380;
+    --cor-quaternaria: #a70c2352;
+    --cor-quintenaria: #E32F4C;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Almarai', sans-serif;
+    background-color: #f8fafc;
+}
+
+.layoutAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    min-height: 100vh;
+}
+
+.sidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    background-color: var(--cor-primaria);
+    width: 280px;
+    flex-shrink: 0;
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.logoSidebarAdm{
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: 16px;
+}
+
+.logoSidebarAdm img{
+    width: 160px;
+    height: auto;
+}
+
+.menuAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemMenuAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    padding: 14px 20px;
+
+    text-decoration: none;
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--cor-secundaria);
+    opacity: 0.8;
+}
+
+.itemMenuAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.itemMenuAtivo{
+    background-color: #780013;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.itemMenuAtivo:hover{
+    background-color: #780013;
+}
+
+.rodapeSidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.divisorSidebarAdm{
+    background-color: white;
+    opacity: 0.2;
+    height: 1px;
+    width: 100%;
+}
+
+.perfilUsuarioAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarUsuarioAdm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.infoUsuarioAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nomeUsuarioAdm{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.emailUsuarioAdm{
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+    margin: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.areaConteudoAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTopoAdm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tituloTopoAdm h1{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.tituloTopoAdm p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.acoesTopoPedidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.botaoNovoPedido{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 10px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.botaoNovoPedido:hover{
+    background-color: var(--cor-quintenaria);
+}
+
+.badgeDataAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+}
+
+.linhaFiltrosPedidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.buscaPedidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+
+    color: #94a3b8;
+}
+
+.buscaPedidos input{
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.buscaPedidos input::placeholder{
+    color: #94a3b8;
+}
+
+.buscaPedidos input:focus{
+    outline: none;
+}
+
+.filtroPedidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 10px 16px;
+    white-space: nowrap;
+    color: #64748b;
+}
+
+.filtroPedidos span{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #64748b;
+}
+
+.filtroPedidos span strong{
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.cardTabelaPedidos{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTabelaCard h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.cabecalhoTabelaCard p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.tabelaPedidosAdm{
+    display: flex;
+    flex-direction: column;
+}
+
+.linhaTabelaPedidosAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaTabelaPedidosAdm:nth-child(even):not(.cabecalhoColunasPedidos){
+    background-color: #f8fafc;
+}
+
+.cabecalhoColunasPedidos{
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border-bottom: none;
+    padding: 12px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colPed{
+    width: 80px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.cabecalhoColunasPedidos .colPed{
+    color: #64748b;
+}
+
+.colCli{
+    width: 180px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cabecalhoColunasPedidos .colCli{
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colProd{
+    flex: 1;
+    min-width: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.colId{
+    width: 100px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colTel{
+    width: 150px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colEntrega{
+    width: 140px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colPrio{
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.colAcoes{
+    width: 160px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.prioridadeBadge{
+    display: inline-block;
+    border-radius: 6px;
+    padding: 4px 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.prioridadeUrgente{
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.prioridadeNormal{
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.prioridadeLongoPrazo{
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.botaoImprimir{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px;
+    color: #64748b;
+}
+
+.botaoImprimir:hover{
+    background-color: #f8fafc;
+    color: var(--cor-primaria);
+}
+
+.botaoFinalizado{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+
+    background-color: rgba(167, 12, 36, 0.06);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 6px 12px;
+    white-space: nowrap;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.botaoFinalizado:hover{
+    background-color: rgba(167, 12, 36, 0.12);
+}
+
+.paginacaoPedidos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 8px 0;
+}
+
+.paginacaoPedidos p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.botoesPaginacao{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.botaoPagina{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+
+    min-width: 30px;
+    height: 30px;
+    padding: 0 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.botaoPagina:hover{
+    background-color: #f8fafc;
+}
+
+.paginaAtiva{
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    font-weight: 700;
+    color: white;
+}
+
+.paginaAtiva:hover{
+    background-color: var(--cor-primaria);
+}
+
+.reticenciasPaginacao{
+    padding: 0 6px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: #94a3b8;
+}

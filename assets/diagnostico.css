@@ -1,0 +1,712 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cookie&display=swap');
+
+:root{
+    --cor-primaria: #A70C24;
+    --cor-secundaria: #FFFF;
+    --cor-terciaria: #a70c2380;
+    --cor-quaternaria: #a70c2352;
+    --cor-quintenaria: #E32F4C;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Almarai', sans-serif;
+    background-color: #f8fafc;
+}
+
+.layoutAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    min-height: 100vh;
+}
+
+.sidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    background-color: var(--cor-primaria);
+    width: 280px;
+    flex-shrink: 0;
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.logoSidebarAdm{
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: 16px;
+}
+
+.logoSidebarAdm img{
+    width: 160px;
+    height: auto;
+}
+
+.menuAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemMenuAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    padding: 14px 20px;
+
+    text-decoration: none;
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--cor-secundaria);
+    opacity: 0.8;
+}
+
+.itemMenuAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.itemMenuAtivo{
+    background-color: #780013;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.itemMenuAtivo:hover{
+    background-color: #780013;
+}
+
+.rodapeSidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.divisorSidebarAdm{
+    background-color: white;
+    opacity: 0.2;
+    height: 1px;
+    width: 100%;
+}
+
+.perfilUsuarioAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarUsuarioAdm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.infoUsuarioAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nomeUsuarioAdm{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.emailUsuarioAdm{
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+    margin: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.areaConteudoAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTopoAdm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tituloTopoAdm h1{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.tituloTopoAdm p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.badgeDataAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+}
+
+.linhaKpiAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.cardKpiAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoCardKpi{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalhoCardKpi span{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.iconeCardKpi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(167, 12, 36, 0.06);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--cor-primaria);
+}
+
+.valorCardKpi{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.tendenciaKpi{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+
+.badgeTendencia{
+    border-radius: 6px;
+    padding: 2px 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badgeTendenciaPositiva{
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.badgeTendenciaNegativa{
+    background-color: rgba(167, 12, 36, 0.06);
+    color: var(--cor-primaria);
+}
+
+.textoTendencia{
+    font-size: 12px;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.linhaMeioAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.cardGraficoAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoGrafico{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulosGrafico h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.titulosGrafico p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.legendaGrafico{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 12px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.pontoLegenda{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--cor-primaria);
+}
+
+.graficoBarrasAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    height: 240px;
+}
+
+.eixoYGrafico{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    height: 100%;
+    padding-right: 8px;
+
+    font-size: 11px;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.colunasGrafico{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    flex: 1;
+    height: 100%;
+}
+
+.colunaBarra{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.barraGrafico{
+    width: 36px;
+    background-color: rgba(167, 12, 36, 0.5);
+    border-radius: 6px 6px 0 0;
+}
+
+.barraGraficoDestaque{
+    background-color: var(--cor-primaria);
+}
+
+.colunaBarra span{
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.popoverBarra{
+    background-color: #780013;
+    border-radius: 6px;
+    padding: 4px 8px;
+
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.cardProdutosTopAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    width: 480px;
+    flex-shrink: 0;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cardProdutosTopAdm h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.cardProdutosTopAdm p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.listaProdutosRank{
+    display: flex;
+    flex-direction: column;
+}
+
+.linhaProdutoRank{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaProdutoRank:last-child{
+    border-bottom: none;
+}
+
+.posicaoRank{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #f8fafc;
+
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.posicaoTop{
+    background-color: rgba(167, 12, 36, 0.08);
+    color: var(--cor-primaria);
+}
+
+.infoProdutoRank{
+    flex: 1;
+    min-width: 0;
+}
+
+.infoProdutoRank h4{
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 2px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.infoProdutoRank h6{
+    font-size: 11px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.vendasProdutoRank{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.vendasProdutoRank p{
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.vendasProdutoRank span{
+    font-size: 11px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.cardPedidosRecentesAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoPedidosRecentes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulosPedidosRecentes h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.titulosPedidosRecentes p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.botaoVerTodos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 16px;
+
+    text-decoration: none;
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    white-space: nowrap;
+}
+
+.botaoVerTodos:hover{
+    background-color: rgba(167, 12, 36, 0.06);
+}
+
+.tabelaPedidosRecentes{
+    display: flex;
+    flex-direction: column;
+}
+
+.linhaTabelaPedidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaTabelaPedidos:last-child{
+    border-bottom: none;
+}
+
+.cabecalhoTabelaPedidos{
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border-bottom: none;
+    padding: 10px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colPedido{
+    width: 80px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.cabecalhoTabelaPedidos .colPedido{
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colCliente{
+    width: 220px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #1e293b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.colProduto{
+    flex: 1;
+    min-width: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.colValor{
+    width: 130px;
+    flex-shrink: 0;
+    text-align: right;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.cabecalhoTabelaPedidos .colValor{
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colStatus{
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.colData{
+    width: 100px;
+    flex-shrink: 0;
+    text-align: right;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.statusBadge{
+    display: inline-block;
+    border-radius: 6px;
+    padding: 4px 10px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.statusConcluido{
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.statusProducao{
+    background-color: #eff6ff;
+    color: #1d4ed8;
+}
+
+.statusPendente{
+    background-color: #fef3c7;
+    color: #b45309;
+}

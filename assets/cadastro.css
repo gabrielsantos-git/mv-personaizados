@@ -1,0 +1,161 @@
+.headerLogin{
+    display: flex;
+    align-items: start;
+
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    height: 68px;
+
+    padding: 0 40px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.headerLogin img{
+    height: 70px;
+    filter: invert(1);
+}
+
+.loginPage{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    min-height: calc(100vh - 68px);
+    background-color: #f8fafc;
+}
+
+.faixaLogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--cor-primaria);
+    width: 584px;
+    flex-shrink: 0;
+}
+
+.logoFaixaLogin{
+    width: 68%;
+    max-width: 400px;
+    height: auto;
+}
+
+.areaFormLogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.cardLogin{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    background-color: var(--cor-primaria);
+    border-radius: 35px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+
+    width: 750px;
+    max-width: 90%;
+    padding: 48px;
+    box-sizing: border-box;
+}
+
+.cardCadastro{
+    width: 780px;
+    gap: 20px;
+    padding: 32px 48px;
+}
+
+.cardLogin h1{
+    font-family: 'Almarai', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--cor-secundaria);
+    text-align: center;
+
+    margin: 0;
+}
+
+.cardCadastro h1{
+    font-size: 36px;
+}
+
+.linhaCampoLogin{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.linhaCampoLogin .campoLogin{
+    flex: 1;
+    min-width: 0;
+}
+
+.campoLogin{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campoLogin label{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--cor-secundaria);
+}
+
+.campoLogin input{
+    height: 54px;
+    border: none;
+    border-radius: 12px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    width: 100%;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    color: var(--cor-primaria);
+}
+
+.campoLogin input::placeholder{
+    color: var(--cor-primaria);
+    opacity: 0.8;
+}
+
+.campoLogin input:focus{
+    outline: none;
+}
+
+.botaoFazerLogin{
+    background-color: #780013;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    height: 60px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-secundaria);
+}
+
+.botaoFazerLogin:hover{
+    background-color: #5c000e;
+}
+
+.linkCriarConta{
+    align-self: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    color: var(--cor-secundaria);
+    text-decoration: underline;
+}
