@@ -163,6 +163,17 @@ main{
     background-color: #e2e2e2;
 }
 
+.botaoOrcamento:disabled{
+    opacity: 0.5;
+    cursor: default;
+}
+
+#botaoAdicionarCarrinho{
+    width: auto;
+    padding: 0 32px;
+    white-space: nowrap;
+}
+
 .linhaProdutoRelacionado{
     display: flex;
     flex-direction: column;
