@@ -151,31 +151,6 @@
                         </button>
                     </form>
                 </div>
-
-                <div class="cardConta">
-                    <div class="cabecalhoCardConta">
-                        <h2>Segurança</h2>
-                    </div>
-                    <hr class="divisorConta">
-
-                    <form class="formConta" id="formSenha">
-                        <div class="linhaContaCampo">
-                            <div class="campoConta">
-                                <label for="novaSenha">Nova senha</label>
-                                <input type="password" name="novaSenha" id="novaSenha" placeholder="Nova senha" minlength="6">
-                            </div>
-
-                            <div class="campoConta">
-                                <label for="confirmarNovaSenha">Confirmar nova senha</label>
-                                <input type="password" name="confirmarNovaSenha" id="confirmarNovaSenha" placeholder="Confirme a nova senha" minlength="6">
-                            </div>
-                        </div>
-
-                        <p class="mensagemConta" id="mensagemSenha"></p>
-
-                        <button type="submit" class="botaoConta">Atualizar Senha</button>
-                    </form>
-                </div>
             </section>
         </div>
     </main>
@@ -331,46 +306,6 @@
                 }
                 return true;
             }
-        });
-
-        const formSenha = document.getElementById('formSenha');
-        const mensagemSenha = document.getElementById('mensagemSenha');
-
-        formSenha.addEventListener('submit', async (evento) => {
-            evento.preventDefault();
-            mensagemSenha.textContent = '';
-            mensagemSenha.classList.remove('sucesso');
-
-            const novaSenha = document.getElementById('novaSenha').value;
-            const confirmarNovaSenha = document.getElementById('confirmarNovaSenha').value;
-
-            if (!novaSenha && !confirmarNovaSenha) {
-                mensagemSenha.textContent = 'Digite a nova senha nos dois campos.';
-                return;
-            }
-
-            if (novaSenha !== confirmarNovaSenha) {
-                mensagemSenha.textContent = 'As senhas não coincidem.';
-                return;
-            }
-
-            const botao = formSenha.querySelector('.botaoConta');
-            botao.disabled = true;
-            botao.textContent = 'Atualizando...';
-
-            const { error } = await supabase.auth.updateUser({ password: novaSenha });
-
-            botao.disabled = false;
-            botao.textContent = 'Atualizar Senha';
-
-            if (error) {
-                mensagemSenha.textContent = 'Não foi possível atualizar a senha.';
-                return;
-            }
-
-            mensagemSenha.textContent = 'Senha atualizada com sucesso!';
-            mensagemSenha.classList.add('sucesso');
-            formSenha.reset();
         });
     </script>
 </body>
