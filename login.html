@@ -58,18 +58,28 @@
             botao.disabled = true;
             botao.textContent = 'Entrando...';
 
-            const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
-
-            botao.disabled = false;
-            botao.textContent = 'Fazer Login';
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
 
             if (error) {
+                botao.disabled = false;
+                botao.textContent = 'Fazer Login';
                 mensagem.textContent = 'Email ou senha inválidos.';
                 return;
             }
 
             const redirect = new URLSearchParams(window.location.search).get('redirect');
-            window.location.href = redirect ? decodeURIComponent(redirect) : 'index.html';
+            if (redirect) {
+                window.location.href = decodeURIComponent(redirect);
+                return;
+            }
+
+            const { data: perfil } = await supabase
+                .from('profiles')
+                .select('is_admin')
+                .eq('id', data.user.id)
+                .single();
+
+            window.location.href = perfil?.is_admin ? 'adm/diagnostico.html' : 'index.html';
         });
     </script>
 </body>
