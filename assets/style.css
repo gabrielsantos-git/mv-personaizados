@@ -32,6 +32,7 @@ header{
 .profile-button{
     display: flex;
     align-items: center;
+    position: relative;
 
     background-color: rgba(255, 255, 255, 0);
     border: none;
@@ -39,6 +40,29 @@ header{
     cursor: pointer;
 
     color: var(--cor-secundaria);
+}
+
+.badgeCarrinho{
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: -4px;
+    right: -6px;
+
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    box-sizing: border-box;
+
+    background-color: var(--cor-quintenaria);
+    color: var(--cor-secundaria);
+    font-family: 'Almarai', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .profile-button{

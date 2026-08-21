@@ -571,6 +571,180 @@ hr.divisorConta{
     gap: 12px;
 }
 
+/* ---------- Carrinho e Checkout ---------- */
+
+.paginaCarrinho{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+
+    width: 90vw;
+    max-width: 1100px;
+    margin: 60px 0 120px;
+}
+
+.paginaCarrinho h1{
+    font-size: 36px;
+    font-weight: 700;
+    color: black;
+    margin: 0 0 24px;
+}
+
+.colunaItensCarrinho{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.itemCarrinho{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+}
+
+.itemCarrinhoImg{
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.itemCarrinhoImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.itemCarrinhoInfo{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemCarrinhoInfo h4{
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    margin: 0;
+}
+
+.itemCarrinhoInfo span{
+    font-size: 14px;
+    color: #666;
+}
+
+.itemCarrinhoStepper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.itemCarrinhoStepper button{
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--cor-primaria);
+}
+
+.itemCarrinhoStepper input{
+    width: 40px;
+    height: 28px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Almarai', sans-serif;
+}
+
+.itemCarrinhoSubtotal{
+    width: 100px;
+    text-align: right;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.itemCarrinhoRemover{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+}
+
+.itemCarrinhoRemover:hover{
+    color: var(--cor-primaria);
+}
+
+.resumoCarrinho{
+    width: 320px;
+    flex-shrink: 0;
+
+    box-sizing: border-box;
+    padding: 28px;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.04);
+
+    position: sticky;
+    top: 20px;
+}
+
+.resumoCarrinho h2{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin: 0 0 16px;
+}
+
+.linhaResumo{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.linhaResumo.total{
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+    padding-top: 12px;
+    margin-top: 6px;
+    border-top: 1px solid #eee;
+}
+
+.resumoCarrinho .botaoConta{
+    width: 100%;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+@media (max-width: 860px){
+    .paginaCarrinho{
+        flex-direction: column;
+    }
+
+    .resumoCarrinho{
+        width: 100%;
+        position: static;
+    }
+}
+
 @media (max-width: 860px){
     .contaPage{
         flex-direction: column;

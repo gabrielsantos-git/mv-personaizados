@@ -12,9 +12,10 @@
         <section class="header">
             <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
             <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
-            <button class="cart-button">
+            <a href="carrinho.html" class="cart-button" aria-label="Carrinho">
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
-            </button>
+                <span class="badgeCarrinho"></span>
+            </a>
             <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
             </a>
@@ -31,286 +32,16 @@
     </header>
 
     <main class="produtoPage">
-        <section class="galeriaCompra">
-            <div class="galeriaProduto">
-                <div class="imgProdutoPrincipal">
-                    <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                </div>
-                <div class="imgProdutosMiniaturas">
-                    <div class="imgMiniatura">
-                        <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                    </div>
-                    <div class="imgMiniatura">
-                        <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                    </div>
-                    <div class="imgMiniatura">
-                        <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                    </div>
-                </div>
-            </div>
-
-            <div class="infoCompraProduto">
-                <div class="tituloProduto">
-                    <h2>Caneca Branca</h2>
-                    <h5>Ref: CN1441</h5>
-                </div>
-
-                <div class="descricaoCompraProduto">
-                    <p>Caneca de cerâmica com capacidade para 300ml, com design personalizado e acabamento fosco.</p>
-                    <p>Capacidade: 300ml</p>
-                    <p>Material: Cerâmica</p>
-                    <p>Tamanho aproximado: 9,5 cm x 8 cm</p>
-                    <p>Peso aproximado (g): 350</p>
-                </div>
-
-                <div class="quantidadeCompra">
-                    <span>Quantidade:</span>
-                    <div class="barraQuantidade">
-                        <button type="button" class="btnQuantidade" aria-label="Diminuir quantidade">−</button>
-                        <input type="number" min="1" value="1" id="quantidade">
-                        <button type="button" class="btnQuantidade" aria-label="Aumentar quantidade">+</button>
-                    </div>
-                </div>
-
-                <button type="button" class="botaoOrcamento">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40v-80h128l40 80Z"/></svg>
-                    Pedir orçamento
-                </button>
-            </div>
+        <section class="galeriaCompra" id="galeriaCompra">
+            <p>Carregando produto...</p>
         </section>
 
-        <section class="linhaProdutoRelacionado">
+        <section class="linhaProdutoRelacionado" id="linhaRelacionados" style="display: none;">
             <div class="infoLinhaProduto">
-                <h3>Canecas</h3>
+                <h3 id="tituloRelacionados">Você também pode gostar</h3>
                 <a href="produtos.html"><h4>ver mais</h4></a>
             </div>
-            <div class="linhaScrollProdutos">
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-            </div>
-        </section>
-
-        <section class="linhaProdutoRelacionado">
-            <div class="infoLinhaProduto">
-                <h3>Camisas</h3>
-                <a href="produtos.html"><h4>ver mais</h4></a>
-            </div>
-            <div class="linhaScrollProdutos">
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-            </div>
-        </section>
-
-        <section class="linhaProdutoRelacionado">
-            <div class="infoLinhaProduto">
-                <h3>Canetas</h3>
-                <a href="produtos.html"><h4>ver mais</h4></a>
-            </div>
-            <div class="linhaScrollProdutos">
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Caneca">
-                            </div>
-                            <h5 class="nomeProduto">Caneca</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-            </div>
+            <div class="linhaScrollProdutos" id="gridRelacionados"></div>
         </section>
 
         <section class="anuncio">
@@ -370,5 +101,217 @@
             <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
         </section>
     </footer>
+
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+        import { adicionarItem } from './assets/carrinho.js';
+
+        const galeria = document.getElementById('galeriaCompra');
+        const linhaRelacionados = document.getElementById('linhaRelacionados');
+        const tituloRelacionados = document.getElementById('tituloRelacionados');
+        const gridRelacionados = document.getElementById('gridRelacionados');
+
+        const nomesCategoria = {
+            personalizado: 'Personalizados',
+            vestuario: 'Vestuário',
+            informatica: 'Informática',
+            papelaria: 'Papelaria',
+            armarinho: 'Armarinho'
+        };
+
+        const iconeCarrinho = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>';
+
+        function formatarPreco(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        const idProduto = new URLSearchParams(window.location.search).get('id');
+
+        async function carregarProduto() {
+            if (!idProduto) {
+                galeria.innerHTML = '<p>Produto não encontrado. <a href="produtos.html">Ver todos os produtos</a></p>';
+                return;
+            }
+
+            const { data: produto, error } = await supabase
+                .from('produtos')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional)')
+                .eq('id', idProduto)
+                .eq('status', 'ativo')
+                .eq('publico', true)
+                .single();
+
+            if (error || !produto) {
+                galeria.innerHTML = '<p>Produto não encontrado. <a href="produtos.html">Ver todos os produtos</a></p>';
+                return;
+            }
+
+            document.title = `${produto.nome} - Mv Personalizados`;
+
+            const imagens = (produto.imagens_produto || []).slice().sort((a, b) => a.ordem - b.ordem);
+            const imagemPrincipal = imagens[0]?.url || 'assets/mockup-cup_1053-247.avif';
+
+            const miniaturasHtml = imagens.length
+                ? imagens.map((img) => `<div class="imgMiniatura"><img src="${img.url}" alt="${escaparHtml(produto.nome)}"></div>`).join('')
+                : `<div class="imgMiniatura"><img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}"></div>`;
+
+            const variacoes = produto.variacoes_produto || [];
+            const variacoesHtml = variacoes.length ? `
+                <div class="quantidadeCompra" id="blocoVariacoes">
+                    <span>Opção:</span>
+                    <select id="variacao" style="height: 36px; border-radius: 8px; border: 1px solid var(--cor-primaria); font-family: 'Almarai', sans-serif;">
+                        ${variacoes.map((v) => `<option value="${v.id}" data-adicional="${v.preco_adicional}">${escaparHtml(v.tipo)}: ${escaparHtml(v.valor)}</option>`).join('')}
+                    </select>
+                </div>
+            ` : '';
+
+            const semEstoque = produto.estoque <= 0;
+
+            galeria.innerHTML = `
+                <div class="galeriaProduto">
+                    <div class="imgProdutoPrincipal">
+                        <img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}" id="imgPrincipal">
+                    </div>
+                    <div class="imgProdutosMiniaturas">${miniaturasHtml}</div>
+                </div>
+
+                <div class="infoCompraProduto">
+                    <div class="tituloProduto">
+                        <h2>${escaparHtml(produto.nome)}</h2>
+                        <h5>${produto.codigo ? `Ref: ${escaparHtml(produto.codigo)}` : ''}</h5>
+                    </div>
+
+                    <div class="descricaoCompraProduto">
+                        <p>${escaparHtml(produto.descricao || 'Sem descrição.')}</p>
+                        <p><strong>Preço:</strong> ${formatarPreco(produto.preco)}</p>
+                        ${semEstoque ? '<p style="color: var(--cor-primaria); font-weight: 700;">Produto sem estoque no momento.</p>' : ''}
+                    </div>
+
+                    ${variacoesHtml}
+
+                    <div class="quantidadeCompra">
+                        <span>Quantidade:</span>
+                        <div class="barraQuantidade">
+                            <button type="button" class="btnQuantidade" aria-label="Diminuir quantidade">−</button>
+                            <input type="number" min="1" value="1" id="quantidade">
+                            <button type="button" class="btnQuantidade" aria-label="Aumentar quantidade">+</button>
+                        </div>
+                    </div>
+
+                    <p class="mensagemProduto" id="mensagemProduto" style="color: var(--cor-primaria); font-family: 'Almarai', sans-serif; min-height: 20px;"></p>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button type="button" class="botaoOrcamento" id="botaoAdicionarCarrinho" ${semEstoque ? 'disabled' : ''}>
+                            ${iconeCarrinho}
+                            Adicionar ao Carrinho
+                        </button>
+                        <button type="button" class="botaoOrcamento" id="botaoComprarAgora" ${semEstoque ? 'disabled' : ''} style="background-color: #780013;">
+                            Comprar Agora
+                        </button>
+                    </div>
+
+                    <a href="orcamento.html" class="botaoOrcamento" style="display: inline-flex; margin-top: 12px; text-decoration: none; box-sizing: border-box;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40v-80h128l40 80Z"/></svg>
+                        Pedir orçamento
+                    </a>
+                </div>
+            `;
+
+            ligarEventosCompra(produto, imagemPrincipal);
+            carregarRelacionados(produto);
+        }
+
+        function ligarEventosCompra(produto, imagemPrincipal) {
+            const inputQuantidade = document.getElementById('quantidade');
+            const botoesQuantidade = document.querySelectorAll('.btnQuantidade');
+            const selectVariacao = document.getElementById('variacao');
+            const mensagem = document.getElementById('mensagemProduto');
+
+            botoesQuantidade.forEach((botao, indice) => {
+                botao.addEventListener('click', () => {
+                    const atual = Number(inputQuantidade.value) || 1;
+                    inputQuantidade.value = indice === 0 ? Math.max(1, atual - 1) : atual + 1;
+                });
+            });
+
+            document.querySelectorAll('.imgMiniatura').forEach((mini) => {
+                mini.addEventListener('click', () => {
+                    document.getElementById('imgPrincipal').src = mini.querySelector('img').src;
+                });
+            });
+
+            function montarItemCarrinho() {
+                const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
+                const variacaoId = selectVariacao ? selectVariacao.value : null;
+                const adicional = selectVariacao ? Number(selectVariacao.selectedOptions[0].dataset.adicional || 0) : 0;
+                const nomeVariacao = selectVariacao ? ` (${selectVariacao.selectedOptions[0].textContent})` : '';
+
+                return {
+                    produtoId: produto.id,
+                    variacaoId,
+                    nome: produto.nome + nomeVariacao,
+                    preco: Number(produto.preco) + adicional,
+                    quantidade,
+                    imagem: imagemPrincipal
+                };
+            }
+
+            document.getElementById('botaoAdicionarCarrinho').addEventListener('click', () => {
+                adicionarItem(montarItemCarrinho());
+                mensagem.textContent = 'Adicionado ao carrinho!';
+                setTimeout(() => { mensagem.textContent = ''; }, 2500);
+            });
+
+            document.getElementById('botaoComprarAgora').addEventListener('click', () => {
+                adicionarItem(montarItemCarrinho());
+                window.location.href = 'carrinho.html';
+            });
+        }
+
+        async function carregarRelacionados(produto) {
+            const { data, error } = await supabase
+                .from('produtos')
+                .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                .eq('categoria', produto.categoria)
+                .eq('status', 'ativo')
+                .eq('publico', true)
+                .neq('id', produto.id)
+                .limit(6);
+
+            if (error || !data || data.length === 0) return;
+
+            tituloRelacionados.textContent = nomesCategoria[produto.categoria] || 'Você também pode gostar';
+            linhaRelacionados.style.display = '';
+
+            gridRelacionados.innerHTML = data.map((p) => {
+                const imagens = (p.imagens_produto || []).slice().sort((a, b) => a.ordem - b.ordem);
+                const imagem = imagens[0]?.url || 'assets/mockup-cup_1053-247.avif';
+
+                return `
+                    <a class="clicarProduto" href="produto.html?id=${p.id}">
+                        <div class="produto">
+                            <div class="imgProduto">
+                                <img src="${imagem}" alt="${escaparHtml(p.nome)}">
+                            </div>
+                            <h5 class="nomeProduto">${escaparHtml(p.nome)}</h5>
+                            <h6 class="descricaoProduto">${escaparHtml(p.descricao || '')}</h6>
+                            <div class="infoProduto">
+                                <h4 class="preco">${formatarPreco(p.preco)}</h4>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        carregarProduto();
+    </script>
+    <script type="module" src="assets/carrinho.js"></script>
 </body>
 </html>

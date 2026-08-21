@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/conta.css">
+    <title>Meu Carrinho - Mv Personalizados</title>
+</head>
+<body>
+    <header>
+        <section class="header">
+            <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
+            <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
+            <a href="carrinho.html" class="cart-button" aria-label="Carrinho">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
+                <span class="badgeCarrinho"></span>
+            </a>
+            <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+            </a>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="index.html">Tecnologia</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="orcamento.html">Orçamento</a></li>
+                <li><a href="#quemsomos">Quem somos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="paginaCarrinho" id="paginaCarrinho">
+            <h1>Meu Carrinho</h1>
+        </div>
+    </main>
+
+    <footer>
+        <section class="footerInfo">
+            <div class="infoEmpresa" id="quemsomos">
+                <img src="assets/MvPersonalizados.svg" alt="imgEmpresa">
+
+                <a href="#"><h6>Quem somos</h6></a>
+                <a href="orcamento.html"><h6>Orçamento</h6></a>
+                <a href="contato.html"><h6>Contato</h6></a>
+
+                <button class="buttonFooter">
+                    <div>
+                        <h7>Contate nos</h7>
+                        <h7>Via WhatsApp</h7>
+                    </div>
+                </button>
+            </div>
+
+            <div class="InfoAtendimento" id="contato">
+                <div class="title">
+                    <h4>ATENDIMENTO AO CLIENTE</h4>
+                </div>
+
+                <a href="#"><h6>Atendimento: seg. à sex. das 8h às 17h</h6></a>
+                <a href="#"><h6>Contato: (71) 9232-6512</h6></a>
+                <a href="#"><h6>E-mail: exemplo@gmail.com</h6></a>
+            </div>
+
+            <div class="InfoPoliticas">
+                <div class="title">
+                    <h4>POLÍTICAS DA EMPRESA</h4>
+                </div>
+
+                <a href="#"><h6>Política de pagamentos</h6></a>
+                <a href="#"><h6>Política de envio e Prazo de entrega</h6></a>
+                <a href="#"><h6>Termos de privacidade</h6></a>
+            </div>
+
+            <div class="InfoOndeFicamos">
+                <div class="title">
+                    <h4>ONDE FICAMOS</h4>
+                </div>
+
+                <a href="#"><h6>Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</h6></a>
+            </div>
+        </section>
+
+        <section class="footerCopyright">
+            <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
+        </section>
+    </footer>
+
+    <script type="module">
+        import { getCarrinho, atualizarQuantidade, removerItem, totalCarrinho, atualizarBadgeCarrinho } from './assets/carrinho.js';
+
+        const pagina = document.getElementById('paginaCarrinho');
+
+        function formatarPreco(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        function renderizar() {
+            const itens = getCarrinho();
+
+            if (itens.length === 0) {
+                pagina.innerHTML = `
+                    <div style="width: 100%;">
+                        <h1>Meu Carrinho</h1>
+                        <div class="cardConta">
+                            <div class="estadoVazioConta">
+                                <p>Seu carrinho está vazio.</p>
+                                <a href="produtos.html">Ver produtos</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const itensHtml = itens.map((item, indice) => `
+                <div class="itemCarrinho">
+                    <div class="itemCarrinhoImg"><img src="${item.imagem || 'assets/mockup-cup_1053-247.avif'}" alt="${escaparHtml(item.nome)}"></div>
+                    <div class="itemCarrinhoInfo">
+                        <h4>${escaparHtml(item.nome)}</h4>
+                        <span>${formatarPreco(item.preco)} cada</span>
+                    </div>
+                    <div class="itemCarrinhoStepper">
+                        <button type="button" class="btnDiminuir" data-indice="${indice}">−</button>
+                        <input type="number" min="1" value="${item.quantidade}" class="inputQuantidade" data-indice="${indice}">
+                        <button type="button" class="btnAumentar" data-indice="${indice}">+</button>
+                    </div>
+                    <div class="itemCarrinhoSubtotal">${formatarPreco(item.preco * item.quantidade)}</div>
+                    <button type="button" class="itemCarrinhoRemover" data-indice="${indice}" aria-label="Remover item">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                    </button>
+                </div>
+            `).join('');
+
+            pagina.innerHTML = `
+                <div class="colunaItensCarrinho">
+                    <h1>Meu Carrinho</h1>
+                    ${itensHtml}
+                </div>
+                <aside class="resumoCarrinho">
+                    <h2>Resumo</h2>
+                    <div class="linhaResumo"><span>Subtotal</span><span>${formatarPreco(totalCarrinho())}</span></div>
+                    <div class="linhaResumo total"><span>Total</span><span>${formatarPreco(totalCarrinho())}</span></div>
+                    <button type="button" class="botaoConta" id="botaoFinalizar">Finalizar Compra</button>
+                </aside>
+            `;
+
+            pagina.querySelectorAll('.btnDiminuir').forEach((botao) => {
+                botao.addEventListener('click', () => {
+                    const i = Number(botao.dataset.indice);
+                    atualizarQuantidade(i, getCarrinho()[i].quantidade - 1);
+                    renderizar();
+                });
+            });
+
+            pagina.querySelectorAll('.btnAumentar').forEach((botao) => {
+                botao.addEventListener('click', () => {
+                    const i = Number(botao.dataset.indice);
+                    atualizarQuantidade(i, getCarrinho()[i].quantidade + 1);
+                    renderizar();
+                });
+            });
+
+            pagina.querySelectorAll('.inputQuantidade').forEach((input) => {
+                input.addEventListener('change', () => {
+                    const i = Number(input.dataset.indice);
+                    atualizarQuantidade(i, Math.max(1, Number(input.value) || 1));
+                    renderizar();
+                });
+            });
+
+            pagina.querySelectorAll('.itemCarrinhoRemover').forEach((botao) => {
+                botao.addEventListener('click', () => {
+                    removerItem(Number(botao.dataset.indice));
+                    renderizar();
+                });
+            });
+
+            document.getElementById('botaoFinalizar').addEventListener('click', () => {
+                window.location.href = 'checkout.html';
+            });
+        }
+
+        renderizar();
+        atualizarBadgeCarrinho();
+    </script>
+    <script type="module" src="assets/carrinho.js"></script>
+</body>
+</html>

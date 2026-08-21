@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/conta.css">
+    <title>Finalizar Compra - Mv Personalizados</title>
+</head>
+<body style="visibility: hidden;">
+    <header>
+        <section class="header">
+            <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
+            <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
+            <a href="carrinho.html" class="cart-button" aria-label="Carrinho">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
+                <span class="badgeCarrinho"></span>
+            </a>
+            <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+            </a>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="index.html">Tecnologia</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="orcamento.html">Orçamento</a></li>
+                <li><a href="#quemsomos">Quem somos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="paginaCarrinho" id="paginaCheckout">
+            <h1>Finalizar Compra</h1>
+        </div>
+    </main>
+
+    <footer>
+        <section class="footerInfo">
+            <div class="infoEmpresa" id="quemsomos">
+                <img src="assets/MvPersonalizados.svg" alt="imgEmpresa">
+
+                <a href="#"><h6>Quem somos</h6></a>
+                <a href="orcamento.html"><h6>Orçamento</h6></a>
+                <a href="contato.html"><h6>Contato</h6></a>
+
+                <button class="buttonFooter">
+                    <div>
+                        <h7>Contate nos</h7>
+                        <h7>Via WhatsApp</h7>
+                    </div>
+                </button>
+            </div>
+
+            <div class="InfoAtendimento" id="contato">
+                <div class="title">
+                    <h4>ATENDIMENTO AO CLIENTE</h4>
+                </div>
+
+                <a href="#"><h6>Atendimento: seg. à sex. das 8h às 17h</h6></a>
+                <a href="#"><h6>Contato: (71) 9232-6512</h6></a>
+                <a href="#"><h6>E-mail: exemplo@gmail.com</h6></a>
+            </div>
+
+            <div class="InfoPoliticas">
+                <div class="title">
+                    <h4>POLÍTICAS DA EMPRESA</h4>
+                </div>
+
+                <a href="#"><h6>Política de pagamentos</h6></a>
+                <a href="#"><h6>Política de envio e Prazo de entrega</h6></a>
+                <a href="#"><h6>Termos de privacidade</h6></a>
+            </div>
+
+            <div class="InfoOndeFicamos">
+                <div class="title">
+                    <h4>ONDE FICAMOS</h4>
+                </div>
+
+                <a href="#"><h6>Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</h6></a>
+            </div>
+        </section>
+
+        <section class="footerCopyright">
+            <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
+        </section>
+    </footer>
+
+    <script type="module" src="assets/contaGuard.js"></script>
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+        import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
+
+        const pagina = document.getElementById('paginaCheckout');
+
+        function formatarPreco(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        document.addEventListener('contaAutenticada', async (evento) => {
+            const { perfil } = evento.detail;
+            const itens = getCarrinho();
+
+            if (itens.length === 0) {
+                pagina.innerHTML = `
+                    <div style="width: 100%;">
+                        <h1>Finalizar Compra</h1>
+                        <div class="cardConta">
+                            <div class="estadoVazioConta">
+                                <p>Seu carrinho está vazio.</p>
+                                <a href="produtos.html">Ver produtos</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const { data: cartoes } = await supabase
+                .from('cartoes')
+                .select('id, apelido, bandeira, ultimos_digitos')
+                .order('created_at', { ascending: false });
+
+            const itensResumoHtml = itens.map((item) => `
+                <div class="linhaResumo"><span>${escaparHtml(item.nome)} × ${item.quantidade}</span><span>${formatarPreco(item.preco * item.quantidade)}</span></div>
+            `).join('');
+
+            const opcoesCartaoHtml = (cartoes || []).map((c) => `
+                <option value="${c.id}">${escaparHtml(c.apelido) || escaparHtml(c.bandeira)} •••• ${escaparHtml(c.ultimos_digitos)}</option>
+            `).join('');
+
+            pagina.innerHTML = `
+                <div class="colunaItensCarrinho">
+                    <h1>Finalizar Compra</h1>
+
+                    <div class="cardConta">
+                        <h2>Endereço de Entrega</h2>
+                        <hr class="divisorConta">
+                        <form class="formConta" id="formEnderecoEntrega">
+                            <div class="linhaContaCampo">
+                                <div class="campoConta">
+                                    <label for="cep">CEP</label>
+                                    <input type="text" id="cep" value="${escaparHtml(perfil?.cep || '')}" required>
+                                </div>
+                                <div class="campoConta">
+                                    <label for="rua">Rua</label>
+                                    <input type="text" id="rua" value="${escaparHtml(perfil?.rua || '')}" required>
+                                </div>
+                            </div>
+                            <div class="linhaContaCampo">
+                                <div class="campoConta">
+                                    <label for="bairro">Bairro</label>
+                                    <input type="text" id="bairro" value="${escaparHtml(perfil?.bairro || '')}">
+                                </div>
+                                <div class="campoConta">
+                                    <label for="cidade">Cidade</label>
+                                    <input type="text" id="cidade" value="${escaparHtml(perfil?.cidade || '')}" required>
+                                </div>
+                            </div>
+                            <div class="campoConta">
+                                <label for="complemento">Complemento</label>
+                                <input type="text" id="complemento" value="${escaparHtml(perfil?.complemento || '')}">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="cardConta">
+                        <h2>Forma de Pagamento</h2>
+                        <hr class="divisorConta">
+                        <div class="linhaContaCampo">
+                            <div class="campoConta">
+                                <label for="formaPagamento">Como você vai pagar?</label>
+                                <select id="formaPagamento">
+                                    <option value="pix">Pix</option>
+                                    <option value="credito">Cartão de Crédito</option>
+                                    <option value="debito">Cartão de Débito</option>
+                                    <option value="dinheiro">Dinheiro na entrega</option>
+                                </select>
+                            </div>
+                            ${opcoesCartaoHtml ? `
+                                <div class="campoConta">
+                                    <label for="cartaoEscolhido">Cartão salvo (opcional)</label>
+                                    <select id="cartaoEscolhido">
+                                        <option value="">Nenhum</option>
+                                        ${opcoesCartaoHtml}
+                                    </select>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="resumoCarrinho">
+                    <h2>Resumo do Pedido</h2>
+                    ${itensResumoHtml}
+                    <div class="linhaResumo total"><span>Total</span><span>${formatarPreco(totalCarrinho())}</span></div>
+                    <p class="mensagemConta" id="mensagemCheckout"></p>
+                    <button type="button" class="botaoConta" id="botaoConfirmarPedido">Confirmar Pedido</button>
+                </aside>
+            `;
+
+            document.getElementById('botaoConfirmarPedido').addEventListener('click', async () => {
+                const mensagem = document.getElementById('mensagemCheckout');
+                mensagem.textContent = '';
+
+                const cep = document.getElementById('cep').value.trim();
+                const rua = document.getElementById('rua').value.trim();
+                const bairro = document.getElementById('bairro').value.trim();
+                const cidade = document.getElementById('cidade').value.trim();
+                const complemento = document.getElementById('complemento').value.trim();
+
+                if (!cep || !rua || !cidade) {
+                    mensagem.textContent = 'Preencha ao menos CEP, Rua e Cidade pra entrega.';
+                    return;
+                }
+
+                const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${cep})`;
+                const formaPagamento = document.getElementById('formaPagamento').value;
+                const cartaoEl = document.getElementById('cartaoEscolhido');
+                const cartaoTexto = cartaoEl && cartaoEl.value
+                    ? cartaoEl.options[cartaoEl.selectedIndex].textContent
+                    : null;
+
+                const botao = document.getElementById('botaoConfirmarPedido');
+                botao.disabled = true;
+                botao.textContent = 'Enviando pedido...';
+
+                const total = totalCarrinho();
+
+                const { data: pedido, error: erroPedido } = await supabase
+                    .from('pedidos')
+                    .insert({
+                        cliente_id: window.contaSession.user.id,
+                        status: 'pendente',
+                        total,
+                        forma_pagamento: formaPagamento,
+                        endereco_entrega: enderecoEntrega,
+                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null
+                    })
+                    .select('id')
+                    .single();
+
+                if (erroPedido || !pedido) {
+                    botao.disabled = false;
+                    botao.textContent = 'Confirmar Pedido';
+                    mensagem.textContent = 'Não foi possível criar o pedido. Tente novamente.';
+                    return;
+                }
+
+                const itensParaInserir = itens.map((item) => ({
+                    pedido_id: pedido.id,
+                    produto_id: item.produtoId,
+                    variacao_id: item.variacaoId || null,
+                    nome_produto: item.nome,
+                    preco_unitario: item.preco,
+                    quantidade: item.quantidade,
+                    subtotal: item.preco * item.quantidade
+                }));
+
+                const { error: erroItens } = await supabase.from('itens_pedido').insert(itensParaInserir);
+
+                if (erroItens) {
+                    botao.disabled = false;
+                    botao.textContent = 'Confirmar Pedido';
+                    mensagem.textContent = 'Pedido criado, mas houve um problema ao registrar os itens. Fale com o suporte.';
+                    return;
+                }
+
+                limparCarrinho();
+                window.location.href = 'meus-pedidos.html';
+            });
+        });
+    </script>
+    <script type="module" src="assets/carrinho.js"></script>
+</body>
+</html>

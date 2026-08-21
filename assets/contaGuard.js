@@ -50,5 +50,6 @@ import { supabase } from './supabaseClient.js';
 })();
 
 function redirecionarParaLogin() {
-    window.location.href = 'login.html';
+    const destino = window.location.pathname.split('/').pop() + window.location.search;
+    window.location.href = 'login.html?redirect=' + encodeURIComponent(destino);
 }

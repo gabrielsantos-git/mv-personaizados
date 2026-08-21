@@ -12,9 +12,10 @@
         <section class="header">
             <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
             <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
-            <button class="cart-button">
+            <a href="carrinho.html" class="cart-button" aria-label="Carrinho">
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
-            </button>
+                <span class="badgeCarrinho"></span>
+            </a>
             <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
             </a>
@@ -33,309 +34,20 @@
     <main class="produtosPage">
         <aside class="sidebarCategorias">
             <h3>Produtos</h3>
-            <ul>
-                <li><a href="#">Canecas</a></li>
-                <li><a href="#">Camisa</a></li>
-                <li><a href="#">Azulejos</a></li>
-                <li><a href="#">Copos</a></li>
-                <li><a href="#">Chaveiros</a></li>
-                <li><a href="#">Copo</a></li>
-                <li><a href="#">Caneta</a></li>
-                <li><a href="#">Adesivo</a></li>
-                <li><a href="#">Caderno</a></li>
-                <li><a href="#">Crachá</a></li>
-                <li class="categoriaAtiva"><a href="#">Garrafa</a></li>
-                <li><a href="#">Mouse Pad</a></li>
-                <li><a href="#">Toalha</a></li>
-                <li><a href="#">Taça</a></li>
-                <li><a href="#">Necessaire</a></li>
-                <li><a href="#">Bolsa</a></li>
-                <li><a href="#">Agenda</a></li>
+            <ul id="listaCategorias">
+                <li class="categoriaAtiva"><a href="#" data-categoria="">Todos</a></li>
+                <li><a href="#" data-categoria="personalizado">Personalizados</a></li>
+                <li><a href="#" data-categoria="vestuario">Vestuário</a></li>
+                <li><a href="#" data-categoria="informatica">Informática</a></li>
+                <li><a href="#" data-categoria="papelaria">Papelaria</a></li>
+                <li><a href="#" data-categoria="armarinho">Armarinho</a></li>
             </ul>
         </aside>
 
         <section class="produtosCategoria">
-            <h3 class="tituloCategoria">Garrafa</h3>
-            <div class="produtosGrid">
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a class="clicarProduto" href="produto.html">
-                        <div class="produto">
-                            <div class="imgProduto">
-                                <img src="assets/mockup-cup_1053-247.avif" alt="Garrafa">
-                            </div>
-                            <h5 class="nomeProduto">Garrafa</h5>
-                            <h6 class="descricaoProduto">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                            <div class="infoProduto">
-                                <h4 class="preco">R$ 58,00</h4>
-                                <button class="cartDescricao"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-                            </div>
-                        </div>
-                    </a>
+            <h3 class="tituloCategoria" id="tituloCategoria">Todos os produtos</h3>
+            <div class="produtosGrid" id="produtosGrid">
+                <p>Carregando produtos...</p>
             </div>
         </section>
     </main>
@@ -390,5 +102,116 @@
             <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
         </section>
     </footer>
+
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+        import { adicionarItem } from './assets/carrinho.js';
+
+        const grid = document.getElementById('produtosGrid');
+        const titulo = document.getElementById('tituloCategoria');
+        const linksCategoria = document.querySelectorAll('#listaCategorias a');
+
+        const nomesCategoria = {
+            '': 'Todos os produtos',
+            personalizado: 'Personalizados',
+            vestuario: 'Vestuário',
+            informatica: 'Informática',
+            papelaria: 'Papelaria',
+            armarinho: 'Armarinho'
+        };
+
+        const iconeCarrinho = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>';
+
+        function formatarPreco(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        let produtos = [];
+
+        async function carregarProdutos() {
+            const { data, error } = await supabase
+                .from('produtos')
+                .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
+                .eq('status', 'ativo')
+                .eq('publico', true)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                grid.innerHTML = '<p>Não foi possível carregar os produtos.</p>';
+                return;
+            }
+
+            produtos = data || [];
+            renderizarGrid('');
+        }
+
+        function renderizarGrid(categoria) {
+            const filtrados = categoria ? produtos.filter((p) => p.categoria === categoria) : produtos;
+            titulo.textContent = nomesCategoria[categoria] || 'Produtos';
+
+            if (filtrados.length === 0) {
+                grid.innerHTML = '<p>Nenhum produto encontrado nessa categoria.</p>';
+                return;
+            }
+
+            grid.innerHTML = filtrados.map((produto) => {
+                const imagens = (produto.imagens_produto || []).slice().sort((a, b) => a.ordem - b.ordem);
+                const imagem = imagens[0]?.url || 'assets/mockup-cup_1053-247.avif';
+
+                return `
+                    <a class="clicarProduto" href="produto.html?id=${produto.id}">
+                        <div class="produto">
+                            <div class="imgProduto">
+                                <img src="${imagem}" alt="${escaparHtml(produto.nome)}">
+                            </div>
+                            <h5 class="nomeProduto">${escaparHtml(produto.nome)}</h5>
+                            <h6 class="descricaoProduto">${escaparHtml(produto.descricao || '')}</h6>
+                            <div class="infoProduto">
+                                <h4 class="preco">${formatarPreco(produto.preco)}</h4>
+                                <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${produto.preco}" data-imagem="${imagem}">${iconeCarrinho}</button>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+            grid.querySelectorAll('.cartDescricao').forEach((botao) => {
+                botao.addEventListener('click', (evento) => {
+                    evento.preventDefault();
+                    evento.stopPropagation();
+
+                    adicionarItem({
+                        produtoId: botao.dataset.id,
+                        variacaoId: null,
+                        nome: botao.dataset.nome,
+                        preco: Number(botao.dataset.preco),
+                        quantidade: 1,
+                        imagem: botao.dataset.imagem
+                    });
+
+                    botao.classList.add('adicionado');
+                    setTimeout(() => botao.classList.remove('adicionado'), 600);
+                });
+            });
+        }
+
+        linksCategoria.forEach((link) => {
+            link.addEventListener('click', (evento) => {
+                evento.preventDefault();
+                linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
+                link.parentElement.classList.add('categoriaAtiva');
+                renderizarGrid(link.dataset.categoria);
+            });
+        });
+
+        carregarProdutos();
+    </script>
+    <script type="module" src="assets/carrinho.js"></script>
 </body>
 </html>
