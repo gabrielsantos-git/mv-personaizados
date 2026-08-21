@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/conta.css">
+    <title>Meus Pedidos - Mv Personalizados</title>
+</head>
+<body style="visibility: hidden;">
+    <header>
+        <section class="header">
+            <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
+            <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
+            <button class="cart-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
+            </button>
+            <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+            </a>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="index.html">Tecnologia</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="orcamento.html">Orçamento</a></li>
+                <li><a href="#quemsomos">Quem somos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contaPage">
+            <aside class="contaSidebar">
+                <div class="avatarUsuarioConta"></div>
+                <h3 class="nomeUsuarioConta"></h3>
+                <p class="emailUsuarioConta"></p>
+
+                <ul class="menuConta">
+                    <li><a href="minha-conta.html">Minha Conta</a></li>
+                    <li><a href="meus-pedidos.html" class="ativo">Meus Pedidos</a></li>
+                    <li><a href="meus-cartoes.html">Meus Cartões</a></li>
+                    <li class="itemSairConta"><button type="button" id="botaoSairConta">Sair</button></li>
+                </ul>
+            </aside>
+
+            <section class="contaConteudo">
+                <h1>Meus Pedidos</h1>
+
+                <div class="cardConta">
+                    <div class="listaPedidos" id="listaPedidos">
+                        <p class="mensagemConta">Carregando pedidos...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <section class="footerInfo">
+            <div class="infoEmpresa" id="quemsomos">
+                <img src="assets/MvPersonalizados.svg" alt="imgEmpresa">
+
+                <a href="#"><h6>Quem somos</h6></a>
+                <a href="orcamento.html"><h6>Orçamento</h6></a>
+                <a href="contato.html"><h6>Contato</h6></a>
+
+                <button class="buttonFooter">
+                    <div>
+                        <h7>Contate nos</h7>
+                        <h7>Via WhatsApp</h7>
+                    </div>
+                </button>
+            </div>
+
+            <div class="InfoAtendimento" id="contato">
+                <div class="title">
+                    <h4>ATENDIMENTO AO CLIENTE</h4>
+                </div>
+
+                <a href="#"><h6>Atendimento: seg. à sex. das 8h às 17h</h6></a>
+                <a href="#"><h6>Contato: (71) 9232-6512</h6></a>
+                <a href="#"><h6>E-mail: exemplo@gmail.com</h6></a>
+            </div>
+
+            <div class="InfoPoliticas">
+                <div class="title">
+                    <h4>POLÍTICAS DA EMPRESA</h4>
+                </div>
+
+                <a href="#"><h6>Política de pagamentos</h6></a>
+                <a href="#"><h6>Política de envio e Prazo de entrega</h6></a>
+                <a href="#"><h6>Termos de privacidade</h6></a>
+            </div>
+
+            <div class="InfoOndeFicamos">
+                <div class="title">
+                    <h4>ONDE FICAMOS</h4>
+                </div>
+
+                <a href="#"><h6>Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</h6></a>
+            </div>
+        </section>
+
+        <section class="footerCopyright">
+            <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
+        </section>
+    </footer>
+
+    <script type="module" src="assets/contaGuard.js"></script>
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+
+        const lista = document.getElementById('listaPedidos');
+
+        const nomesStatus = {
+            pendente: 'Pendente',
+            em_producao: 'Em produção',
+            enviado: 'Enviado',
+            entregue: 'Entregue',
+            cancelado: 'Cancelado'
+        };
+
+        function formatarData(iso) {
+            return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function formatarPreco(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        async function carregarPedidos() {
+            const { data: pedidos, error } = await supabase
+                .from('pedidos')
+                .select('id, status, total, created_at, itens_pedido(nome_produto, quantidade, preco_unitario, subtotal)')
+                .eq('cliente_id', window.contaSession.user.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                lista.innerHTML = '<p class="mensagemConta">Não foi possível carregar seus pedidos.</p>';
+                return;
+            }
+
+            if (!pedidos || pedidos.length === 0) {
+                lista.innerHTML = `
+                    <div class="estadoVazioConta">
+                        <p>Você ainda não fez nenhum pedido.</p>
+                        <a href="produtos.html">Ver produtos</a>
+                    </div>
+                `;
+                return;
+            }
+
+            lista.innerHTML = pedidos.map((pedido) => {
+                const statusClasse = nomesStatus[pedido.status] ? pedido.status : 'pendente';
+                const statusNome = nomesStatus[pedido.status] || 'Pendente';
+                const idCurto = pedido.id.slice(0, 8).toUpperCase();
+
+                const itensHtml = (pedido.itens_pedido || []).map((item) => `
+                    <div class="itemPedido">
+                        <span>${escaparHtml(item.nome_produto)} × ${item.quantidade}</span>
+                        <span>${formatarPreco(item.subtotal)}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <article class="pedidoCard">
+                        <div class="pedidoCabecalho">
+                            <div class="pedidoIdData">
+                                <span class="pedidoId">Pedido #${idCurto}</span>
+                                <span class="pedidoData">${formatarData(pedido.created_at)}</span>
+                            </div>
+                            <span class="statusPedido ${statusClasse}">${statusNome}</span>
+                        </div>
+
+                        ${itensHtml || '<p class="mensagemConta">Nenhum item registrado.</p>'}
+
+                        <div class="pedidoRodape">Total: ${formatarPreco(pedido.total)}</div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('contaAutenticada', carregarPedidos);
+    </script>
+</body>
+</html>

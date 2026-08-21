@@ -1,0 +1,529 @@
+/* Layout compartilhado pelas páginas Minha Conta, Meus Pedidos e Meus Cartões. */
+
+main{
+    display: flex;
+    justify-content: center;
+}
+
+.contaPage{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+
+    width: 90vw;
+    max-width: 1200px;
+    margin: 40px 0 120px;
+}
+
+/* ---------- Sidebar ---------- */
+
+.contaSidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 280px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 32px 24px;
+
+    background-color: var(--cor-primaria);
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+    position: sticky;
+    top: 20px;
+}
+
+.avatarUsuarioConta{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+
+    background-color: #780013;
+    color: var(--cor-secundaria);
+    font-size: 26px;
+    font-weight: 700;
+
+    margin-bottom: 14px;
+}
+
+.nomeUsuarioConta{
+    color: var(--cor-secundaria);
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+}
+
+.emailUsuarioConta{
+    color: #ffffffcc;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    word-break: break-all;
+    margin: 4px 0 24px;
+}
+
+.menuConta{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.menuConta li{
+    width: 100%;
+}
+
+.menuConta a,
+.menuConta button{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cor-secundaria);
+}
+
+.menuConta a:hover,
+.menuConta button:hover{
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.menuConta a.ativo{
+    background-color: #780013;
+    font-weight: 700;
+}
+
+.itemSairConta{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Conteúdo ---------- */
+
+.contaConteudo{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.contaConteudo h1{
+    font-size: 26px;
+    font-weight: 700;
+    color: black;
+    margin: 0;
+}
+
+.cardConta{
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+    padding: 32px;
+}
+
+.cardConta h2{
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+    margin: 0 0 22px;
+}
+
+.subtituloConta{
+    font-size: 13px;
+    font-weight: 300;
+    color: #666;
+    margin: -14px 0 22px;
+}
+
+/* ---------- Formulários ---------- */
+
+.formConta{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.linhaContaCampo{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.campoConta{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    flex: 1;
+    min-width: 200px;
+}
+
+.campoConta label{
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+}
+
+.campoConta input,
+.campoConta select{
+    height: 46px;
+    box-sizing: border-box;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0 14px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    color: black;
+}
+
+.campoConta input:focus,
+.campoConta select:focus{
+    outline: none;
+    border-color: var(--cor-primaria);
+}
+
+.campoConta input:disabled{
+    background-color: #f3f3f3;
+    color: #888;
+}
+
+.campoConta small{
+    font-size: 12px;
+    font-weight: 300;
+    color: #888;
+}
+
+.botaoConta{
+    align-self: flex-start;
+    margin-top: 6px;
+
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+
+    height: 48px;
+    padding: 0 28px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cor-secundaria);
+}
+
+.botaoConta:hover{
+    background-color: #780013;
+}
+
+.botaoConta:disabled{
+    opacity: 0.6;
+    cursor: default;
+}
+
+.botaoContaSecundario{
+    background-color: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+}
+
+.botaoContaSecundario:hover{
+    background-color: var(--cor-quaternaria);
+}
+
+.mensagemConta{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: var(--cor-primaria);
+    margin: -6px 0 0;
+}
+
+.mensagemConta:empty{
+    display: none;
+}
+
+.mensagemConta.sucesso{
+    color: #1a7d3a;
+}
+
+hr.divisorConta{
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 8px 0;
+}
+
+/* ---------- Estado vazio ---------- */
+
+.estadoVazioConta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 60px 20px;
+    text-align: center;
+
+    color: #666;
+    font-size: 15px;
+}
+
+.estadoVazioConta a{
+    color: var(--cor-primaria);
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* ---------- Pedidos ---------- */
+
+.listaPedidos{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.pedidoCard{
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 20px 22px;
+}
+
+.pedidoCabecalho{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 14px;
+}
+
+.pedidoIdData{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pedidoId{
+    font-weight: 700;
+    color: black;
+    font-size: 15px;
+}
+
+.pedidoData{
+    font-size: 13px;
+    font-weight: 300;
+    color: #777;
+}
+
+.statusPedido{
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background-color: #999;
+    white-space: nowrap;
+}
+
+.statusPedido.pendente{ background-color: #c99400; }
+.statusPedido.em_producao{ background-color: #0069c9; }
+.statusPedido.enviado{ background-color: #7a3fc9; }
+.statusPedido.entregue{ background-color: #1a7d3a; }
+.statusPedido.cancelado{ background-color: var(--cor-primaria); }
+
+.itemPedido{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 8px 0;
+    border-top: 1px dashed #eee;
+
+    font-size: 14px;
+    color: #333;
+}
+
+.itemPedido:first-of-type{
+    border-top: none;
+}
+
+.pedidoRodape{
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+}
+
+/* ---------- Cartões ---------- */
+
+.gridCartoes{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.cartaoVisual{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    height: 170px;
+    padding: 22px;
+    border-radius: 16px;
+
+    background: linear-gradient(135deg, var(--cor-primaria), #5c000e);
+    color: white;
+    position: relative;
+}
+
+.cartaoVisual.principal{
+    outline: 2px solid #ffd54a;
+    outline-offset: 2px;
+}
+
+.selinhoPrincipal{
+    position: absolute;
+    top: 16px;
+    right: 18px;
+
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffd54a;
+    text-transform: uppercase;
+}
+
+.cartaoApelido{
+    font-size: 13px;
+    font-weight: 300;
+    opacity: 0.85;
+}
+
+.cartaoNumero{
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 6px 0;
+}
+
+.cartaoRodape{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    font-size: 12px;
+}
+
+.cartaoTitular{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.cartaoBandeira{
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.acoesCartao{
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.acoesCartao button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
+}
+
+.cartaoNovoBotao{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 170px;
+    box-sizing: border-box;
+    border: 2px dashed #ddd;
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.cartaoNovoBotao:hover{
+    background-color: var(--cor-quaternaria);
+}
+
+.formNovoCartao{
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+}
+
+.formNovoCartao.aberto{
+    display: block;
+}
+
+.acoesFormCartao{
+    display: flex;
+    gap: 12px;
+}
+
+@media (max-width: 860px){
+    .contaPage{
+        flex-direction: column;
+    }
+
+    .contaSidebar{
+        width: 100%;
+        position: static;
+    }
+}

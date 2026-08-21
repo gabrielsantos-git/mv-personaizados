@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/conta.css">
+    <title>Minha Conta - Mv Personalizados</title>
+</head>
+<body style="visibility: hidden;">
+    <header>
+        <section class="header">
+            <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
+            <input type="search" name="q" id="search" placeholder="Pesquisar produtos...">
+            <button class="cart-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
+            </button>
+            <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+            </a>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="index.html">Tecnologia</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="orcamento.html">Orçamento</a></li>
+                <li><a href="#quemsomos">Quem somos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contaPage">
+            <aside class="contaSidebar">
+                <div class="avatarUsuarioConta"></div>
+                <h3 class="nomeUsuarioConta"></h3>
+                <p class="emailUsuarioConta"></p>
+
+                <ul class="menuConta">
+                    <li><a href="minha-conta.html" class="ativo">Minha Conta</a></li>
+                    <li><a href="meus-pedidos.html">Meus Pedidos</a></li>
+                    <li><a href="meus-cartoes.html">Meus Cartões</a></li>
+                    <li class="itemSairConta"><button type="button" id="botaoSairConta">Sair</button></li>
+                </ul>
+            </aside>
+
+            <section class="contaConteudo">
+                <h1>Minha Conta</h1>
+
+                <div class="cardConta">
+                    <h2>Meus Dados</h2>
+
+                    <form class="formConta" id="formMeusDados">
+                        <div class="linhaContaCampo">
+                            <div class="campoConta">
+                                <label for="nome">Nome</label>
+                                <input type="text" name="nome" id="nome" placeholder="Seu nome">
+                            </div>
+
+                            <div class="campoConta">
+                                <label for="sobrenome">Sobrenome</label>
+                                <input type="text" name="sobrenome" id="sobrenome" placeholder="Seu sobrenome">
+                            </div>
+                        </div>
+
+                        <div class="campoConta">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" disabled>
+                            <small>Para trocar de email, fale com o suporte.</small>
+                        </div>
+
+                        <div class="linhaContaCampo">
+                            <div class="campoConta">
+                                <label for="telefone">Telefone</label>
+                                <input type="tel" name="telefone" id="telefone" placeholder="(71) 99999-9999">
+                            </div>
+
+                            <div class="campoConta">
+                                <label for="cep">CEP</label>
+                                <input type="text" name="cep" id="cep" placeholder="00000-000">
+                            </div>
+                        </div>
+
+                        <p class="mensagemConta" id="mensagemDados"></p>
+
+                        <button type="submit" class="botaoConta">Salvar alterações</button>
+                    </form>
+                </div>
+
+                <div class="cardConta">
+                    <h2>Alterar Senha</h2>
+                    <p class="subtituloConta">Deixe em branco se não quiser trocar a senha agora.</p>
+
+                    <form class="formConta" id="formSenha">
+                        <div class="linhaContaCampo">
+                            <div class="campoConta">
+                                <label for="novaSenha">Nova senha</label>
+                                <input type="password" name="novaSenha" id="novaSenha" placeholder="Nova senha" minlength="6">
+                            </div>
+
+                            <div class="campoConta">
+                                <label for="confirmarNovaSenha">Confirmar nova senha</label>
+                                <input type="password" name="confirmarNovaSenha" id="confirmarNovaSenha" placeholder="Confirme a nova senha" minlength="6">
+                            </div>
+                        </div>
+
+                        <p class="mensagemConta" id="mensagemSenha"></p>
+
+                        <button type="submit" class="botaoConta">Atualizar senha</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <section class="footerInfo">
+            <div class="infoEmpresa" id="quemsomos">
+                <img src="assets/MvPersonalizados.svg" alt="imgEmpresa">
+
+                <a href="#"><h6>Quem somos</h6></a>
+                <a href="orcamento.html"><h6>Orçamento</h6></a>
+                <a href="contato.html"><h6>Contato</h6></a>
+
+                <button class="buttonFooter">
+                    <div>
+                        <h7>Contate nos</h7>
+                        <h7>Via WhatsApp</h7>
+                    </div>
+                </button>
+            </div>
+
+            <div class="InfoAtendimento" id="contato">
+                <div class="title">
+                    <h4>ATENDIMENTO AO CLIENTE</h4>
+                </div>
+
+                <a href="#"><h6>Atendimento: seg. à sex. das 8h às 17h</h6></a>
+                <a href="#"><h6>Contato: (71) 9232-6512</h6></a>
+                <a href="#"><h6>E-mail: exemplo@gmail.com</h6></a>
+            </div>
+
+            <div class="InfoPoliticas">
+                <div class="title">
+                    <h4>POLÍTICAS DA EMPRESA</h4>
+                </div>
+
+                <a href="#"><h6>Política de pagamentos</h6></a>
+                <a href="#"><h6>Política de envio e Prazo de entrega</h6></a>
+                <a href="#"><h6>Termos de privacidade</h6></a>
+            </div>
+
+            <div class="InfoOndeFicamos">
+                <div class="title">
+                    <h4>ONDE FICAMOS</h4>
+                </div>
+
+                <a href="#"><h6>Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</h6></a>
+            </div>
+        </section>
+
+        <section class="footerCopyright">
+            <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
+        </section>
+    </footer>
+
+    <script type="module" src="assets/contaGuard.js"></script>
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
+
+        const formDados = document.getElementById('formMeusDados');
+        const mensagemDados = document.getElementById('mensagemDados');
+        const emailInput = document.getElementById('email');
+
+        const formSenha = document.getElementById('formSenha');
+        const mensagemSenha = document.getElementById('mensagemSenha');
+
+        document.addEventListener('contaAutenticada', (evento) => {
+            const { session, perfil } = evento.detail;
+
+            emailInput.value = session.user.email || '';
+            document.getElementById('nome').value = perfil?.nome || '';
+            document.getElementById('sobrenome').value = perfil?.sobrenome || '';
+            document.getElementById('telefone').value = perfil?.telefone || '';
+            document.getElementById('cep').value = perfil?.cep || '';
+        });
+
+        formDados.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagemDados.textContent = '';
+            mensagemDados.classList.remove('sucesso');
+
+            const botao = formDados.querySelector('.botaoConta');
+            botao.disabled = true;
+            botao.textContent = 'Salvando...';
+
+            const { error } = await supabase.from('profiles').update({
+                nome: document.getElementById('nome').value.trim(),
+                sobrenome: document.getElementById('sobrenome').value.trim(),
+                telefone: document.getElementById('telefone').value.trim(),
+                cep: document.getElementById('cep').value.trim()
+            }).eq('id', window.contaSession.user.id);
+
+            botao.disabled = false;
+            botao.textContent = 'Salvar alterações';
+
+            if (error) {
+                mensagemDados.textContent = 'Não foi possível salvar seus dados.';
+                return;
+            }
+
+            const nomeEl = document.querySelector('.nomeUsuarioConta');
+            const avatarEl = document.querySelector('.avatarUsuarioConta');
+            const nome = document.getElementById('nome').value.trim();
+            const sobrenome = document.getElementById('sobrenome').value.trim();
+            const nomeCompleto = [nome, sobrenome].filter(Boolean).join(' ') || 'Minha Conta';
+            nomeEl.textContent = nomeCompleto;
+            avatarEl.textContent = ((nome[0] || '') + (sobrenome[0] || '') || 'MC').toUpperCase();
+
+            mensagemDados.textContent = 'Dados salvos com sucesso!';
+            mensagemDados.classList.add('sucesso');
+        });
+
+        formSenha.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagemSenha.textContent = '';
+            mensagemSenha.classList.remove('sucesso');
+
+            const novaSenha = document.getElementById('novaSenha').value;
+            const confirmarNovaSenha = document.getElementById('confirmarNovaSenha').value;
+
+            if (!novaSenha && !confirmarNovaSenha) {
+                mensagemSenha.textContent = 'Digite a nova senha nos dois campos.';
+                return;
+            }
+
+            if (novaSenha !== confirmarNovaSenha) {
+                mensagemSenha.textContent = 'As senhas não coincidem.';
+                return;
+            }
+
+            const botao = formSenha.querySelector('.botaoConta');
+            botao.disabled = true;
+            botao.textContent = 'Atualizando...';
+
+            const { error } = await supabase.auth.updateUser({ password: novaSenha });
+
+            botao.disabled = false;
+            botao.textContent = 'Atualizar senha';
+
+            if (error) {
+                mensagemSenha.textContent = 'Não foi possível atualizar a senha.';
+                return;
+            }
+
+            mensagemSenha.textContent = 'Senha atualizada com sucesso!';
+            mensagemSenha.classList.add('sucesso');
+            formSenha.reset();
+        });
+    </script>
+</body>
+</html>
