@@ -376,6 +376,59 @@ body{
     color: #15803d;
 }
 
+.categoriaPapelaria{
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.categoriaVestuario{
+    background-color: #f5f3ff;
+    color: #6d28d9;
+}
+
+.botaoAdicionarVenda:disabled{
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.estadoVazioProdutos{
+    text-align: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #64748b;
+    padding: 20px 0 0;
+}
+
+.carrinhoVazioTexto{
+    text-align: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.listaCarrinhoVenda:empty ~ .carrinhoVazioTexto{
+    display: block;
+}
+
+.mensagemFormProduto{
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+    text-align: center;
+}
+
+.mensagemFormProduto:empty{
+    display: none;
+}
+
+.mensagemFormProduto.mensagemErro{
+    color: #dc2626;
+}
+
 .colEstoqueProd{
     display: flex;
     flex-direction: row;
