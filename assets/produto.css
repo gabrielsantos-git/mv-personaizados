@@ -211,6 +211,8 @@ main{
     justify-content: flex-start;
     gap: 35px;
 
+    width: 100%;
+    box-sizing: border-box;
     margin-top: 20px;
 }
 
