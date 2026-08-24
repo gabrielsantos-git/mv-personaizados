@@ -103,6 +103,7 @@
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
         import { adicionarItem } from './assets/carrinho.js';
+        import { carregarAnunciosPorTipo, cardsAnuncioHtml, registrarMetricasAnuncio } from './assets/anuncios.js';
 
         const gridMaisVendidos = document.getElementById('gridMaisVendidos');
         const containerCategorias = document.getElementById('containerCategoriasHome');
@@ -225,27 +226,14 @@
             ligarBotoesCarrinho(gridMaisVendidos);
         }
 
-        function anuncioHtml() {
+        async function anuncioHtml() {
+            const anuncios = await carregarAnunciosPorTipo('banner_topo', 3);
+            if (anuncios.length === 0) return '';
+
             return `
                 <section class="produtosLinhas linhaAnuncio">
                     <div class="produtosLinhas rowProduto">
-                        <a class="clicarProduto" href="produtos.html">
-                        <div class="produto">
-                                <div class="imgAnuncio"></div>
-                        </div>
-                        </a>
-
-                        <a class="clicarProduto" href="produtos.html">
-                        <div class="produto">
-                                <div class="imgAnuncio"></div>
-                        </div>
-                        </a>
-
-                        <a class="clicarProduto" href="produtos.html">
-                        <div class="produto">
-                                <div class="imgAnuncio"></div>
-                        </div>
-                        </a>
+                        ${cardsAnuncioHtml(anuncios)}
                     </div>
                 </section>
             `;
@@ -268,6 +256,8 @@
                 }
             }
 
+            const blocoAnuncio = await anuncioHtml();
+
             const blocosHtml = secoes.map(({ categoria, produtos }, indice) => {
                 const linha = `
                     <section class="produtosLinhas linhaProduto">
@@ -281,11 +271,12 @@
                     </section>
                 `;
 
-                return indice === 0 ? linha + anuncioHtml() : linha;
+                return indice === 0 ? linha + blocoAnuncio : linha;
             });
 
             containerCategorias.innerHTML = blocosHtml.join('');
             ligarBotoesCarrinho(containerCategorias);
+            registrarMetricasAnuncio(containerCategorias);
         }
 
         carregarMaisVendidos();

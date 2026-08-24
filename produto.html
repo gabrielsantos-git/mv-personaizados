@@ -38,11 +38,7 @@
 
         <div id="containerRelacionados"></div>
 
-        <section class="anuncio">
-            <div class="cardAnuncio"></div>
-            <div class="cardAnuncio"></div>
-            <div class="cardAnuncio"></div>
-        </section>
+        <section class="anuncio" id="secaoAnuncio" style="display: none;"></section>
     </main>
 
     <footer>
@@ -99,6 +95,7 @@
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
         import { adicionarItem } from './assets/carrinho.js';
+        import { carregarAnunciosPorTipo, cardsAnuncioSimplesHtml, registrarMetricasAnuncio } from './assets/anuncios.js';
 
         const galeria = document.getElementById('galeriaCompra');
         const containerRelacionados = document.getElementById('containerRelacionados');
@@ -322,7 +319,19 @@
             containerRelacionados.innerHTML = secoesHtml.join('');
         }
 
+        async function carregarAnuncioProduto() {
+            const secaoAnuncio = document.getElementById('secaoAnuncio');
+            const anuncios = await carregarAnunciosPorTipo('banner_topo', 3);
+
+            if (anuncios.length === 0) return;
+
+            secaoAnuncio.innerHTML = cardsAnuncioSimplesHtml(anuncios);
+            secaoAnuncio.style.display = '';
+            registrarMetricasAnuncio(secaoAnuncio);
+        }
+
         carregarProduto();
+        carregarAnuncioProduto();
     </script>
     <script type="module" src="assets/carrinho.js"></script>
 </body>
