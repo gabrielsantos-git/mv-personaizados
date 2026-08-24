@@ -1,0 +1,688 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cookie&display=swap');
+
+:root{
+    --cor-primaria: #A70C24;
+    --cor-secundaria: #FFFF;
+    --cor-terciaria: #a70c2380;
+    --cor-quaternaria: #a70c2352;
+    --cor-quintenaria: #E32F4C;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Almarai', sans-serif;
+    background-color: #f8fafc;
+}
+
+.layoutAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    min-height: 100vh;
+}
+
+.sidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    background-color: var(--cor-primaria);
+    width: 280px;
+    flex-shrink: 0;
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.logoSidebarAdm{
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: 16px;
+}
+
+.logoSidebarAdm img{
+    width: 160px;
+    height: auto;
+}
+
+.menuAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemMenuAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    padding: 14px 20px;
+
+    text-decoration: none;
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--cor-secundaria);
+    opacity: 0.8;
+}
+
+.itemMenuAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.itemMenuAtivo{
+    background-color: #780013;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.itemMenuAtivo:hover{
+    background-color: #780013;
+}
+
+.rodapeSidebarAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.divisorSidebarAdm{
+    background-color: white;
+    opacity: 0.2;
+    height: 1px;
+    width: 100%;
+}
+
+.perfilUsuarioAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarUsuarioAdm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.infoUsuarioAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nomeUsuarioAdm{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.emailUsuarioAdm{
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+    margin: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.botaoSairAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px 4px;
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: white;
+    opacity: 0.7;
+}
+
+.botaoSairAdm:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.areaConteudoAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.cabecalhoTopoAdm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tituloTopoAdm h1{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px;
+}
+
+.tituloTopoAdm p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+.acoesTopoAnuncios{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.botaoNovoAnuncio{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+
+    padding: 10px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.botaoNovoAnuncio:hover{
+    background-color: var(--cor-quintenaria);
+}
+
+.badgeDataAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+}
+
+.linhaFiltrosAnuncios{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.buscaAnuncios{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+
+    color: #94a3b8;
+}
+
+.buscaAnuncios input{
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.buscaAnuncios input::placeholder{
+    color: #94a3b8;
+}
+
+.buscaAnuncios input:focus{
+    outline: none;
+}
+
+.filtroAnuncios{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    padding: 10px 16px;
+    white-space: nowrap;
+    color: #64748b;
+}
+
+.filtroAnuncios span{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #64748b;
+}
+
+.selectFiltro{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.selectFiltro:focus{
+    outline: none;
+}
+
+.cardTabelaAnuncios{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.tabelaAnunciosAdm{
+    display: flex;
+    flex-direction: column;
+}
+
+.linhaTabelaAnunciosAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaTabelaAnunciosAdm:nth-child(even):not(.cabecalhoColunasAnuncios){
+    background-color: #f8fafc;
+}
+
+.cabecalhoColunasAnuncios{
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border-bottom: none;
+    padding: 12px 16px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colAnuncioId{
+    width: 80px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.cabecalhoColunasAnuncios .colAnuncioId{
+    color: #64748b;
+}
+
+.colAnuncioTitulo{
+    flex: 1;
+    min-width: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cabecalhoColunasAnuncios .colAnuncioTitulo{
+    font-weight: 700;
+    color: #64748b;
+}
+
+.colAnuncioTipo{
+    width: 150px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colAnuncioPeriodo{
+    width: 220px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colAnuncioStatus{
+    width: 130px;
+    flex-shrink: 0;
+}
+
+.colAnuncioImpressoes{
+    width: 110px;
+    flex-shrink: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.colAnuncioAcoes{
+    width: 140px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.colAnuncioAcoes button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.botaoEditarAnuncio{
+    color: var(--cor-primaria);
+}
+
+.botaoEditarAnuncio:hover{
+    text-decoration: underline;
+}
+
+.botaoExcluirAnuncio{
+    color: #94a3b8;
+}
+
+.botaoExcluirAnuncio:hover{
+    color: var(--cor-primaria);
+    text-decoration: underline;
+}
+
+.statusAnuncioBadge{
+    display: inline-block;
+    border-radius: 20px;
+    padding: 4px 14px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.statusAnuncioBadge.ativo{
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.statusAnuncioBadge.agendado{
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.statusAnuncioBadge.encerrado{
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.statusAnuncioBadge.rascunho{
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.estadoVazioAnuncios{
+    text-align: center;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #64748b;
+    padding: 20px 0 0;
+}
+
+.paginacaoAnuncios{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 8px 0;
+}
+
+.paginacaoAnuncios p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ---------- Formulário Novo/Editar Anúncio ---------- */
+
+.cardFormAnuncio{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    max-width: 720px;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.linhaFormAnuncio{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.campoFormAnuncio{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.campoFormAnuncio label{
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.campoFormAnuncio input,
+.campoFormAnuncio select,
+.campoFormAnuncio textarea{
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.campoFormAnuncio input:focus,
+.campoFormAnuncio select:focus,
+.campoFormAnuncio textarea:focus{
+    outline: none;
+    border-color: var(--cor-primaria);
+}
+
+.uploadImagemAnuncio{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    border: 1px dashed #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.previewImagemAnuncio{
+    width: 120px;
+    height: 80px;
+    border-radius: 8px;
+    background-color: #f1f5f9;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.blocoPopupAnuncio{
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fef3c7;
+}
+
+.blocoPopupAnuncio.aberto{
+    display: flex;
+}
+
+.acoesFormAnuncio{
+    display: flex;
+    gap: 12px;
+}
+
+.botaoSalvarAnuncio{
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 12px 24px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+}
+
+.botaoSalvarAnuncio:hover{
+    background-color: var(--cor-quintenaria);
+}
+
+.botaoCancelarAnuncio{
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+
+    padding: 12px 24px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.botaoCancelarAnuncio:hover{
+    background-color: #f8fafc;
+}
+
+.mensagemFormAnuncio{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: var(--cor-primaria);
+    margin: 0;
+}
+
+.mensagemFormAnuncio:empty{
+    display: none;
+}

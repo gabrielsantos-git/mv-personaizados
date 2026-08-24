@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/anuncios-adm.css">
+    <script type="module" src="../assets/admGuard.js"></script>
+    <title>Novo Anúncio - Mv Personalizados</title>
+</head>
+<body style="visibility: hidden;">
+    <div class="layoutAdm">
+        <aside class="sidebarAdm">
+            <div class="logoSidebarAdm">
+                <img src="../assets/MvPersonalizados.svg" alt="Logo Mv Personalizados">
+            </div>
+
+            <nav class="menuAdm">
+                <a href="diagnostico.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Diagnóstico</span>
+                </a>
+
+                <a href="produtos.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V7l-9-4-9 4v1"/><path d="M3 8l9 4 9-4"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/></svg>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="pedidos-loja.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span>Pedidos</span>
+                </a>
+
+                <a href="anuncios.html" class="itemMenuAdm itemMenuAtivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                    <span>Anúncios</span>
+                </a>
+
+                <a href="venda.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.6 13.4a2 2 0 0 1-2 1.6H6.6a2 2 0 0 1-2-1.6L3 6z"/></svg>
+                    <span>Vendas</span>
+                </a>
+            </nav>
+
+            <div class="rodapeSidebarAdm">
+                <div class="divisorSidebarAdm"></div>
+
+                <div class="perfilUsuarioAdm">
+                    <div class="avatarUsuarioAdm">SM</div>
+                    <div class="infoUsuarioAdm">
+                        <p class="nomeUsuarioAdm">Suporte MV</p>
+                        <p class="emailUsuarioAdm">admin@mv.com.br</p>
+                    </div>
+                </div>
+
+                <button type="button" id="botaoSairAdm" class="botaoSairAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair
+                </button>
+            </div>
+        </aside>
+
+        <div class="areaConteudoAdm">
+            <div class="cabecalhoTopoAdm">
+                <div class="tituloTopoAdm">
+                    <h1 id="tituloPagina">Novo Anúncio</h1>
+                    <p>Preencha os dados do banner ou pop-up promocional.</p>
+                </div>
+            </div>
+
+            <form class="cardFormAnuncio" id="formAnuncio">
+                <div class="campoFormAnuncio">
+                    <label for="titulo">Título (uso interno)</label>
+                    <input type="text" id="titulo" placeholder="Ex: Banner Principal - Promoção de Verão" required>
+                </div>
+
+                <div class="linhaFormAnuncio">
+                    <div class="campoFormAnuncio">
+                        <label for="tipo">Tipo</label>
+                        <select id="tipo" required>
+                            <option value="banner_hero">Banner Hero</option>
+                            <option value="banner_lateral">Banner Lateral</option>
+                            <option value="banner_topo">Banner Topo</option>
+                            <option value="popup">Pop-up</option>
+                            <option value="notificacao">Notificação</option>
+                        </select>
+                    </div>
+
+                    <div class="campoFormAnuncio">
+                        <label for="linkDestino">Link de destino</label>
+                        <input type="text" id="linkDestino" placeholder="Ex: produtos.html?categoria=personalizado">
+                    </div>
+                </div>
+
+                <div class="campoFormAnuncio">
+                    <label for="imagem">Imagem</label>
+                    <div class="uploadImagemAnuncio">
+                        <div class="previewImagemAnuncio" id="previewImagem"></div>
+                        <input type="file" id="imagem" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="linhaFormAnuncio">
+                    <div class="campoFormAnuncio">
+                        <label for="dataInicio">Início da vigência</label>
+                        <input type="date" id="dataInicio" required>
+                    </div>
+
+                    <div class="campoFormAnuncio">
+                        <label for="dataFim">Fim da vigência</label>
+                        <input type="date" id="dataFim" required>
+                    </div>
+                </div>
+
+                <div class="blocoPopupAnuncio" id="blocoPopup">
+                    <div class="linhaFormAnuncio">
+                        <div class="campoFormAnuncio">
+                            <label for="popupFrequencia">Frequência de exibição</label>
+                            <select id="popupFrequencia">
+                                <option value="sempre">Sempre que carregar a página</option>
+                                <option value="sessao">1x por sessão</option>
+                                <option value="dia">1x por dia</option>
+                            </select>
+                        </div>
+
+                        <div class="campoFormAnuncio">
+                            <label for="popupDelay">Aparece após (segundos)</label>
+                            <input type="number" id="popupDelay" min="0" value="3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campoFormAnuncio">
+                    <label>
+                        <input type="checkbox" id="rascunho" style="width: auto;">
+                        Salvar como rascunho (não fica visível na loja)
+                    </label>
+                </div>
+
+                <p class="mensagemFormAnuncio" id="mensagemAnuncio"></p>
+
+                <div class="acoesFormAnuncio">
+                    <button type="submit" class="botaoSalvarAnuncio" id="botaoSalvar">Salvar Anúncio</button>
+                    <a href="anuncios.html" class="botaoCancelarAnuncio">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
+
+        const form = document.getElementById('formAnuncio');
+        const mensagem = document.getElementById('mensagemAnuncio');
+        const botaoSalvar = document.getElementById('botaoSalvar');
+        const selectTipo = document.getElementById('tipo');
+        const blocoPopup = document.getElementById('blocoPopup');
+        const inputImagem = document.getElementById('imagem');
+        const previewImagem = document.getElementById('previewImagem');
+
+        const idAnuncio = new URLSearchParams(window.location.search).get('id');
+        let imagemAtualUrl = null;
+
+        function alternarBlocoPopup() {
+            blocoPopup.classList.toggle('aberto', selectTipo.value === 'popup');
+        }
+
+        selectTipo.addEventListener('change', alternarBlocoPopup);
+        alternarBlocoPopup();
+
+        inputImagem.addEventListener('change', () => {
+            const arquivo = inputImagem.files[0];
+            if (!arquivo) return;
+            previewImagem.style.backgroundImage = `url(${URL.createObjectURL(arquivo)})`;
+        });
+
+        async function carregarParaEdicao() {
+            if (!idAnuncio) return;
+
+            document.getElementById('tituloPagina').textContent = 'Editar Anúncio';
+            botaoSalvar.textContent = 'Atualizar Anúncio';
+
+            const { data: anuncio, error } = await supabase
+                .from('anuncios')
+                .select('*')
+                .eq('id', idAnuncio)
+                .single();
+
+            if (error || !anuncio) {
+                mensagem.textContent = 'Não foi possível carregar este anúncio.';
+                return;
+            }
+
+            document.getElementById('titulo').value = anuncio.titulo;
+            document.getElementById('tipo').value = anuncio.tipo;
+            document.getElementById('linkDestino').value = anuncio.link_destino || '';
+            document.getElementById('dataInicio').value = anuncio.data_inicio;
+            document.getElementById('dataFim').value = anuncio.data_fim;
+            document.getElementById('rascunho').checked = anuncio.rascunho;
+            document.getElementById('popupFrequencia').value = anuncio.popup_frequencia || 'sempre';
+            document.getElementById('popupDelay').value = anuncio.popup_delay_segundos ?? 3;
+
+            imagemAtualUrl = anuncio.imagem_url;
+            if (imagemAtualUrl) previewImagem.style.backgroundImage = `url(${imagemAtualUrl})`;
+
+            alternarBlocoPopup();
+        }
+
+        form.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagem.textContent = '';
+
+            const titulo = document.getElementById('titulo').value.trim();
+            const dataInicio = document.getElementById('dataInicio').value;
+            const dataFim = document.getElementById('dataFim').value;
+
+            if (dataFim < dataInicio) {
+                mensagem.textContent = 'A data de fim precisa ser depois da data de início.';
+                return;
+            }
+
+            botaoSalvar.disabled = true;
+            botaoSalvar.textContent = 'Salvando...';
+
+            let imagemUrl = imagemAtualUrl;
+            const arquivo = inputImagem.files[0];
+
+            if (arquivo) {
+                const caminho = `${Date.now()}-${arquivo.name}`;
+                const { error: erroUpload } = await supabase.storage.from('anuncios').upload(caminho, arquivo);
+
+                if (erroUpload) {
+                    botaoSalvar.disabled = false;
+                    botaoSalvar.textContent = 'Salvar Anúncio';
+                    mensagem.textContent = 'Não foi possível enviar a imagem.';
+                    return;
+                }
+
+                const { data: urlPublica } = supabase.storage.from('anuncios').getPublicUrl(caminho);
+                imagemUrl = urlPublica.publicUrl;
+            }
+
+            const payload = {
+                titulo,
+                tipo: selectTipo.value,
+                imagem_url: imagemUrl,
+                link_destino: document.getElementById('linkDestino').value.trim() || null,
+                data_inicio: dataInicio,
+                data_fim: dataFim,
+                rascunho: document.getElementById('rascunho').checked,
+                popup_frequencia: document.getElementById('popupFrequencia').value,
+                popup_delay_segundos: Number(document.getElementById('popupDelay').value) || 0
+            };
+
+            const { data: { user } } = await supabase.auth.getUser();
+
+            const resultado = idAnuncio
+                ? await supabase.from('anuncios').update(payload).eq('id', idAnuncio)
+                : await supabase.from('anuncios').insert({ ...payload, criado_por: user?.id });
+
+            botaoSalvar.disabled = false;
+            botaoSalvar.textContent = idAnuncio ? 'Atualizar Anúncio' : 'Salvar Anúncio';
+
+            if (resultado.error) {
+                mensagem.textContent = 'Não foi possível salvar o anúncio.';
+                return;
+            }
+
+            window.location.href = 'anuncios.html';
+        });
+
+        carregarParaEdicao();
+    </script>
+</body>
+</html>
