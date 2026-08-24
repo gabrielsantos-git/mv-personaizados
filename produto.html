@@ -36,13 +36,7 @@
             <p>Carregando produto...</p>
         </section>
 
-        <section class="linhaProdutoRelacionado" id="linhaRelacionados" style="display: none;">
-            <div class="infoLinhaProduto">
-                <h3 id="tituloRelacionados">Você também pode gostar</h3>
-                <a href="produtos.html"><h4>ver mais</h4></a>
-            </div>
-            <div class="linhaScrollProdutos" id="gridRelacionados"></div>
-        </section>
+        <div id="containerRelacionados"></div>
 
         <section class="anuncio">
             <div class="cardAnuncio"></div>
@@ -107,9 +101,7 @@
         import { adicionarItem } from './assets/carrinho.js';
 
         const galeria = document.getElementById('galeriaCompra');
-        const linhaRelacionados = document.getElementById('linhaRelacionados');
-        const tituloRelacionados = document.getElementById('tituloRelacionados');
-        const gridRelacionados = document.getElementById('gridRelacionados');
+        const containerRelacionados = document.getElementById('containerRelacionados');
 
         const nomesCategoria = {
             personalizado: 'Personalizados',
@@ -257,29 +249,10 @@
                 mensagem.textContent = 'Adicionado ao carrinho!';
                 setTimeout(() => { mensagem.textContent = ''; }, 2500);
             });
-
-            document.getElementById('botaoComprarAgora').addEventListener('click', () => {
-                adicionarItem(montarItemCarrinho());
-                window.location.href = 'carrinho.html';
-            });
         }
 
-        async function carregarRelacionados(produto) {
-            const { data, error } = await supabase
-                .from('produtos')
-                .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
-                .eq('categoria', produto.categoria)
-                .eq('status', 'ativo')
-                .eq('publico', true)
-                .neq('id', produto.id)
-                .limit(6);
-
-            if (error || !data || data.length === 0) return;
-
-            tituloRelacionados.textContent = nomesCategoria[produto.categoria] || 'Você também pode gostar';
-            linhaRelacionados.style.display = '';
-
-            gridRelacionados.innerHTML = data.map((p) => {
+        function gridProdutosHtml(produtos) {
+            return produtos.map((p) => {
                 const imagens = (p.imagens_produto || []).slice().sort((a, b) => a.ordem - b.ordem);
                 const imagem = imagens[0]?.url || 'assets/mockup-cup_1053-247.avif';
 
@@ -298,6 +271,55 @@
                     </a>
                 `;
             }).join('');
+        }
+
+        function secaoLinhaHtml(titulo, produtos, categoria) {
+            return `
+                <section class="linhaProdutoRelacionado">
+                    <div class="infoLinhaProduto">
+                        <h3>${escaparHtml(titulo)}</h3>
+                        <a href="produtos.html${categoria ? `?categoria=${categoria}` : ''}"><h4>ver mais</h4></a>
+                    </div>
+                    <div class="linhaScrollProdutos">${gridProdutosHtml(produtos)}</div>
+                </section>
+            `;
+        }
+
+        async function carregarRelacionados(produto) {
+            const secoesHtml = [];
+
+            const { data: mesmaCategoria } = await supabase
+                .from('produtos')
+                .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                .eq('categoria', produto.categoria)
+                .eq('status', 'ativo')
+                .eq('publico', true)
+                .neq('id', produto.id)
+                .limit(6);
+
+            if (mesmaCategoria && mesmaCategoria.length > 0) {
+                secoesHtml.push(secaoLinhaHtml(nomesCategoria[produto.categoria] || 'Você também pode gostar', mesmaCategoria, produto.categoria));
+            }
+
+            const outrasCategorias = Object.keys(nomesCategoria).filter((c) => c !== produto.categoria);
+
+            for (const categoria of outrasCategorias) {
+                const { data: produtosCategoria } = await supabase
+                    .from('produtos')
+                    .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                    .eq('categoria', categoria)
+                    .eq('status', 'ativo')
+                    .eq('publico', true)
+                    .limit(6);
+
+                if (produtosCategoria && produtosCategoria.length > 0) {
+                    secoesHtml.push(secaoLinhaHtml(nomesCategoria[categoria], produtosCategoria, categoria));
+                }
+
+                if (secoesHtml.length >= 3) break;
+            }
+
+            containerRelacionados.innerHTML = secoesHtml.join('');
         }
 
         carregarProduto();

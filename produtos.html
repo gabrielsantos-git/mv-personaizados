@@ -148,7 +148,15 @@
             }
 
             produtos = data || [];
-            renderizarGrid('');
+
+            const categoriaInicial = new URLSearchParams(window.location.search).get('categoria') || '';
+            if (categoriaInicial) {
+                linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
+                const linkAtivo = document.querySelector(`#listaCategorias a[data-categoria="${categoriaInicial}"]`);
+                if (linkAtivo) linkAtivo.parentElement.classList.add('categoriaAtiva');
+            }
+
+            renderizarGrid(categoriaInicial);
         }
 
         function renderizarGrid(categoria) {
