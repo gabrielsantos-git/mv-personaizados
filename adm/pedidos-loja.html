@@ -353,16 +353,32 @@
             renderizarLista();
         }
 
+        const nomesFormaPagamento = {
+            dinheiro: 'Dinheiro',
+            pix: 'Pix',
+            credito: 'Cartão de Crédito',
+            debito: 'Cartão de Débito'
+        };
+
         function imprimirPedido(id) {
             const pedido = todosPedidos.find((p) => p.id === id);
             if (!pedido) return;
 
             const idCurto = pedido.id.slice(0, 8).toUpperCase();
             const cliente = pedido.perfilCliente;
-            const nomeCliente = cliente ? [cliente.nome, cliente.sobrenome].filter(Boolean).join(' ') : 'Cliente';
-            const itensHtml = (pedido.itens_pedido || []).map((i) => `<tr><td>${escaparHtml(i.nome_produto)}</td><td>${i.quantidade}</td><td>${formatarPreco(i.subtotal)}</td></tr>`).join('');
+            const nomeCliente = cliente ? [cliente.nome, cliente.sobrenome].filter(Boolean).join(' ') || 'Cliente' : 'Cliente';
+            const agora = new Date();
 
-            const janela = window.open('', '_blank', 'width=700,height=900');
+            const itensHtml = (pedido.itens_pedido || []).map((item) => `
+                <tr>
+                    <td>${escaparHtml(item.nome_produto)}</td>
+                    <td class="colNum">${item.quantidade}</td>
+                    <td class="colNum">${formatarPreco(item.preco_unitario)}</td>
+                    <td class="colNum">${formatarPreco(item.subtotal)}</td>
+                </tr>
+            `).join('');
+
+            const janela = window.open('', '_blank', 'width=800,height=1000');
             if (!janela) return;
 
             janela.document.write(`
@@ -371,25 +387,113 @@
                     <meta charset="UTF-8">
                     <title>Pedido #${idCurto}</title>
                     <style>
-                        body{ font-family: Arial, sans-serif; padding: 32px; color: #1e293b; }
-                        h1{ font-size: 20px; }
-                        table{ width: 100%; border-collapse: collapse; margin-top: 16px; }
-                        th, td{ text-align: left; padding: 8px; border-bottom: 1px solid #e2e8f0; }
-                        .total{ text-align: right; font-weight: bold; margin-top: 16px; }
+                        *{ box-sizing: border-box; }
+                        body{
+                            font-family: 'Courier New', Courier, monospace;
+                            color: #111;
+                            padding: 24px 32px;
+                            max-width: 760px;
+                            margin: 0 auto;
+                        }
+                        .cabecalhoRecibo{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            border-bottom: 2px solid #111;
+                            padding-bottom: 12px;
+                        }
+                        .marcaRecibo{
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                        }
+                        .marcaRecibo img{ width: 56px; height: 56px; filter: invert(1); }
+                        .marcaRecibo h2{ margin: 0; font-size: 22px; letter-spacing: 1px; }
+                        .marcaRecibo p{ margin: 2px 0 0; font-size: 12px; }
+                        .contatoRecibo{ text-align: right; font-size: 13px; }
+                        .tituloRecibo{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: baseline;
+                            border-bottom: 1px dashed #111;
+                            padding: 10px 0;
+                            margin-bottom: 12px;
+                        }
+                        .tituloRecibo h1{ font-size: 20px; margin: 0; }
+                        .tituloRecibo span{ font-size: 13px; }
+                        .blocoCliente{ font-size: 13px; line-height: 1.7; border-bottom: 1px dashed #111; padding-bottom: 10px; margin-bottom: 12px; }
+                        .blocoCliente strong{ display: inline-block; min-width: 90px; }
+                        table{ width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
+                        thead td{ font-weight: bold; border-bottom: 1px solid #111; padding: 6px 4px; }
+                        tbody td{ padding: 6px 4px; border-bottom: 1px dashed #ccc; }
+                        .colNum{ text-align: right; }
+                        .blocoObs{ font-size: 12px; line-height: 1.6; border-bottom: 1px dashed #111; padding-bottom: 10px; margin-bottom: 12px; }
+                        .rodapeRecibo{ display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+                        .infoRodape{ font-size: 13px; line-height: 1.8; }
+                        .totaisRodape{ font-size: 13px; text-align: right; line-height: 1.9; }
+                        .totaisRodape .linhaTotal{ display: flex; justify-content: space-between; gap: 24px; }
+                        .totaisRodape .valorTotal{ font-weight: bold; font-size: 16px; border-top: 1px solid #111; margin-top: 6px; padding-top: 6px; }
+                        .avisoFinal{ text-align: center; font-size: 11px; border-top: 1px dashed #111; margin-top: 20px; padding-top: 10px; }
                     </style>
                 </head>
                 <body>
-                    <h1>Pedido #${idCurto} — Mv Personalizados</h1>
-                    <p><strong>Cliente:</strong> ${escaparHtml(nomeCliente)}</p>
-                    <p><strong>Telefone:</strong> ${escaparHtml(cliente?.telefone || '–')}</p>
-                    <p><strong>Data:</strong> ${formatarData(pedido.created_at)}</p>
-                    <p><strong>Status:</strong> ${nomesStatus[pedido.status] || pedido.status}</p>
-                    <p><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</p>
+                    <div class="cabecalhoRecibo">
+                        <div class="marcaRecibo">
+                            <img src="../assets/MvPersonalizados.svg" alt="Logo">
+                            <div>
+                                <h2>MV PERSONALIZADOS</h2>
+                                <p>Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</p>
+                            </div>
+                        </div>
+                        <div class="contatoRecibo">
+                            <div>(71) 9232-6512</div>
+                            <div>exemplo@gmail.com</div>
+                        </div>
+                    </div>
+
+                    <div class="tituloRecibo">
+                        <h1>PEDIDO #${idCurto}</h1>
+                        <span>Hora: ${agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} &nbsp; Impresso em: ${agora.toLocaleDateString('pt-BR')}</span>
+                    </div>
+
+                    <div class="blocoCliente">
+                        <div><strong>Cliente:</strong> ${escaparHtml(nomeCliente)}</div>
+                        <div><strong>Telefone:</strong> ${escaparHtml(cliente?.telefone || '–')}</div>
+                        <div><strong>Endereço:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</div>
+                        <div><strong>Pagamento:</strong> ${nomesFormaPagamento[pedido.forma_pagamento] || pedido.forma_pagamento || '–'}</div>
+                    </div>
+
                     <table>
-                        <thead><tr><th>Produto</th><th>Qtd</th><th>Subtotal</th></tr></thead>
-                        <tbody>${itensHtml}</tbody>
+                        <thead>
+                            <tr>
+                                <td>Descrição do Item</td>
+                                <td class="colNum">Qtd</td>
+                                <td class="colNum">Vl. Unitário</td>
+                                <td class="colNum">Vl. Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>${itensHtml || '<tr><td colspan="4">Nenhum item registrado.</td></tr>'}</tbody>
                     </table>
-                    <p class="total">Total: ${formatarPreco(pedido.total)}</p>
+
+                    ${pedido.observacoes ? `
+                        <div class="blocoObs">
+                            <strong>Observações:</strong><br>${escaparHtml(pedido.observacoes)}
+                        </div>
+                    ` : ''}
+
+                    <div class="rodapeRecibo">
+                        <div class="infoRodape">
+                            <div>Situação Atual: <strong>${nomesStatus[pedido.status] || pedido.status}</strong></div>
+                            <div>Data do Pedido: ${formatarData(pedido.created_at)}</div>
+                        </div>
+                        <div class="totaisRodape">
+                            <div class="linhaTotal"><span>VALOR TOTAL</span></div>
+                            <div class="linhaTotal valorTotal"><span>R$</span><span>${formatarPreco(pedido.total).replace('R$', '').trim()}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="avisoFinal">Impressão em 1 via &nbsp;—&nbsp; *** Obrigado pela preferência! ***</div>
+
                     <script>window.print();<\/script>
                 </body>
                 </html>
