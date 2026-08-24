@@ -61,86 +61,149 @@
 
         <div class="areaConteudoAdm">
             <div class="cabecalhoTopoAdm">
-                <div class="tituloTopoAdm">
-                    <h1 id="tituloPagina">Novo Anúncio</h1>
-                    <p>Preencha os dados do banner ou pop-up promocional.</p>
+                <div class="cabecalhoTopoFormAnuncio">
+                    <a href="anuncios.html" class="botaoVoltarAnuncio" aria-label="Voltar para Anúncios">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </a>
+                    <div class="tituloTopoAdm">
+                        <h1 id="tituloPagina">Novo Anúncio</h1>
+                        <p id="subtituloPagina">Preencha as informações abaixo para criar um novo anúncio promocional.</p>
+                    </div>
+                </div>
+
+                <div class="badgeDataAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <span id="badgeDataHoje">–</span>
                 </div>
             </div>
 
             <form class="cardFormAnuncio" id="formAnuncio">
-                <div class="campoFormAnuncio">
-                    <label for="titulo">Título (uso interno)</label>
-                    <input type="text" id="titulo" placeholder="Ex: Banner Principal - Promoção de Verão" required>
-                </div>
+                <div class="gridFormAnuncio">
+                    <div class="colunaFormAnuncio">
+                        <h3>Informações Básicas</h3>
 
-                <div class="linhaFormAnuncio">
-                    <div class="campoFormAnuncio">
-                        <label for="tipo">Tipo</label>
-                        <select id="tipo" required>
-                            <option value="banner_hero">Banner Hero</option>
-                            <option value="banner_lateral">Banner Lateral</option>
-                            <option value="banner_topo">Banner Topo</option>
-                            <option value="popup">Pop-up</option>
-                            <option value="notificacao">Notificação</option>
-                        </select>
-                    </div>
-
-                    <div class="campoFormAnuncio">
-                        <label for="linkDestino">Link de destino</label>
-                        <input type="text" id="linkDestino" placeholder="Ex: produtos.html?categoria=personalizado">
-                    </div>
-                </div>
-
-                <div class="campoFormAnuncio">
-                    <label for="imagem">Imagem</label>
-                    <div class="uploadImagemAnuncio">
-                        <div class="previewImagemAnuncio" id="previewImagem"></div>
-                        <input type="file" id="imagem" accept="image/*">
-                    </div>
-                </div>
-
-                <div class="linhaFormAnuncio">
-                    <div class="campoFormAnuncio">
-                        <label for="dataInicio">Início da vigência</label>
-                        <input type="date" id="dataInicio" required>
-                    </div>
-
-                    <div class="campoFormAnuncio">
-                        <label for="dataFim">Fim da vigência</label>
-                        <input type="date" id="dataFim" required>
-                    </div>
-                </div>
-
-                <div class="blocoPopupAnuncio" id="blocoPopup">
-                    <div class="linhaFormAnuncio">
                         <div class="campoFormAnuncio">
-                            <label for="popupFrequencia">Frequência de exibição</label>
-                            <select id="popupFrequencia">
-                                <option value="sempre">Sempre que carregar a página</option>
-                                <option value="sessao">1x por sessão</option>
-                                <option value="dia">1x por dia</option>
-                            </select>
+                            <label for="titulo">Título do Anúncio <span class="obrigatorio">*</span></label>
+                            <input type="text" id="titulo" placeholder="Ex: Promoção de Verão 2029" required>
                         </div>
 
                         <div class="campoFormAnuncio">
-                            <label for="popupDelay">Aparece após (segundos)</label>
-                            <input type="number" id="popupDelay" min="0" value="3">
+                            <label for="descricao">Descrição</label>
+                            <textarea id="descricao" placeholder="Descreva brevemente o anúncio..."></textarea>
+                        </div>
+
+                        <div class="campoFormAnuncio">
+                            <label for="imagem">Imagem do Anúncio <span class="obrigatorio">*</span></label>
+                            <div class="zonaUploadImagem" id="zonaUpload">
+                                <input type="file" id="imagem" accept="image/jpeg,image/png,image/gif">
+                                <div id="previewImagem"></div>
+                                <div id="conteudoUpload">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/><path d="M12 3v6"/><path d="m9 6 3-3 3 3"/></svg>
+                                    <span class="tituloUpload">Arraste uma imagem ou clique para fazer upload</span>
+                                    <span class="ajudaUpload">Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 2MB. Dimensão recomendada: 1200x400px</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: 8px;">Vigência</h3>
+
+                        <div class="linhaFormAnuncio">
+                            <div class="campoFormAnuncio">
+                                <label for="dataInicio">Data de Início <span class="obrigatorio">*</span></label>
+                                <input type="date" id="dataInicio" required>
+                            </div>
+
+                            <div class="campoFormAnuncio">
+                                <label for="dataFim">Data de Fim <span class="obrigatorio">*</span></label>
+                                <input type="date" id="dataFim" required>
+                            </div>
+                        </div>
+                        <p class="textoAjudaAnuncio">O anúncio será removido automaticamente após a data de fim.</p>
+
+                        <div class="campoFormAnuncio">
+                            <label>
+                                <input type="checkbox" id="rascunho" style="width: auto;">
+                                Salvar como rascunho (não fica visível na loja)
+                            </label>
                         </div>
                     </div>
-                </div>
 
-                <div class="campoFormAnuncio">
-                    <label>
-                        <input type="checkbox" id="rascunho" style="width: auto;">
-                        Salvar como rascunho (não fica visível na loja)
-                    </label>
+                    <div class="colunaFormAnuncio">
+                        <h3>Tipo e Posicionamento</h3>
+
+                        <div class="linhaFormAnuncio">
+                            <div class="campoFormAnuncio">
+                                <label for="tipo">Tipo/Local do Anúncio <span class="obrigatorio">*</span></label>
+                                <select id="tipo" required>
+                                    <option value="banner_hero">Banner Principal (hero da home)</option>
+                                    <option value="banner_lateral">Banner Lateral</option>
+                                    <option value="banner_topo">Banner Topo</option>
+                                    <option value="popup">Pop-up</option>
+                                    <option value="notificacao">Notificação</option>
+                                </select>
+                            </div>
+
+                            <div class="campoFormAnuncio" style="max-width: 120px;">
+                                <label for="ordem">Ordem <span class="obrigatorio">*</span></label>
+                                <input type="number" id="ordem" min="1" value="1" required>
+                            </div>
+                        </div>
+                        <p class="textoAjudaAnuncio">Define a prioridade quando há múltiplos anúncios do mesmo tipo. Menor número = maior prioridade.</p>
+
+                        <div class="campoFormAnuncio">
+                            <label>Link de Destino</label>
+                            <div class="grupoRadioLink">
+                                <label class="opcaoRadioLink"><input type="radio" name="tipoLink" value="interno" checked> Interno</label>
+                                <label class="opcaoRadioLink"><input type="radio" name="tipoLink" value="externo"> Externo</label>
+                            </div>
+                            <input type="text" id="linkDestino" placeholder="Ex: produtos.html?categoria=canecas">
+                            <p class="textoAjudaAnuncio">Cole o caminho relativo da página interna ou URL externa completa.</p>
+                        </div>
+
+                        <div class="blocoPopupAnuncio" id="blocoPopup">
+                            <div class="cabecalhoBlocoPopup">
+                                <h4>Configurações de Pop-up</h4>
+                                <span class="tagCondicaoPopup">Visível apenas quando Tipo = Pop-up</span>
+                            </div>
+
+                            <div class="linhaFormAnuncio">
+                                <div class="campoFormAnuncio">
+                                    <label for="popupFrequencia">Frequência de Exibição</label>
+                                    <select id="popupFrequencia">
+                                        <option value="sessao">1x por sessão</option>
+                                        <option value="dia">1x por dia</option>
+                                        <option value="sempre">Sempre que carregar a página</option>
+                                    </select>
+                                </div>
+
+                                <div class="campoFormAnuncio">
+                                    <label for="popupDelay">Delay para Exibição</label>
+                                    <div class="inputComSufixo">
+                                        <input type="number" id="popupDelay" min="0" value="3">
+                                        <span>segundos</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="textoAjudaAnuncio">Tempo de espera antes do pop-up aparecer na tela.</p>
+
+                            <div class="campoFormAnuncio">
+                                <label>Páginas de Exibição</label>
+                                <div class="grupoCheckboxPaginas">
+                                    <label class="opcaoCheckboxPagina destaque"><input type="checkbox" id="paginaTodas" checked> Todas as páginas</label>
+                                    <label class="opcaoCheckboxPagina"><input type="checkbox" class="paginaEspecifica" value="home"> Apenas Home</label>
+                                    <label class="opcaoCheckboxPagina"><input type="checkbox" class="paginaEspecifica" value="produto"> Páginas de Produto</label>
+                                    <label class="opcaoCheckboxPagina"><input type="checkbox" class="paginaEspecifica" value="categoria"> Página de Categoria</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <p class="mensagemFormAnuncio" id="mensagemAnuncio"></p>
 
                 <div class="acoesFormAnuncio">
-                    <button type="submit" class="botaoSalvarAnuncio" id="botaoSalvar">Salvar Anúncio</button>
                     <a href="anuncios.html" class="botaoCancelarAnuncio">Cancelar</a>
+                    <button type="submit" class="botaoSalvarAnuncio" id="botaoSalvar">Criar Anúncio</button>
                 </div>
             </form>
         </div>
@@ -156,6 +219,12 @@
         const blocoPopup = document.getElementById('blocoPopup');
         const inputImagem = document.getElementById('imagem');
         const previewImagem = document.getElementById('previewImagem');
+        const conteudoUpload = document.getElementById('conteudoUpload');
+        const zonaUpload = document.getElementById('zonaUpload');
+        const paginaTodas = document.getElementById('paginaTodas');
+        const checkboxesPaginaEspecifica = document.querySelectorAll('.paginaEspecifica');
+
+        document.getElementById('badgeDataHoje').textContent = new Date().toLocaleDateString('pt-BR');
 
         const idAnuncio = new URLSearchParams(window.location.search).get('id');
         let imagemAtualUrl = null;
@@ -167,17 +236,72 @@
         selectTipo.addEventListener('change', alternarBlocoPopup);
         alternarBlocoPopup();
 
+        function mostrarPreview(url) {
+            previewImagem.className = 'previewImagemAnuncio';
+            previewImagem.style.backgroundImage = `url(${url})`;
+            conteudoUpload.style.display = 'none';
+        }
+
         inputImagem.addEventListener('change', () => {
             const arquivo = inputImagem.files[0];
             if (!arquivo) return;
-            previewImagem.style.backgroundImage = `url(${URL.createObjectURL(arquivo)})`;
+            mostrarPreview(URL.createObjectURL(arquivo));
         });
+
+        ['dragenter', 'dragover'].forEach((evento) => {
+            zonaUpload.addEventListener(evento, (e) => {
+                e.preventDefault();
+                zonaUpload.classList.add('arrastando');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach((evento) => {
+            zonaUpload.addEventListener(evento, (e) => {
+                e.preventDefault();
+                zonaUpload.classList.remove('arrastando');
+            });
+        });
+
+        zonaUpload.addEventListener('drop', (e) => {
+            const arquivo = e.dataTransfer.files[0];
+            if (!arquivo) return;
+            inputImagem.files = e.dataTransfer.files;
+            mostrarPreview(URL.createObjectURL(arquivo));
+        });
+
+        paginaTodas.addEventListener('change', () => {
+            if (paginaTodas.checked) {
+                checkboxesPaginaEspecifica.forEach((cb) => { cb.checked = false; });
+            }
+        });
+
+        checkboxesPaginaEspecifica.forEach((cb) => {
+            cb.addEventListener('change', () => {
+                if (cb.checked) paginaTodas.checked = false;
+            });
+        });
+
+        function coletarPaginasSelecionadas() {
+            if (paginaTodas.checked) return ['todas'];
+            const selecionadas = [...checkboxesPaginaEspecifica].filter((cb) => cb.checked).map((cb) => cb.value);
+            return selecionadas.length ? selecionadas : ['todas'];
+        }
+
+        function aplicarPaginasSelecionadas(paginas) {
+            if (!paginas || paginas.includes('todas')) {
+                paginaTodas.checked = true;
+                return;
+            }
+            paginaTodas.checked = false;
+            checkboxesPaginaEspecifica.forEach((cb) => { cb.checked = paginas.includes(cb.value); });
+        }
 
         async function carregarParaEdicao() {
             if (!idAnuncio) return;
 
             document.getElementById('tituloPagina').textContent = 'Editar Anúncio';
-            botaoSalvar.textContent = 'Atualizar Anúncio';
+            document.getElementById('subtituloPagina').textContent = 'Atualize as informações do anúncio promocional.';
+            botaoSalvar.textContent = 'Salvar Alterações';
 
             const { data: anuncio, error } = await supabase
                 .from('anuncios')
@@ -191,16 +315,22 @@
             }
 
             document.getElementById('titulo').value = anuncio.titulo;
+            document.getElementById('descricao').value = anuncio.descricao || '';
             document.getElementById('tipo').value = anuncio.tipo;
+            document.getElementById('ordem').value = anuncio.ordem || 1;
             document.getElementById('linkDestino').value = anuncio.link_destino || '';
             document.getElementById('dataInicio').value = anuncio.data_inicio;
             document.getElementById('dataFim').value = anuncio.data_fim;
             document.getElementById('rascunho').checked = anuncio.rascunho;
-            document.getElementById('popupFrequencia').value = anuncio.popup_frequencia || 'sempre';
+            document.getElementById('popupFrequencia').value = anuncio.popup_frequencia || 'sessao';
             document.getElementById('popupDelay').value = anuncio.popup_delay_segundos ?? 3;
+            aplicarPaginasSelecionadas(anuncio.popup_paginas);
+
+            const linkExterno = /^https?:\/\//i.test(anuncio.link_destino || '');
+            document.querySelector(`input[name="tipoLink"][value="${linkExterno ? 'externo' : 'interno'}"]`).checked = true;
 
             imagemAtualUrl = anuncio.imagem_url;
-            if (imagemAtualUrl) previewImagem.style.backgroundImage = `url(${imagemAtualUrl})`;
+            if (imagemAtualUrl) mostrarPreview(imagemAtualUrl);
 
             alternarBlocoPopup();
         }
@@ -218,6 +348,11 @@
                 return;
             }
 
+            if (!imagemAtualUrl && !inputImagem.files[0]) {
+                mensagem.textContent = 'Envie uma imagem para o anúncio.';
+                return;
+            }
+
             botaoSalvar.disabled = true;
             botaoSalvar.textContent = 'Salvando...';
 
@@ -230,7 +365,7 @@
 
                 if (erroUpload) {
                     botaoSalvar.disabled = false;
-                    botaoSalvar.textContent = 'Salvar Anúncio';
+                    botaoSalvar.textContent = idAnuncio ? 'Salvar Alterações' : 'Criar Anúncio';
                     mensagem.textContent = 'Não foi possível enviar a imagem.';
                     return;
                 }
@@ -241,14 +376,17 @@
 
             const payload = {
                 titulo,
+                descricao: document.getElementById('descricao').value.trim() || null,
                 tipo: selectTipo.value,
+                ordem: Number(document.getElementById('ordem').value) || 1,
                 imagem_url: imagemUrl,
                 link_destino: document.getElementById('linkDestino').value.trim() || null,
                 data_inicio: dataInicio,
                 data_fim: dataFim,
                 rascunho: document.getElementById('rascunho').checked,
                 popup_frequencia: document.getElementById('popupFrequencia').value,
-                popup_delay_segundos: Number(document.getElementById('popupDelay').value) || 0
+                popup_delay_segundos: Number(document.getElementById('popupDelay').value) || 0,
+                popup_paginas: coletarPaginasSelecionadas()
             };
 
             const { data: { user } } = await supabase.auth.getUser();
@@ -258,7 +396,7 @@
                 : await supabase.from('anuncios').insert({ ...payload, criado_por: user?.id });
 
             botaoSalvar.disabled = false;
-            botaoSalvar.textContent = idAnuncio ? 'Atualizar Anúncio' : 'Salvar Anúncio';
+            botaoSalvar.textContent = idAnuncio ? 'Salvar Alterações' : 'Criar Anúncio';
 
             if (resultado.error) {
                 mensagem.textContent = 'Não foi possível salvar o anúncio.';
