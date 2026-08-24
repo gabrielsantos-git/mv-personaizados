@@ -68,7 +68,7 @@
 
                 <div class="badgeDataAdm">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                    <span>20/08/2026</span>
+                    <span id="badgeDataHoje">–</span>
                 </div>
             </div>
 
@@ -80,25 +80,19 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.6 13.4a2 2 0 0 1-2 1.6H6.6a2 2 0 0 1-2-1.6L3 6z"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">47</p>
-                    <div class="tendenciaKpi">
-                        <span class="badgeTendencia badgeTendenciaPositiva">+14.2%</span>
-                        <span class="textoTendencia">desde ontem</span>
-                    </div>
+                    <p class="valorCardKpi" id="kpiVendasDia">–</p>
+                    <div class="tendenciaKpi" id="tendenciaVendasDia"></div>
                 </div>
 
                 <div class="cardKpiAdm">
                     <div class="cabecalhoCardKpi">
-                        <span>Lucro do Dia</span>
+                        <span>Faturamento do Dia</span>
                         <div class="iconeCardKpi">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">R$ 3.842,00</p>
-                    <div class="tendenciaKpi">
-                        <span class="badgeTendencia badgeTendenciaPositiva">+8.4%</span>
-                        <span class="textoTendencia">desde ontem</span>
-                    </div>
+                    <p class="valorCardKpi" id="kpiFaturamentoDia">–</p>
+                    <div class="tendenciaKpi" id="tendenciaFaturamentoDia"></div>
                 </div>
 
                 <div class="cardKpiAdm">
@@ -108,11 +102,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">124 un</p>
-                    <div class="tendenciaKpi">
-                        <span class="badgeTendencia badgeTendenciaPositiva">+18.1%</span>
-                        <span class="textoTendencia">desde ontem</span>
-                    </div>
+                    <p class="valorCardKpi" id="kpiProdutosVendidos">–</p>
+                    <div class="tendenciaKpi" id="tendenciaProdutosVendidos"></div>
                 </div>
 
                 <div class="cardKpiAdm">
@@ -122,11 +113,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
                         </div>
                     </div>
-                    <p class="valorCardKpi">R$ 81,74</p>
-                    <div class="tendenciaKpi">
-                        <span class="badgeTendencia badgeTendenciaNegativa">-1.2%</span>
-                        <span class="textoTendencia">desde ontem</span>
-                    </div>
+                    <p class="valorCardKpi" id="kpiTicketMedio">–</p>
+                    <div class="tendenciaKpi" id="tendenciaTicketMedio"></div>
                 </div>
             </div>
 
@@ -145,50 +133,8 @@
                     </div>
 
                     <div class="graficoBarrasAdm">
-                        <div class="eixoYGrafico">
-                            <span>R$ 6k</span>
-                            <span>R$ 4k</span>
-                            <span>R$ 2k</span>
-                            <span>R$ 0</span>
-                        </div>
-
-                        <div class="colunasGrafico">
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 105px;"></div>
-                                <span>Seg</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 134px;"></div>
-                                <span>Ter</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 125px;"></div>
-                                <span>Qua</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 170px;"></div>
-                                <span>Qui</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 161px;"></div>
-                                <span>Sex</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="popoverBarra">R$ 6.100</div>
-                                <div class="barraGrafico barraGraficoDestaque" style="height: 200px;"></div>
-                                <span>Sáb</span>
-                            </div>
-
-                            <div class="colunaBarra">
-                                <div class="barraGrafico" style="height: 141px;"></div>
-                                <span>Dom</span>
-                            </div>
-                        </div>
+                        <div class="eixoYGrafico" id="eixoYGrafico"></div>
+                        <div class="colunasGrafico" id="colunasGrafico"></div>
                     </div>
                 </div>
 
@@ -196,66 +142,8 @@
                     <h3>Produtos Mais Vendidos</h3>
                     <p>Classificação por volume de saída</p>
 
-                    <div class="listaProdutosRank">
-                        <div class="linhaProdutoRank">
-                            <div class="posicaoRank posicaoTop">1</div>
-                            <div class="infoProdutoRank">
-                                <h4>Caneca Personalizada Porcelana</h4>
-                                <h6>Canecas</h6>
-                            </div>
-                            <div class="vendasProdutoRank">
-                                <p>48 un</p>
-                                <span>R$ 2.784,00</span>
-                            </div>
-                        </div>
-
-                        <div class="linhaProdutoRank">
-                            <div class="posicaoRank posicaoTop">2</div>
-                            <div class="infoProdutoRank">
-                                <h4>Camiseta Básica Estampada</h4>
-                                <h6>Camisas</h6>
-                            </div>
-                            <div class="vendasProdutoRank">
-                                <p>35 un</p>
-                                <span>R$ 2.030,00</span>
-                            </div>
-                        </div>
-
-                        <div class="linhaProdutoRank">
-                            <div class="posicaoRank posicaoTop">3</div>
-                            <div class="infoProdutoRank">
-                                <h4>Garrafa Térmica Inox 500ml</h4>
-                                <h6>Garrafa</h6>
-                            </div>
-                            <div class="vendasProdutoRank">
-                                <p>22 un</p>
-                                <span>R$ 1.276,00</span>
-                            </div>
-                        </div>
-
-                        <div class="linhaProdutoRank">
-                            <div class="posicaoRank">4</div>
-                            <div class="infoProdutoRank">
-                                <h4>Caderno Executivo A5 Pautado</h4>
-                                <h6>Caderno</h6>
-                            </div>
-                            <div class="vendasProdutoRank">
-                                <p>11 un</p>
-                                <span>R$ 638,00</span>
-                            </div>
-                        </div>
-
-                        <div class="linhaProdutoRank">
-                            <div class="posicaoRank">5</div>
-                            <div class="infoProdutoRank">
-                                <h4>Caneta Metálica Ponta Fina</h4>
-                                <h6>Caneta</h6>
-                            </div>
-                            <div class="vendasProdutoRank">
-                                <p>8 un</p>
-                                <span>R$ 464,00</span>
-                            </div>
-                        </div>
+                    <div class="listaProdutosRank" id="listaProdutosRank">
+                        <p class="estadoVazioAdm">Carregando...</p>
                     </div>
                 </div>
             </div>
@@ -283,62 +171,272 @@
                         <span class="colData">Data</span>
                     </div>
 
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3041</span>
-                        <span class="colCliente">Juliana Mendes</span>
-                        <span class="colProduto">Caneca Personalizada Dia dos Pais</span>
-                        <span class="colValor">R$ 58,00</span>
-                        <span class="colStatus"><span class="statusBadge statusConcluido">Concluído</span></span>
-                        <span class="colData">Hoje, 11:42</span>
-                    </div>
-
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3040</span>
-                        <span class="colCliente">Rodrigo Souza</span>
-                        <span class="colProduto">Camiseta Básica Logo Preta (G)</span>
-                        <span class="colValor">R$ 116,00</span>
-                        <span class="colStatus"><span class="statusBadge statusProducao">Em Produção</span></span>
-                        <span class="colData">Hoje, 10:15</span>
-                    </div>
-
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3039</span>
-                        <span class="colCliente">Amanda Oliveira</span>
-                        <span class="colProduto">Garrafa Térmica Inox Vermelha</span>
-                        <span class="colValor">R$ 58,00</span>
-                        <span class="colStatus"><span class="statusBadge statusConcluido">Concluído</span></span>
-                        <span class="colData">Hoje, 09:30</span>
-                    </div>
-
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3038</span>
-                        <span class="colCliente">Carlos Eduardo</span>
-                        <span class="colProduto">Caderno A5 Minimalista + Caneta</span>
-                        <span class="colValor">R$ 116,00</span>
-                        <span class="colStatus"><span class="statusBadge statusPendente">Pendente</span></span>
-                        <span class="colData">Ontem, 18:22</span>
-                    </div>
-
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3037</span>
-                        <span class="colCliente">Beatriz Costa</span>
-                        <span class="colProduto">Caneca de Porcelana Café Forte</span>
-                        <span class="colValor">R$ 58,00</span>
-                        <span class="colStatus"><span class="statusBadge statusConcluido">Concluído</span></span>
-                        <span class="colData">Ontem, 16:45</span>
-                    </div>
-
-                    <div class="linhaTabelaPedidos">
-                        <span class="colPedido">#3036</span>
-                        <span class="colCliente">Felipe Andrade</span>
-                        <span class="colProduto">Camiseta Branca Personalizada M</span>
-                        <span class="colValor">R$ 58,00</span>
-                        <span class="colStatus"><span class="statusBadge statusProducao">Em Produção</span></span>
-                        <span class="colData">Ontem, 14:10</span>
-                    </div>
+                    <div id="corpoTransacoesRecentes"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
+
+        const nomesCategoria = {
+            personalizado: 'Personalizado',
+            informatica: 'Informática',
+            armarinho: 'Armarinho',
+            papelaria: 'Papelaria',
+            vestuario: 'Vestuário'
+        };
+
+        const nomesStatusPedido = {
+            pendente: 'Pendente',
+            em_producao: 'Em Produção',
+            enviado: 'Enviado',
+            entregue: 'Entregue',
+            cancelado: 'Cancelado'
+        };
+
+        const classeStatusPedido = {
+            pendente: 'statusPendente',
+            em_producao: 'statusProducao',
+            enviado: 'statusEnviado',
+            entregue: 'statusConcluido',
+            cancelado: 'statusCancelado'
+        };
+
+        function formatarPreco(valor) {
+            return 'R$ ' + Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function chaveDia(data) {
+            return data.getFullYear() + '-' + String(data.getMonth() + 1).padStart(2, '0') + '-' + String(data.getDate()).padStart(2, '0');
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        function formatarDataRelativa(iso) {
+            const data = new Date(iso);
+            const hoje = new Date();
+            const ontem = new Date();
+            ontem.setDate(hoje.getDate() - 1);
+            const hora = data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+            if (chaveDia(data) === chaveDia(hoje)) return `Hoje, ${hora}`;
+            if (chaveDia(data) === chaveDia(ontem)) return `Ontem, ${hora}`;
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        function tendenciaHtml(valorHoje, valorOntem) {
+            if (valorOntem === 0) {
+                if (valorHoje === 0) return '<span class="textoTendencia">sem variação</span>';
+                return '<span class="badgeTendencia badgeTendenciaPositiva">Novo</span><span class="textoTendencia">desde ontem</span>';
+            }
+
+            const percentual = ((valorHoje - valorOntem) / valorOntem) * 100;
+            const positiva = percentual >= 0;
+            const texto = (positiva ? '+' : '') + percentual.toFixed(1) + '%';
+
+            return `<span class="badgeTendencia ${positiva ? 'badgeTendenciaPositiva' : 'badgeTendenciaNegativa'}">${texto}</span><span class="textoTendencia">desde ontem</span>`;
+        }
+
+        document.getElementById('badgeDataHoje').textContent = new Date().toLocaleDateString('pt-BR');
+
+        async function carregarDiagnostico() {
+            const { data: vendas } = await supabase
+                .from('vendas')
+                .select('id, cliente_nome, total, created_at, itens_venda(nome_produto, quantidade, produto_id, subtotal)')
+                .order('created_at', { ascending: false })
+                .limit(500);
+
+            const { data: pedidos } = await supabase
+                .from('pedidos')
+                .select('id, status, total, created_at, cliente_id, itens_pedido(nome_produto, quantidade, produto_id, subtotal)')
+                .order('created_at', { ascending: false })
+                .limit(500);
+
+            const idsClientes = [...new Set((pedidos || []).map((p) => p.cliente_id).filter(Boolean))];
+            let perfis = {};
+
+            if (idsClientes.length > 0) {
+                const { data: dadosPerfis } = await supabase
+                    .from('profiles')
+                    .select('id, nome, sobrenome')
+                    .in('id', idsClientes);
+
+                perfis = Object.fromEntries((dadosPerfis || []).map((p) => [p.id, p]));
+            }
+
+            const pedidosValidos = (pedidos || []).filter((p) => p.status !== 'cancelado');
+
+            const transacoes = [
+                ...(vendas || []).map((v) => ({
+                    tipoPrefixo: 'V',
+                    id: v.id,
+                    cliente: v.cliente_nome || 'Cliente balcão',
+                    total: Number(v.total),
+                    created_at: v.created_at,
+                    itens: v.itens_venda || [],
+                    statusLabel: 'Concluído',
+                    statusClasse: 'statusConcluido'
+                })),
+                ...pedidosValidos.map((p) => ({
+                    tipoPrefixo: 'P',
+                    id: p.id,
+                    cliente: perfis[p.cliente_id] ? [perfis[p.cliente_id].nome, perfis[p.cliente_id].sobrenome].filter(Boolean).join(' ') || 'Cliente' : 'Cliente',
+                    total: Number(p.total),
+                    created_at: p.created_at,
+                    itens: p.itens_pedido || [],
+                    statusLabel: nomesStatusPedido[p.status] || p.status,
+                    statusClasse: classeStatusPedido[p.status] || 'statusPendente'
+                }))
+            ];
+
+            transacoes.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            // ---------- KPIs ----------
+            const hoje = new Date();
+            const ontem = new Date();
+            ontem.setDate(hoje.getDate() - 1);
+            const chaveHoje = chaveDia(hoje);
+            const chaveOntem = chaveDia(ontem);
+
+            function metricasDoDia(chave) {
+                const doDia = transacoes.filter((t) => chaveDia(new Date(t.created_at)) === chave);
+                const vendasCount = doDia.length;
+                const faturamento = doDia.reduce((soma, t) => soma + t.total, 0);
+                const produtosVendidos = doDia.reduce((soma, t) => soma + t.itens.reduce((si, i) => si + i.quantidade, 0), 0);
+                const ticketMedio = vendasCount ? faturamento / vendasCount : 0;
+                return { vendasCount, faturamento, produtosVendidos, ticketMedio };
+            }
+
+            const mHoje = metricasDoDia(chaveHoje);
+            const mOntem = metricasDoDia(chaveOntem);
+
+            document.getElementById('kpiVendasDia').textContent = mHoje.vendasCount;
+            document.getElementById('tendenciaVendasDia').innerHTML = tendenciaHtml(mHoje.vendasCount, mOntem.vendasCount);
+
+            document.getElementById('kpiFaturamentoDia').textContent = formatarPreco(mHoje.faturamento);
+            document.getElementById('tendenciaFaturamentoDia').innerHTML = tendenciaHtml(mHoje.faturamento, mOntem.faturamento);
+
+            document.getElementById('kpiProdutosVendidos').textContent = mHoje.produtosVendidos + ' un';
+            document.getElementById('tendenciaProdutosVendidos').innerHTML = tendenciaHtml(mHoje.produtosVendidos, mOntem.produtosVendidos);
+
+            document.getElementById('kpiTicketMedio').textContent = formatarPreco(mHoje.ticketMedio);
+            document.getElementById('tendenciaTicketMedio').innerHTML = tendenciaHtml(mHoje.ticketMedio, mOntem.ticketMedio);
+
+            // ---------- Gráfico 7 dias ----------
+            const nomesDiaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            const dias = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                dias.push(d);
+            }
+
+            const valoresDias = dias.map((d) => {
+                const chave = chaveDia(d);
+                const total = transacoes
+                    .filter((t) => chaveDia(new Date(t.created_at)) === chave)
+                    .reduce((soma, t) => soma + t.total, 0);
+                return { label: nomesDiaSemana[d.getDay()], total };
+            });
+
+            const maiorValor = Math.max(...valoresDias.map((d) => d.total), 1);
+            const alturaMaxima = 200;
+            const indiceMaximo = valoresDias.reduce((iMax, d, i, arr) => (d.total > arr[iMax].total ? i : iMax), 0);
+
+            document.getElementById('eixoYGrafico').innerHTML = [1, 0.66, 0.33, 0]
+                .map((fator) => `<span>${formatarPreco(maiorValor * fator).replace(',00', '')}</span>`)
+                .join('');
+
+            document.getElementById('colunasGrafico').innerHTML = valoresDias.map((d, i) => {
+                const altura = Math.max(4, Math.round((d.total / maiorValor) * alturaMaxima));
+                const destaque = i === indiceMaximo && d.total > 0;
+                return `
+                    <div class="colunaBarra">
+                        ${destaque ? `<div class="popoverBarra">${formatarPreco(d.total)}</div>` : ''}
+                        <div class="barraGrafico ${destaque ? 'barraGraficoDestaque' : ''}" style="height: ${altura}px;" title="${formatarPreco(d.total)}"></div>
+                        <span>${d.label}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // ---------- Produtos mais vendidos ----------
+            const somaProdutos = {};
+            transacoes.forEach((t) => {
+                t.itens.forEach((item) => {
+                    const chave = item.produto_id || item.nome_produto;
+                    if (!somaProdutos[chave]) {
+                        somaProdutos[chave] = { nome: item.nome_produto, produto_id: item.produto_id, quantidade: 0, total: 0 };
+                    }
+                    somaProdutos[chave].quantidade += item.quantidade;
+                    somaProdutos[chave].total += Number(item.subtotal || 0);
+                });
+            });
+
+            const topProdutos = Object.values(somaProdutos).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5);
+
+            const idsProdutosTop = topProdutos.map((p) => p.produto_id).filter(Boolean);
+            let categoriasPorProduto = {};
+
+            if (idsProdutosTop.length > 0) {
+                const { data: produtosInfo } = await supabase.from('produtos').select('id, categoria').in('id', idsProdutosTop);
+                categoriasPorProduto = Object.fromEntries((produtosInfo || []).map((p) => [p.id, p.categoria]));
+            }
+
+            const listaRank = document.getElementById('listaProdutosRank');
+
+            if (topProdutos.length === 0) {
+                listaRank.innerHTML = '<p class="estadoVazioAdm">Nenhuma venda registrada ainda.</p>';
+            } else {
+                listaRank.innerHTML = topProdutos.map((produto, indice) => `
+                    <div class="linhaProdutoRank">
+                        <div class="posicaoRank ${indice < 3 ? 'posicaoTop' : ''}">${indice + 1}</div>
+                        <div class="infoProdutoRank">
+                            <h4>${escaparHtml(produto.nome)}</h4>
+                            <h6>${nomesCategoria[categoriasPorProduto[produto.produto_id]] || '—'}</h6>
+                        </div>
+                        <div class="vendasProdutoRank">
+                            <p>${produto.quantidade} un</p>
+                            <span>${formatarPreco(produto.total)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // ---------- Transações recentes ----------
+            const corpoTransacoes = document.getElementById('corpoTransacoesRecentes');
+            const recentes = transacoes.slice(0, 6);
+
+            if (recentes.length === 0) {
+                corpoTransacoes.innerHTML = '<p class="estadoVazioAdm">Nenhuma venda ou pedido registrado ainda.</p>';
+                return;
+            }
+
+            corpoTransacoes.innerHTML = recentes.map((t) => {
+                const idCurto = `#${t.tipoPrefixo}${t.id.slice(0, 4).toUpperCase()}`;
+                const nomeProduto = t.itens.length === 0
+                    ? '—'
+                    : escaparHtml(t.itens[0].nome_produto) + (t.itens.length > 1 ? ` +${t.itens.length - 1}` : '');
+
+                return `
+                    <div class="linhaTabelaPedidos">
+                        <span class="colPedido">${idCurto}</span>
+                        <span class="colCliente">${escaparHtml(t.cliente)}</span>
+                        <span class="colProduto">${nomeProduto}</span>
+                        <span class="colValor">${formatarPreco(t.total)}</span>
+                        <span class="colStatus"><span class="statusBadge ${t.statusClasse}">${t.statusLabel}</span></span>
+                        <span class="colData">${formatarDataRelativa(t.created_at)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        carregarDiagnostico();
+    </script>
 </body>
 </html>
