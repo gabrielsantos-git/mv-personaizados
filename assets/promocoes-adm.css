@@ -1226,3 +1226,94 @@ body{
     color: #64748b;
     margin: 0;
 }
+
+/* ---------- Formulário Nova/Editar Promoção ---------- */
+
+.colunaLateralPromocao{
+    gap: 24px !important;
+}
+
+.cardLateralPromocao{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background-color: #fbfcfe;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cabecalhoCardLateral{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cabecalhoCardLateral h3{
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.badgeCondicional{
+    background-color: #eff6ff;
+    border-radius: 20px;
+    padding: 4px 12px;
+
+    font-size: 11px;
+    font-weight: 700;
+    color: #1d4ed8;
+    white-space: nowrap;
+}
+
+.selectComIconeBusca{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 14px center;
+    padding-left: 38px !important;
+}
+
+.linhaResumoPromocao{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.linhaResumoPromocao:last-child{
+    border-bottom: none;
+}
+
+.linhaResumoPromocao span:first-child{
+    color: #64748b;
+}
+
+.linhaResumoPromocao span:last-child{
+    font-weight: 700;
+    color: #1e293b;
+    text-align: right;
+}
+
+.checkboxSemDataFim{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 400;
+    color: #1e293b;
+}
+
+.checkboxSemDataFim input{
+    accent-color: var(--cor-primaria);
+    width: auto;
+}

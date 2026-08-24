@@ -72,7 +72,7 @@
                     </a>
                     <div class="tituloTopoAdm">
                         <h1 id="tituloPagina">Nova Promoção</h1>
-                        <p id="subtituloPagina">Crie um desconto em produto/categoria ou um cupom promocional.</p>
+                        <p id="subtituloPagina">Preencha os dados para criar uma nova promoção ou cupom de desconto.</p>
                     </div>
                 </div>
 
@@ -88,111 +88,151 @@
                         <h3>Informações Básicas</h3>
 
                         <div class="campoFormAnuncio">
-                            <label for="nome">Nome da Promoção <span class="obrigatorio">*</span></label>
-                            <input type="text" id="nome" placeholder="Ex: Desconto de Boas-Vindas" required>
+                            <label for="nome">Nome Interno <span class="obrigatorio">*</span></label>
+                            <input type="text" id="nome" placeholder="Ex: Promoção Verão 2029" required>
                         </div>
-
-                        <div class="linhaFormAnuncio">
-                            <div class="campoFormAnuncio">
-                                <label for="tipoDesconto">Tipo de Desconto <span class="obrigatorio">*</span></label>
-                                <select id="tipoDesconto" required>
-                                    <option value="fixo">Valor Fixo (R$)</option>
-                                    <option value="percentual">Percentual (%)</option>
-                                </select>
-                            </div>
-
-                            <div class="campoFormAnuncio">
-                                <label for="valor">Valor <span class="obrigatorio">*</span></label>
-                                <input type="number" id="valor" min="0.01" step="0.01" placeholder="Ex: 15" required>
-                            </div>
-                        </div>
-                        <p class="textoAjudaAnuncio" id="ajudaValor">Valor em reais a ser descontado.</p>
-
-                        <h3 style="margin-top: 8px;">Vigência</h3>
-
-                        <div class="linhaFormAnuncio">
-                            <div class="campoFormAnuncio">
-                                <label for="dataInicio">Data de Início <span class="obrigatorio">*</span></label>
-                                <input type="date" id="dataInicio" required>
-                            </div>
-
-                            <div class="campoFormAnuncio">
-                                <label for="dataFim">Data de Fim <span class="obrigatorio">*</span></label>
-                                <input type="date" id="dataFim" required>
-                            </div>
-                        </div>
-                        <p class="textoAjudaAnuncio">A promoção deixa de valer automaticamente após a data de fim.</p>
 
                         <div class="campoFormAnuncio">
-                            <label>
-                                <input type="checkbox" id="rascunho" style="width: auto;">
-                                Salvar como rascunho (não fica ativa na loja)
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="colunaFormAnuncio">
-                        <h3>Alvo da Promoção</h3>
-
-                        <div class="campoFormAnuncio">
-                            <label for="alvo">Aplicar em <span class="obrigatorio">*</span></label>
+                            <label for="alvo">Tipo de Promoção <span class="obrigatorio">*</span></label>
                             <select id="alvo" required>
-                                <option value="produto">Produto específico</option>
-                                <option value="categoria">Categoria inteira</option>
-                                <option value="cupom">Cupom (código no carrinho)</option>
+                                <option value="produto">Desconto em Produto</option>
+                                <option value="categoria">Desconto em Categoria</option>
+                                <option value="cupom">Cupom de Desconto</option>
                             </select>
                         </div>
 
-                        <div class="blocoPopupAnuncio aberto" id="blocoProduto">
-                            <div class="campoFormAnuncio">
-                                <label for="produtoId">Produto <span class="obrigatorio">*</span></label>
-                                <select id="produtoId">
-                                    <option value="">Carregando produtos...</option>
-                                </select>
+                        <h3 style="margin-top: 8px;">Configuração do Desconto</h3>
+
+                        <div class="campoFormAnuncio" id="campoProduto">
+                            <label for="produtoId">Produto ou Categoria Alvo <span class="obrigatorio">*</span></label>
+                            <select id="produtoId" class="selectComIconeBusca">
+                                <option value="">Carregando produtos...</option>
+                            </select>
+                            <p class="textoAjudaAnuncio">Selecione o produto que receberá o desconto.</p>
+                        </div>
+
+                        <div class="campoFormAnuncio" id="campoCategoria">
+                            <label for="categoria">Produto ou Categoria Alvo <span class="obrigatorio">*</span></label>
+                            <select id="categoria" class="selectComIconeBusca">
+                                <option value="personalizado">Personalizado</option>
+                                <option value="informatica">Informática</option>
+                                <option value="armarinho">Armarinho</option>
+                                <option value="papelaria">Papelaria</option>
+                                <option value="vestuario">Vestuário</option>
+                            </select>
+                            <p class="textoAjudaAnuncio">Selecione a categoria que receberá o desconto.</p>
+                        </div>
+
+                        <div class="campoFormAnuncio">
+                            <label>Tipo de Desconto</label>
+                            <div class="grupoRadioLink">
+                                <label class="opcaoRadioLink">
+                                    <input type="radio" name="tipoDesconto" value="percentual" checked>
+                                    Percentual (%)
+                                </label>
+                                <label class="opcaoRadioLink">
+                                    <input type="radio" name="tipoDesconto" value="fixo">
+                                    Valor Fixo (R$)
+                                </label>
                             </div>
                         </div>
 
-                        <div class="blocoPopupAnuncio" id="blocoCategoria">
+                        <div class="linhaFormAnuncio">
                             <div class="campoFormAnuncio">
-                                <label for="categoria">Categoria <span class="obrigatorio">*</span></label>
-                                <select id="categoria">
-                                    <option value="personalizado">Personalizado</option>
-                                    <option value="informatica">Informática</option>
-                                    <option value="armarinho">Armarinho</option>
-                                    <option value="papelaria">Papelaria</option>
-                                    <option value="vestuario">Vestuário</option>
-                                </select>
+                                <label for="valor">Valor do Desconto <span class="obrigatorio">*</span></label>
+                                <div class="inputComSufixo">
+                                    <input type="number" id="valor" min="0.01" step="0.01" placeholder="Ex: 15" required>
+                                    <span id="sufixoValor">%</span>
+                                </div>
+                            </div>
+
+                            <div class="campoFormAnuncio">
+                                <label for="limiteUsos">Limite de Usos</label>
+                                <input type="number" id="limiteUsos" min="0" placeholder="0 = ilimitado">
                             </div>
                         </div>
+                        <p class="textoAjudaAnuncio">Quantidade máxima de vezes que a promoção pode ser utilizada. 0 = ilimitado.</p>
+                    </div>
 
-                        <div class="blocoPopupAnuncio" id="blocoCupom">
-                            <div class="campoFormAnuncio">
-                                <label for="codigoCupom">Código do Cupom <span class="obrigatorio">*</span></label>
-                                <input type="text" id="codigoCupom" placeholder="Ex: VERAO20" style="text-transform: uppercase;">
+                    <div class="colunaFormAnuncio colunaLateralPromocao">
+                        <div class="cardLateralPromocao">
+                            <div class="cabecalhoCardLateral">
+                                <h3>Regras de Cupom</h3>
+                                <span class="badgeCondicional">Apenas para Cupom</span>
                             </div>
+
+                            <div class="campoFormAnuncio">
+                                <label for="codigoCupom">Código do Cupom</label>
+                                <input type="text" id="codigoCupom" placeholder="Ex: VERAO15" style="text-transform: uppercase;">
+                                <p class="textoAjudaAnuncio">O cliente digita esse código no checkout.</p>
+                            </div>
+
+                            <div class="campoFormAnuncio">
+                                <label for="valorMinimo">Valor Mínimo do Carrinho</label>
+                                <div class="inputComSufixo">
+                                    <span>R$</span>
+                                    <input type="number" id="valorMinimo" min="0" step="0.01" placeholder="0,00">
+                                </div>
+                                <p class="textoAjudaAnuncio">Valor mínimo no carrinho para o cupom ser aplicado. Deixe vazio para sem mínimo.</p>
+                            </div>
+
+                            <h3 style="margin: 4px 0 -8px;">Vigência</h3>
 
                             <div class="linhaFormAnuncio">
                                 <div class="campoFormAnuncio">
-                                    <label for="valorMinimo">Carrinho mínimo</label>
-                                    <input type="number" id="valorMinimo" min="0" step="0.01" placeholder="Opcional">
+                                    <label for="dataInicio">Data de Início <span class="obrigatorio">*</span></label>
+                                    <input type="date" id="dataInicio" required>
                                 </div>
 
                                 <div class="campoFormAnuncio">
-                                    <label for="limiteUsos">Limite de usos</label>
-                                    <input type="number" id="limiteUsos" min="1" placeholder="Deixe em branco = ilimitado">
+                                    <label for="dataFim">Data de Fim</label>
+                                    <input type="date" id="dataFim">
                                 </div>
                             </div>
-                            <p class="textoAjudaAnuncio">O cupom só é aplicado se o carrinho atingir o valor mínimo (se definido).</p>
+
+                            <label class="checkboxSemDataFim">
+                                <input type="checkbox" id="semDataFim">
+                                Sem data de fim (promoção permanente)
+                            </label>
+                            <p class="textoAjudaAnuncio">A promoção será desativada automaticamente após a data de fim.</p>
+
+                            <div class="campoFormAnuncio">
+                                <label>
+                                    <input type="checkbox" id="rascunho" style="width: auto;">
+                                    Salvar como rascunho (não fica ativa na loja)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="cardLateralPromocao">
+                            <h3>Resumo da Promoção</h3>
+
+                            <div class="linhaResumoPromocao">
+                                <span>Tipo:</span>
+                                <span id="resumoTipo">–</span>
+                            </div>
+                            <div class="linhaResumoPromocao">
+                                <span>Valor:</span>
+                                <span id="resumoValor">–</span>
+                            </div>
+                            <div class="linhaResumoPromocao">
+                                <span>Vigência:</span>
+                                <span id="resumoVigencia">–</span>
+                            </div>
+                            <div class="linhaResumoPromocao">
+                                <span>Limite:</span>
+                                <span id="resumoLimite">–</span>
+                            </div>
+
+                            <div class="acoesFormAnuncio" style="margin-top: 8px; padding-top: 16px;">
+                                <a href="promocoes.html" class="botaoCancelarAnuncio">Cancelar</a>
+                                <button type="submit" class="botaoSalvarAnuncio" id="botaoSalvar">Criar Promoção</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <p class="mensagemFormAnuncio" id="mensagemPromocao"></p>
-
-                <div class="acoesFormAnuncio">
-                    <a href="promocoes.html" class="botaoCancelarAnuncio">Cancelar</a>
-                    <button type="submit" class="botaoSalvarAnuncio" id="botaoSalvar">Criar Promoção</button>
-                </div>
             </form>
         </div>
     </div>
@@ -204,35 +244,78 @@
         const mensagem = document.getElementById('mensagemPromocao');
         const botaoSalvar = document.getElementById('botaoSalvar');
         const selectAlvo = document.getElementById('alvo');
-        const selectTipoDesconto = document.getElementById('tipoDesconto');
         const selectProduto = document.getElementById('produtoId');
-        const ajudaValor = document.getElementById('ajudaValor');
-        const blocos = {
-            produto: document.getElementById('blocoProduto'),
-            categoria: document.getElementById('blocoCategoria'),
-            cupom: document.getElementById('blocoCupom')
-        };
+        const selectCategoria = document.getElementById('categoria');
+        const campoProduto = document.getElementById('campoProduto');
+        const campoCategoria = document.getElementById('campoCategoria');
+        const inputValor = document.getElementById('valor');
+        const sufixoValor = document.getElementById('sufixoValor');
+        const inputDataInicio = document.getElementById('dataInicio');
+        const inputDataFim = document.getElementById('dataFim');
+        const checkboxSemDataFim = document.getElementById('semDataFim');
+        const inputLimiteUsos = document.getElementById('limiteUsos');
+        const inputCodigoCupom = document.getElementById('codigoCupom');
+        const radiosTipoDesconto = document.querySelectorAll('input[name="tipoDesconto"]');
+
+        const DATA_FIM_PERMANENTE = '2099-12-31';
 
         document.getElementById('badgeDataHoje').textContent = new Date().toLocaleDateString('pt-BR');
 
         const idPromocao = new URLSearchParams(window.location.search).get('id');
 
-        function alternarBlocoAlvo() {
-            Object.entries(blocos).forEach(([chave, bloco]) => {
-                bloco.classList.toggle('aberto', chave === selectAlvo.value);
-            });
+        function tipoDescontoSelecionado() {
+            return document.querySelector('input[name="tipoDesconto"]:checked').value;
         }
 
-        function atualizarAjudaValor() {
-            ajudaValor.textContent = selectTipoDesconto.value === 'fixo'
-                ? 'Valor em reais a ser descontado.'
-                : 'Percentual de desconto sobre o valor do produto/carrinho.';
+        function alternarCampoAlvo() {
+            const alvo = selectAlvo.value;
+            campoProduto.style.display = alvo === 'produto' ? '' : 'none';
+            campoCategoria.style.display = alvo === 'categoria' ? '' : 'none';
         }
 
-        selectAlvo.addEventListener('change', alternarBlocoAlvo);
-        selectTipoDesconto.addEventListener('change', atualizarAjudaValor);
-        alternarBlocoAlvo();
-        atualizarAjudaValor();
+        function atualizarSufixoValor() {
+            sufixoValor.textContent = tipoDescontoSelecionado() === 'fixo' ? 'R$' : '%';
+        }
+
+        function alternarSemDataFim() {
+            inputDataFim.disabled = checkboxSemDataFim.checked;
+            inputDataFim.required = !checkboxSemDataFim.checked;
+            if (checkboxSemDataFim.checked) inputDataFim.value = '';
+        }
+
+        function formatarMoeda(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function atualizarResumo() {
+            const alvo = selectAlvo.value;
+            const rotulosAlvo = { produto: 'Desconto em Produto', categoria: 'Desconto em Categoria', cupom: 'Cupom de Desconto' };
+            document.getElementById('resumoTipo').textContent = rotulosAlvo[alvo] || '–';
+
+            const valorNumerico = Number(inputValor.value || 0);
+            document.getElementById('resumoValor').textContent = valorNumerico
+                ? (tipoDescontoSelecionado() === 'fixo' ? `R$ ${formatarMoeda(valorNumerico)}` : `${valorNumerico}%`)
+                : '–';
+
+            const inicio = inputDataInicio.value ? new Date(inputDataInicio.value + 'T00:00:00').toLocaleDateString('pt-BR') : null;
+            const fim = checkboxSemDataFim.checked
+                ? 'Sem data de fim'
+                : (inputDataFim.value ? new Date(inputDataFim.value + 'T00:00:00').toLocaleDateString('pt-BR') : null);
+            document.getElementById('resumoVigencia').textContent = inicio && fim ? `${inicio} - ${fim}` : (inicio || '–');
+
+            const limite = Number(inputLimiteUsos.value || 0);
+            document.getElementById('resumoLimite').textContent = limite > 0 ? `${limite} usos` : 'Ilimitado';
+        }
+
+        selectAlvo.addEventListener('change', () => { alternarCampoAlvo(); atualizarResumo(); });
+        radiosTipoDesconto.forEach((radio) => radio.addEventListener('change', () => { atualizarSufixoValor(); atualizarResumo(); }));
+        checkboxSemDataFim.addEventListener('change', () => { alternarSemDataFim(); atualizarResumo(); });
+        [inputValor, inputDataInicio, inputDataFim, inputLimiteUsos].forEach((campo) => campo.addEventListener('input', atualizarResumo));
+
+        alternarCampoAlvo();
+        atualizarSufixoValor();
+        alternarSemDataFim();
+        atualizarResumo();
 
         async function carregarProdutos() {
             const { data } = await supabase.from('produtos').select('id, nome').order('nome', { ascending: true });
@@ -254,23 +337,29 @@
             }
 
             document.getElementById('nome').value = promocao.nome;
-            selectTipoDesconto.value = promocao.tipo_desconto;
-            document.getElementById('valor').value = promocao.valor;
-            document.getElementById('dataInicio').value = promocao.data_inicio;
-            document.getElementById('dataFim').value = promocao.data_fim;
+            document.querySelector(`input[name="tipoDesconto"][value="${promocao.tipo_desconto}"]`).checked = true;
+            inputValor.value = promocao.valor;
+            inputDataInicio.value = promocao.data_inicio;
             document.getElementById('rascunho').checked = promocao.rascunho;
             selectAlvo.value = promocao.alvo;
 
-            if (promocao.alvo === 'produto') selectProduto.value = promocao.produto_id;
-            if (promocao.alvo === 'categoria') document.getElementById('categoria').value = promocao.categoria;
-            if (promocao.alvo === 'cupom') {
-                document.getElementById('codigoCupom').value = promocao.codigo_cupom || '';
-                document.getElementById('valorMinimo').value = promocao.valor_minimo_carrinho ?? '';
-                document.getElementById('limiteUsos').value = promocao.limite_usos ?? '';
+            if (promocao.data_fim === DATA_FIM_PERMANENTE) {
+                checkboxSemDataFim.checked = true;
+            } else {
+                inputDataFim.value = promocao.data_fim;
             }
 
-            alternarBlocoAlvo();
-            atualizarAjudaValor();
+            if (promocao.alvo === 'produto') selectProduto.value = promocao.produto_id;
+            if (promocao.alvo === 'categoria') selectCategoria.value = promocao.categoria;
+
+            inputCodigoCupom.value = promocao.codigo_cupom || '';
+            document.getElementById('valorMinimo').value = promocao.valor_minimo_carrinho ?? '';
+            inputLimiteUsos.value = promocao.limite_usos ?? '';
+
+            alternarCampoAlvo();
+            atualizarSufixoValor();
+            alternarSemDataFim();
+            atualizarResumo();
         }
 
         form.addEventListener('submit', async (evento) => {
@@ -278,9 +367,14 @@
             mensagem.textContent = '';
 
             const nome = document.getElementById('nome').value.trim();
-            const dataInicio = document.getElementById('dataInicio').value;
-            const dataFim = document.getElementById('dataFim').value;
+            const dataInicio = inputDataInicio.value;
+            const dataFim = checkboxSemDataFim.checked ? DATA_FIM_PERMANENTE : inputDataFim.value;
             const alvo = selectAlvo.value;
+
+            if (!dataFim) {
+                mensagem.textContent = 'Informe a data de fim ou marque "Sem data de fim".';
+                return;
+            }
 
             if (dataFim < dataInicio) {
                 mensagem.textContent = 'A data de fim precisa ser depois da data de início.';
@@ -289,14 +383,14 @@
 
             const payload = {
                 nome,
-                tipo_desconto: selectTipoDesconto.value,
-                valor: Number(document.getElementById('valor').value),
+                tipo_desconto: tipoDescontoSelecionado(),
+                valor: Number(inputValor.value),
                 alvo,
                 produto_id: null,
                 categoria: null,
                 codigo_cupom: null,
                 valor_minimo_carrinho: null,
-                limite_usos: null,
+                limite_usos: inputLimiteUsos.value ? Number(inputLimiteUsos.value) || null : null,
                 data_inicio: dataInicio,
                 data_fim: dataFim,
                 rascunho: document.getElementById('rascunho').checked
@@ -309,16 +403,15 @@
                 }
                 payload.produto_id = selectProduto.value;
             } else if (alvo === 'categoria') {
-                payload.categoria = document.getElementById('categoria').value;
+                payload.categoria = selectCategoria.value;
             } else if (alvo === 'cupom') {
-                const codigo = document.getElementById('codigoCupom').value.trim().toUpperCase();
+                const codigo = inputCodigoCupom.value.trim().toUpperCase();
                 if (!codigo) {
                     mensagem.textContent = 'Digite o código do cupom.';
                     return;
                 }
                 payload.codigo_cupom = codigo;
                 payload.valor_minimo_carrinho = document.getElementById('valorMinimo').value ? Number(document.getElementById('valorMinimo').value) : null;
-                payload.limite_usos = document.getElementById('limiteUsos').value ? Number(document.getElementById('limiteUsos').value) : null;
             }
 
             botaoSalvar.disabled = true;
