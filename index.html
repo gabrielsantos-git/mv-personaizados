@@ -104,6 +104,9 @@
         import { supabase } from './assets/supabaseClient.js';
         import { adicionarItem } from './assets/carrinho.js';
         import { carregarAnunciosPorTipo, cardsAnuncioHtml, registrarMetricasAnuncio } from './assets/anuncios.js';
+        import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
+
+        let promocoesAtivas = [];
 
         const gridMaisVendidos = document.getElementById('gridMaisVendidos');
         const containerCategorias = document.getElementById('containerCategoriasHome');
@@ -131,6 +134,7 @@
         function cartaoProdutoHtml(produto) {
             const imagens = (produto.imagens_produto || []).slice().sort((a, b) => a.ordem - b.ordem);
             const imagem = imagens[0]?.url || 'assets/mockup-cup_1053-247.avif';
+            const { precoFinal } = calcularPrecoComDesconto(produto, promocoesAtivas);
 
             return `
                 <a class="clicarProduto" href="produto.html?id=${produto.id}">
@@ -141,8 +145,8 @@
                         <h5 class="nomeProduto">${escaparHtml(produto.nome)}</h5>
                         <h6 class="descricaoProduto">${escaparHtml(produto.descricao || '')}</h6>
                         <div class="infoProduto">
-                            <h4 class="preco">${formatarPreco(produto.preco)}</h4>
-                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${produto.preco}" data-imagem="${imagem}">${iconeCarrinho}</button>
+                            ${blocoPrecoHtml(produto, promocoesAtivas, formatarPreco)}
+                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${precoFinal}" data-imagem="${imagem}">${iconeCarrinho}</button>
                         </div>
                 </div>
                 </a>
@@ -192,7 +196,7 @@
                 if (idsMaisVendidos.length > 0) {
                     const { data } = await supabase
                         .from('produtos')
-                        .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                        .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
                         .in('id', idsMaisVendidos)
                         .eq('status', 'ativo')
                         .eq('publico', true);
@@ -208,7 +212,7 @@
             if (produtosOrdenados.length === 0) {
                 const { data } = await supabase
                     .from('produtos')
-                    .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                    .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
                     .eq('status', 'ativo')
                     .eq('publico', true)
                     .order('created_at', { ascending: false })
@@ -245,7 +249,7 @@
             for (const categoria of Object.keys(nomesCategoria)) {
                 const { data } = await supabase
                     .from('produtos')
-                    .select('id, nome, preco, descricao, imagens_produto(url, ordem)')
+                    .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
                     .eq('categoria', categoria)
                     .eq('status', 'ativo')
                     .eq('publico', true)
@@ -279,8 +283,11 @@
             registrarMetricasAnuncio(containerCategorias);
         }
 
-        carregarMaisVendidos();
-        carregarCategorias();
+        carregarPromocoesAtivas().then((promocoes) => {
+            promocoesAtivas = promocoes;
+            carregarMaisVendidos();
+            carregarCategorias();
+        });
     </script>
     <script type="module" src="assets/carrinho.js"></script>
 </body>
