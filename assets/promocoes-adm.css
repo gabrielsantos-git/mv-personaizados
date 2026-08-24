@@ -895,10 +895,57 @@ body{
 
 /* ---------- Página de Promoções ---------- */
 
-.cardKpiAdm .cabecalhoCardKpi span{
+.linhaKpiAdm{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.cardKpiAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.cabecalhoCardKpi{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalhoCardKpi span{
     font-size: 14px;
     font-weight: 400;
     color: #64748b;
+}
+
+.iconeCardKpi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(167, 12, 36, 0.06);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--cor-primaria);
+}
+
+.valorCardKpi{
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
 }
 
 .tendenciaKpi{
