@@ -160,7 +160,7 @@
                             <p class="textoAjudaAnuncio">Cole o caminho relativo da página interna ou URL externa completa.</p>
                         </div>
 
-                        <div class="blocoPopupAnuncio" id="blocoPopup">
+                        <div class="blocoPopupAnuncio aberto" id="blocoPopup">
                             <div class="cabecalhoBlocoPopup">
                                 <h4>Configurações de Pop-up</h4>
                                 <span class="tagCondicaoPopup">Visível apenas quando Tipo = Pop-up</span>
@@ -216,7 +216,6 @@
         const mensagem = document.getElementById('mensagemAnuncio');
         const botaoSalvar = document.getElementById('botaoSalvar');
         const selectTipo = document.getElementById('tipo');
-        const blocoPopup = document.getElementById('blocoPopup');
         const inputImagem = document.getElementById('imagem');
         const previewImagem = document.getElementById('previewImagem');
         const conteudoUpload = document.getElementById('conteudoUpload');
@@ -228,13 +227,6 @@
 
         const idAnuncio = new URLSearchParams(window.location.search).get('id');
         let imagemAtualUrl = null;
-
-        function alternarBlocoPopup() {
-            blocoPopup.classList.toggle('aberto', selectTipo.value === 'popup');
-        }
-
-        selectTipo.addEventListener('change', alternarBlocoPopup);
-        alternarBlocoPopup();
 
         function mostrarPreview(url) {
             previewImagem.className = 'previewImagemAnuncio';
@@ -331,8 +323,6 @@
 
             imagemAtualUrl = anuncio.imagem_url;
             if (imagemAtualUrl) mostrarPreview(imagemAtualUrl);
-
-            alternarBlocoPopup();
         }
 
         form.addEventListener('submit', async (evento) => {
