@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/promocoes-adm.css">
+    <script type="module" src="../assets/admGuard.js"></script>
+    <title>Promoções - Mv Personalizados</title>
+</head>
+<body style="visibility: hidden;">
+    <div class="layoutAdm">
+        <aside class="sidebarAdm">
+            <div class="logoSidebarAdm">
+                <img src="../assets/MvPersonalizados.svg" alt="Logo Mv Personalizados">
+            </div>
+
+            <nav class="menuAdm">
+                <a href="diagnostico.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Diagnóstico</span>
+                </a>
+
+                <a href="produtos.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V7l-9-4-9 4v1"/><path d="M3 8l9 4 9-4"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/></svg>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="pedidos-loja.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span>Pedidos</span>
+                </a>
+
+                <a href="anuncios.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                    <span>Anúncios</span>
+                </a>
+
+                <a href="promocoes.html" class="itemMenuAdm itemMenuAtivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="17" y1="7" x2="7" y2="17"/></svg>
+                    <span>Promoções</span>
+                </a>
+
+                <a href="venda.html" class="itemMenuAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.6 13.4a2 2 0 0 1-2 1.6H6.6a2 2 0 0 1-2-1.6L3 6z"/></svg>
+                    <span>Vendas</span>
+                </a>
+            </nav>
+
+            <div class="rodapeSidebarAdm">
+                <div class="divisorSidebarAdm"></div>
+
+                <div class="perfilUsuarioAdm">
+                    <div class="avatarUsuarioAdm">SM</div>
+                    <div class="infoUsuarioAdm">
+                        <p class="nomeUsuarioAdm">Suporte MV</p>
+                        <p class="emailUsuarioAdm">admin@mv.com.br</p>
+                    </div>
+                </div>
+
+                <button type="button" id="botaoSairAdm" class="botaoSairAdm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair
+                </button>
+            </div>
+        </aside>
+
+        <div class="areaConteudoAdm">
+            <div class="cabecalhoTopoAdm">
+                <div class="tituloTopoAdm">
+                    <h1>Gerenciamento de Promoções</h1>
+                    <p>Crie e gerencie descontos, cupons e promoções da loja.</p>
+                </div>
+
+                <div class="acoesTopoAnuncios">
+                    <a href="nova-promocao.html" class="botaoNovoAnuncio">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nova Promoção
+                    </a>
+
+                    <div class="badgeDataAdm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                        <span id="badgeDataHoje">–</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="linhaKpiAdm">
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Promoções Ativas</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="17" y1="7" x2="7" y2="17"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiPromocoesAtivas">–</p>
+                    <div class="tendenciaKpi" id="tendenciaPromocoesAtivas"></div>
+                </div>
+
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Cupons Utilizados</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v4"/><path d="M4 12v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><path d="M2 12h20"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiCuponsUtilizados">–</p>
+                    <div class="tendenciaKpi" id="tendenciaCuponsUtilizados"></div>
+                </div>
+
+                <div class="cardKpiAdm">
+                    <div class="cabecalhoCardKpi">
+                        <span>Desconto Concedido</span>
+                        <div class="iconeCardKpi">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                    </div>
+                    <p class="valorCardKpi" id="kpiDescontoConcedido">–</p>
+                    <div class="tendenciaKpi" id="tendenciaDescontoConcedido"></div>
+                </div>
+            </div>
+
+            <div class="abasPromocoes">
+                <button type="button" class="abaPromocao abaAtiva" data-aba="alvo">Desconto em Produto/Categoria</button>
+                <button type="button" class="abaPromocao" data-aba="cupom">Cupom</button>
+            </div>
+
+            <div class="linhaFiltrosPromocoes">
+                <div class="buscaPromocoes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="search" name="buscaPromocao" id="buscaPromocao" placeholder="Pesquisar promoção...">
+                </div>
+
+                <div class="filtroAnuncios">
+                    <span>Status:</span>
+                    <select id="filtroStatus" class="selectFiltro">
+                        <option value="">Todos</option>
+                        <option value="ativa">Ativa</option>
+                        <option value="agendada">Agendada</option>
+                        <option value="encerrada">Encerrada</option>
+                        <option value="rascunho">Rascunho</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="cardTabelaPromocoes">
+                <div class="tabelaPromocoesAdm">
+                    <div class="linhaTabelaPromocoesAdm cabecalhoColunasPromocoes">
+                        <span class="colPromoId">ID</span>
+                        <span class="colPromoNome">Nome</span>
+                        <span class="colPromoTipo">Tipo</span>
+                        <span class="colPromoValor">Valor</span>
+                        <span class="colPromoVigencia">Vigência</span>
+                        <span class="colPromoUsos">Usos</span>
+                        <span class="colPromoStatus">Status</span>
+                        <span class="colPromoAcoes">Ações</span>
+                    </div>
+
+                    <div id="corpoTabelaPromocoes"></div>
+                </div>
+
+                <p class="estadoVazioProdutos" id="estadoVazioPromocoes" style="display:none;">Nenhuma promoção encontrada.</p>
+
+                <div class="paginacaoPromocoes">
+                    <p id="contagemPromocoes">Carregando promoções...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from '../assets/supabaseClient.js';
+
+        const corpoTabela = document.getElementById('corpoTabelaPromocoes');
+        const estadoVazio = document.getElementById('estadoVazioPromocoes');
+        const contagem = document.getElementById('contagemPromocoes');
+        const inputBusca = document.getElementById('buscaPromocao');
+        const selectStatus = document.getElementById('filtroStatus');
+        const botoesAba = document.querySelectorAll('.abaPromocao');
+
+        document.getElementById('badgeDataHoje').textContent = new Date().toLocaleDateString('pt-BR');
+
+        let abaAtiva = 'alvo';
+        let todasPromocoes = [];
+
+        function formatarPreco(valor) {
+            return 'R$ ' + Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatarData(iso) {
+            const [ano, mes, dia] = iso.split('-');
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        function statusDaPromocao(promocao) {
+            if (promocao.rascunho) return 'rascunho';
+            const hoje = new Date().toISOString().slice(0, 10);
+            if (hoje < promocao.data_inicio) return 'agendada';
+            if (hoje > promocao.data_fim) return 'encerrada';
+            return 'ativa';
+        }
+
+        function tipoDaPromocaoLabel(promocao) {
+            if (promocao.alvo === 'categoria') return 'Desconto Categoria';
+            return promocao.tipo_desconto === 'fixo' ? 'Desconto Fixo' : 'Percentual';
+        }
+
+        function valorDaPromocaoLabel(promocao) {
+            return promocao.tipo_desconto === 'fixo' ? formatarPreco(promocao.valor) : `${Number(promocao.valor)}%`;
+        }
+
+        const nomesStatus = { ativa: 'Ativa', agendada: 'Agendada', encerrada: 'Encerrada', rascunho: 'Rascunho' };
+
+        function linhaPromocaoHtml(promocao) {
+            const idCurto = '#PR' + promocao.id.slice(0, 3).toUpperCase();
+            const status = statusDaPromocao(promocao);
+            const usos = promocao.rascunho
+                ? '—'
+                : `${promocao.usos_atuais}/${promocao.limite_usos ?? '∞'}`;
+
+            return `
+                <div class="linhaTabelaPromocoesAdm" data-id="${promocao.id}">
+                    <span class="colPromoId">${idCurto}</span>
+                    <span class="colPromoNome">${escaparHtml(promocao.nome)}</span>
+                    <span class="colPromoTipo">${tipoDaPromocaoLabel(promocao)}</span>
+                    <span class="colPromoValor">${valorDaPromocaoLabel(promocao)}</span>
+                    <span class="colPromoVigencia">${formatarData(promocao.data_inicio)} - ${formatarData(promocao.data_fim)}</span>
+                    <span class="colPromoUsos">${usos}</span>
+                    <span class="colPromoStatus"><span class="statusPromoBadge ${status}">${nomesStatus[status]}</span></span>
+                    <span class="colPromoAcoes">
+                        <button type="button" class="botaoEditarPromocao" data-id="${promocao.id}">Editar</button>
+                        <button type="button" class="botaoPausarPromocao" data-id="${promocao.id}">${promocao.rascunho ? 'Ativar' : 'Pausar'}</button>
+                        <button type="button" class="botaoExcluirPromocao" data-id="${promocao.id}" data-nome="${escaparHtml(promocao.nome)}">Excluir</button>
+                    </span>
+                </div>`;
+        }
+
+        function atualizarKpis() {
+            const ativas = todasPromocoes.filter((p) => statusDaPromocao(p) === 'ativa');
+            const seteDiasAtras = new Date();
+            seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+            const novasEstaSemana = todasPromocoes.filter((p) => new Date(p.created_at) >= seteDiasAtras).length;
+
+            document.getElementById('kpiPromocoesAtivas').textContent = ativas.length;
+            document.getElementById('tendenciaPromocoesAtivas').innerHTML = novasEstaSemana > 0
+                ? `<span class="badgeTendencia badgeTendenciaPositiva">+${novasEstaSemana} novas</span><span class="textoTendencia">esta semana</span>`
+                : '<span class="textoTendencia">sem novas esta semana</span>';
+
+            const cupons = todasPromocoes.filter((p) => p.alvo === 'cupom');
+            const usosTotais = cupons.reduce((soma, p) => soma + p.usos_atuais, 0);
+            const limiteTotal = cupons.reduce((soma, p) => soma + (p.limite_usos || 0), 0);
+            const percentualLimite = limiteTotal > 0 ? (usosTotais / limiteTotal) * 100 : 0;
+
+            document.getElementById('kpiCuponsUtilizados').textContent = `${usosTotais} / ${limiteTotal || '∞'}`;
+            document.getElementById('tendenciaCuponsUtilizados').innerHTML = limiteTotal > 0
+                ? `<span class="textoTendencia">${percentualLimite.toFixed(1)}% do limite atingido</span>`
+                : '<span class="textoTendencia">sem limite definido</span>';
+
+            const descontoConcedido = todasPromocoes
+                .filter((p) => p.tipo_desconto === 'fixo')
+                .reduce((soma, p) => soma + Number(p.valor) * p.usos_atuais, 0);
+
+            document.getElementById('kpiDescontoConcedido').textContent = formatarPreco(descontoConcedido);
+            document.getElementById('tendenciaDescontoConcedido').innerHTML = '<span class="textoTendencia">soma dos cupons/descontos de valor fixo já usados</span>';
+        }
+
+        function renderizarLista() {
+            const termo = inputBusca.value.trim().toLowerCase();
+            const status = selectStatus.value;
+
+            const filtrados = todasPromocoes.filter((p) => {
+                const bateAba = abaAtiva === 'cupom' ? p.alvo === 'cupom' : p.alvo !== 'cupom';
+                const bateBusca = !termo || p.nome.toLowerCase().includes(termo);
+                const bateStatus = !status || statusDaPromocao(p) === status;
+                return bateAba && bateBusca && bateStatus;
+            });
+
+            corpoTabela.innerHTML = filtrados.map(linhaPromocaoHtml).join('');
+            estadoVazio.style.display = filtrados.length === 0 ? 'block' : 'none';
+            contagem.textContent = `Mostrando ${filtrados.length} de ${todasPromocoes.length} promoções`;
+        }
+
+        async function carregarPromocoes() {
+            const { data, error } = await supabase
+                .from('promocoes')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                contagem.textContent = 'Não foi possível carregar as promoções.';
+                return;
+            }
+
+            todasPromocoes = data || [];
+            atualizarKpis();
+            renderizarLista();
+        }
+
+        async function excluirPromocao(id, nome) {
+            if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+
+            const { error } = await supabase.from('promocoes').delete().eq('id', id);
+            if (error) {
+                alert('Não foi possível excluir a promoção.');
+                return;
+            }
+
+            todasPromocoes = todasPromocoes.filter((p) => p.id !== id);
+            atualizarKpis();
+            renderizarLista();
+        }
+
+        async function alternarPausaPromocao(id) {
+            const promocao = todasPromocoes.find((p) => p.id === id);
+            if (!promocao) return;
+
+            const novoValor = !promocao.rascunho;
+            const { error } = await supabase.from('promocoes').update({ rascunho: novoValor }).eq('id', id);
+            if (error) {
+                alert('Não foi possível atualizar a promoção.');
+                return;
+            }
+
+            promocao.rascunho = novoValor;
+            atualizarKpis();
+            renderizarLista();
+        }
+
+        botoesAba.forEach((botao) => {
+            botao.addEventListener('click', () => {
+                botoesAba.forEach((b) => b.classList.remove('abaAtiva'));
+                botao.classList.add('abaAtiva');
+                abaAtiva = botao.dataset.aba;
+                renderizarLista();
+            });
+        });
+
+        corpoTabela.addEventListener('click', (evento) => {
+            const botaoEditar = evento.target.closest('.botaoEditarPromocao');
+            if (botaoEditar) {
+                window.location.href = `nova-promocao.html?id=${botaoEditar.dataset.id}`;
+                return;
+            }
+
+            const botaoPausar = evento.target.closest('.botaoPausarPromocao');
+            if (botaoPausar) {
+                alternarPausaPromocao(botaoPausar.dataset.id);
+                return;
+            }
+
+            const botaoExcluir = evento.target.closest('.botaoExcluirPromocao');
+            if (botaoExcluir) {
+                excluirPromocao(botaoExcluir.dataset.id, botaoExcluir.dataset.nome);
+            }
+        });
+
+        inputBusca.addEventListener('input', renderizarLista);
+        selectStatus.addEventListener('change', renderizarLista);
+
+        carregarPromocoes();
+    </script>
+</body>
+</html>
