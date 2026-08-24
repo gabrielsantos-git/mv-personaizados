@@ -185,7 +185,7 @@
 
                 const idsMaisVendidos = Object.entries(somaPorProduto)
                     .sort((a, b) => b[1] - a[1])
-                    .slice(0, 6)
+                    .slice(0, 5)
                     .map(([id]) => id);
 
                 if (idsMaisVendidos.length > 0) {
@@ -211,7 +211,7 @@
                     .eq('status', 'ativo')
                     .eq('publico', true)
                     .order('created_at', { ascending: false })
-                    .limit(6);
+                    .limit(5);
 
                 produtosOrdenados = data || [];
             }
@@ -261,7 +261,7 @@
                     .eq('categoria', categoria)
                     .eq('status', 'ativo')
                     .eq('publico', true)
-                    .limit(6);
+                    .limit(5);
 
                 if (data && data.length > 0) {
                     secoes.push({ categoria, produtos: data });
