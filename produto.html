@@ -137,7 +137,7 @@
         // Agrupa as variações por tipo (Tamanho, Cor...) e monta o widget de
         // escolha de cada grupo no estilo definido no admin (estilo_exibicao):
         // radio, caixa de seleção, botão, cor, foto ou quantidade.
-        function blocoVariacoesHtml(variacoes) {
+        function blocoVariacoesHtml(variacoes, precoFinal) {
             if (!variacoes.length) return '';
 
             const grupos = new Map();
@@ -155,16 +155,21 @@
                         <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="quantidade">
                             <span class="rotuloGrupoVariacao">${escaparHtml(nomeExibicaoTipo(tipo))}</span>
                             <div class="opcoesGrupoQuantidade">
-                                ${valores.map((v) => `
-                                    <div class="itemQuantidadeVariacao" data-id="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}">
-                                        <span>${escaparHtml(v.valor)}${Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)} cada)` : ''}</span>
+                                ${valores.map((v) => {
+                                    // Nos valores de "quantidade" (ex: tamanhos), o preço cadastrado
+                                    // é o preço completo daquele valor — não soma com o preço base.
+                                    const precoUnitario = Number(v.preco_adicional) > 0 ? Number(v.preco_adicional) : Number(precoFinal);
+                                    return `
+                                    <div class="itemQuantidadeVariacao" data-id="${v.id}" data-preco-unitario="${precoUnitario}" data-valor="${escaparHtml(v.valor)}">
+                                        <span>${escaparHtml(v.valor)} (${formatarPreco(precoUnitario)} cada)</span>
                                         <div class="barraQuantidade">
                                             <button type="button" class="btnQtdVariacao" data-acao="menos" aria-label="Diminuir ${escaparHtml(v.valor)}">−</button>
                                             <input type="number" min="0" value="0" class="inputQtdVariacao">
                                             <button type="button" class="btnQtdVariacao" data-acao="mais" aria-label="Aumentar ${escaparHtml(v.valor)}">+</button>
                                         </div>
                                     </div>
-                                `).join('')}
+                                `;
+                                }).join('')}
                             </div>
                         </div>
                     `;
@@ -270,15 +275,15 @@
                 ? imagens.map((img) => `<div class="imgMiniatura"><img src="${img.url}" alt="${escaparHtml(produto.nome)}"></div>`).join('')
                 : `<div class="imgMiniatura"><img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}"></div>`;
 
+            const semEstoque = produto.estoque <= 0;
+            const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
+
             const variacoes = produto.variacoes_produto || [];
-            const variacoesHtml = blocoVariacoesHtml(variacoes);
+            const variacoesHtml = blocoVariacoesHtml(variacoes, precoFinal);
             // Quando um grupo de variação já é do tipo "quantidade", a quantidade de
             // cada item é escolhida ali mesmo (um stepper por valor) — o seletor
             // genérico de quantidade no fim do formulário fica redundante.
             const temGrupoQuantidade = variacoes.some((v) => v.estilo_exibicao === 'quantidade');
-
-            const semEstoque = produto.estoque <= 0;
-            const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
 
             galeria.innerHTML = `
                 <div class="galeriaProduto">
@@ -316,6 +321,8 @@
                         </div>
                     </div>
                     `}
+
+                    <div class="resumoSelecaoVariacao" id="resumoSelecaoVariacao"></div>
 
                     <p class="mensagemProduto" id="mensagemProduto" style="color: var(--cor-primaria); font-family: 'Almarai', sans-serif; min-height: 20px;"></p>
 
@@ -436,13 +443,44 @@
                         produtoId: produto.id,
                         variacaoId: item.dataset.id,
                         nome: `${produto.nome} (${partes.join(', ')})`,
-                        preco: Number(precoFinal) + adicionalTotal + Number(item.dataset.adicional),
+                        preco: Number(item.dataset.precoUnitario) + adicionalTotal,
                         quantidade,
                         imagem: imagemPrincipal
                     });
                 });
 
                 return itens;
+            }
+
+            // Mostra, antes de adicionar, exatamente o que vai pro carrinho —
+            // pra deixar claro quantas unidades de cada opção foram escolhidas.
+            const resumoSelecao = document.getElementById('resumoSelecaoVariacao');
+
+            function atualizarResumoSelecao() {
+                if (!resumoSelecao) return;
+                const itens = montarItensCarrinho();
+
+                if (itens.length === 0) {
+                    resumoSelecao.innerHTML = '';
+                    return;
+                }
+
+                const linhas = itens.map((item) => {
+                    const rotulo = item.nome.slice(produto.nome.length).replace(/^\s*\(|\)\s*$/g, '') || produto.nome;
+                    return `<div class="linhaResumoSelecaoVariacao"><span>${item.quantidade}x ${escaparHtml(rotulo)}</span><span>${formatarPreco(item.preco * item.quantidade)}</span></div>`;
+                });
+
+                const total = itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
+                linhas.push(`<div class="linhaResumoSelecaoVariacao total"><span>Total</span><span>${formatarPreco(total)}</span></div>`);
+
+                resumoSelecao.innerHTML = linhas.join('');
+            }
+
+            if (grupoQuantidade) {
+                document.getElementById('blocoVariacoes').addEventListener('click', atualizarResumoSelecao);
+                document.getElementById('blocoVariacoes').addEventListener('change', atualizarResumoSelecao);
+                document.getElementById('blocoVariacoes').addEventListener('input', atualizarResumoSelecao);
+                atualizarResumoSelecao();
             }
 
             document.getElementById('botaoAdicionarCarrinho').addEventListener('click', () => {
@@ -454,6 +492,12 @@
                 }
 
                 itens.forEach(adicionarItem);
+
+                if (grupoQuantidade) {
+                    grupoQuantidade.querySelectorAll('.inputQtdVariacao').forEach((input) => { input.value = 0; });
+                    atualizarResumoSelecao();
+                }
+
                 mensagem.textContent = 'Adicionado ao carrinho!';
                 setTimeout(() => { mensagem.textContent = ''; }, 2500);
             });

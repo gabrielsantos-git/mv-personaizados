@@ -325,6 +325,35 @@ main{
     height: 26px;
 }
 
+.resumoSelecaoVariacao{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resumoSelecaoVariacao:empty{
+    display: none;
+}
+
+.linhaResumoSelecaoVariacao{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: black;
+}
+
+.linhaResumoSelecaoVariacao.total{
+    padding-top: 6px;
+    border-top: 1px solid #ddd;
+
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
 .btnQtdVariacao{
     background-color: rgba(255, 255, 255, 0);
     border: none;

@@ -233,7 +233,7 @@
                         </div>
 
                         <div class="campoFormProduto campoPrecoVariacao">
-                            <label>Preço adicional (R$)</label>
+                            <label class="rotuloPrecoVariacao">Preço adicional (R$)</label>
                             <input type="text" class="inputPrecoVariacao" placeholder="0,00 (opcional)">
                         </div>
 
@@ -424,6 +424,18 @@
             const estilo = linha.querySelector('.selectEstiloVariacao').value;
             linha.querySelector('.campoFotoVariacao').style.display = estilo === 'foto' ? '' : 'none';
             linha.querySelector('.campoCorVariacao').style.display = estilo === 'cor' ? '' : 'none';
+
+            // No estilo "quantidade" (ex: tamanhos), o preço aqui é o preço
+            // completo daquele valor, não algo somado ao preço base do produto.
+            const rotuloPreco = linha.querySelector('.rotuloPrecoVariacao');
+            const inputPreco = linha.querySelector('.inputPrecoVariacao');
+            if (estilo === 'quantidade') {
+                rotuloPreco.textContent = 'Preço nesse valor (R$)';
+                inputPreco.placeholder = '0,00 (em branco = preço base do produto)';
+            } else {
+                rotuloPreco.textContent = 'Preço adicional (R$)';
+                inputPreco.placeholder = '0,00 (opcional)';
+            }
         }
 
         function adicionarLinhaVariacao() {
