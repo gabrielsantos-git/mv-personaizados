@@ -308,8 +308,8 @@
                         <p>${escaparHtml(produto.descricao || 'Sem descrição.')}</p>
                         <p>
                             <strong>Preço:</strong>
-                            ${precoOriginal ? `<span class="precoAntigo" style="margin-left: 6px;">${formatarPreco(precoOriginal)}</span>` : ''}
-                            <span style="${precoOriginal ? 'color: var(--cor-primaria); font-weight: 700;' : ''}">${formatarPreco(precoFinal)}</span>
+                            ${precoOriginal ? `<span class="precoAntigo" id="precoAntigoExibido" style="margin-left: 6px;">${formatarPreco(precoOriginal)}</span>` : ''}
+                            <span id="precoExibido" style="${precoOriginal ? 'color: var(--cor-primaria); font-weight: 700;' : ''}">${formatarPreco(precoFinal)}</span>
                         </p>
                         ${semEstoque ? '<p style="color: var(--cor-primaria); font-weight: 700;">Produto sem estoque no momento.</p>' : ''}
                     </div>
@@ -326,8 +326,6 @@
                         </div>
                     </div>
                     `}
-
-                    <div class="resumoSelecaoVariacao" id="resumoSelecaoVariacao"></div>
 
                     ${modoEdicao ? '<p class="avisoEdicaoProduto">Editando o que já está no seu carrinho.</p>' : ''}
 
@@ -464,35 +462,31 @@
                 return itens;
             }
 
-            // Mostra, antes de adicionar, exatamente o que vai pro carrinho —
-            // pra deixar claro quantas unidades de cada opção foram escolhidas.
-            const resumoSelecao = document.getElementById('resumoSelecaoVariacao');
+            // O "Preço:" do topo passa a mostrar o total de tudo que foi
+            // escolhido nos contadores por quantidade (ex: 2x P + 3x M + 5x G).
+            const precoExibidoEl = document.getElementById('precoExibido');
+            const precoAntigoEl = document.getElementById('precoAntigoExibido');
 
-            function atualizarResumoSelecao() {
-                if (!resumoSelecao) return;
+            function atualizarPrecoExibido() {
+                if (!precoExibidoEl) return;
                 const itens = montarItensCarrinho();
 
                 if (itens.length === 0) {
-                    resumoSelecao.innerHTML = '';
+                    precoExibidoEl.textContent = formatarPreco(precoFinal);
+                    if (precoAntigoEl) precoAntigoEl.style.display = '';
                     return;
                 }
 
-                const linhas = itens.map((item) => {
-                    const rotulo = item.nome.slice(produto.nome.length).replace(/^\s*\(|\)\s*$/g, '') || produto.nome;
-                    return `<div class="linhaResumoSelecaoVariacao"><span>${item.quantidade}x ${escaparHtml(rotulo)}</span><span>${formatarPreco(item.preco * item.quantidade)}</span></div>`;
-                });
-
                 const total = itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
-                linhas.push(`<div class="linhaResumoSelecaoVariacao total"><span>Total</span><span>${formatarPreco(total)}</span></div>`);
-
-                resumoSelecao.innerHTML = linhas.join('');
+                precoExibidoEl.textContent = formatarPreco(total);
+                if (precoAntigoEl) precoAntigoEl.style.display = 'none';
             }
 
             if (grupoQuantidade) {
-                document.getElementById('blocoVariacoes').addEventListener('click', atualizarResumoSelecao);
-                document.getElementById('blocoVariacoes').addEventListener('change', atualizarResumoSelecao);
-                document.getElementById('blocoVariacoes').addEventListener('input', atualizarResumoSelecao);
-                atualizarResumoSelecao();
+                document.getElementById('blocoVariacoes').addEventListener('click', atualizarPrecoExibido);
+                document.getElementById('blocoVariacoes').addEventListener('change', atualizarPrecoExibido);
+                document.getElementById('blocoVariacoes').addEventListener('input', atualizarPrecoExibido);
+                atualizarPrecoExibido();
             }
 
             document.getElementById('botaoAdicionarCarrinho').addEventListener('click', () => {
@@ -515,7 +509,7 @@
 
                 if (grupoQuantidade) {
                     grupoQuantidade.querySelectorAll('.inputQtdVariacao').forEach((input) => { input.value = 0; });
-                    atualizarResumoSelecao();
+                    atualizarPrecoExibido();
                 }
 
                 mensagem.textContent = 'Adicionado ao carrinho!';
