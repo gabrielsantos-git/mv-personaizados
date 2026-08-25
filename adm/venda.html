@@ -120,6 +120,11 @@
                             <span id="subtotalVenda">R$ 0,00</span>
                         </div>
 
+                        <div class="linhaSubtotalVenda linhaDescontoVenda" id="linhaDescontoVenda" style="display:none;">
+                            <span>Desconto (promoção)</span>
+                            <span id="descontoVenda" class="valorDescontoVenda">- R$ 0,00</span>
+                        </div>
+
                         <div class="divisorTotalVenda"></div>
 
                         <div class="linhaValorTotalVenda">
@@ -246,13 +251,26 @@
         const badgeQtdItens = document.getElementById('badgeQtdItensCarrinho');
         const subtotalVendaEl = document.getElementById('subtotalVenda');
         const totalVendaEl = document.getElementById('totalVenda');
+        const linhaDescontoVendaEl = document.getElementById('linhaDescontoVenda');
+        const descontoVendaEl = document.getElementById('descontoVenda');
+
+        function rotuloPromocao(promocao) {
+            return promocao.tipo_desconto === 'percentual'
+                ? `-${Number(promocao.valor)}%`
+                : `-${formatarPreco(promocao.valor)}`;
+        }
 
         function itemCarrinhoHtml(item) {
+            const badgePromo = item.promocao
+                ? `<span class="badgePromoItemVenda">Promoção ${rotuloPromocao(item.promocao)}</span>`
+                : '';
+
             return `
                 <div class="itemCarrinhoVenda" data-id="${item.produtoId}">
                     <div class="infoItemCarrinho">
                         <h4>${item.nome}</h4>
-                        <h6>${formatarPreco(item.preco)} / un</h6>
+                        <h6>${item.precoOriginal ? `<span class="precoAntigoVenda">${formatarPreco(item.precoOriginal)}</span>` : ''}${formatarPreco(item.preco)} / un</h6>
+                        ${badgePromo}
                     </div>
 
                     <div class="qtdItemCarrinho">
@@ -276,9 +294,17 @@
             const totalItens = carrinho.reduce((soma, item) => soma + item.quantidade, 0);
             badgeQtdItens.textContent = `${totalItens} ${totalItens === 1 ? 'Item' : 'Itens'}`;
 
+            const subtotalSemDesconto = carrinho.reduce((soma, item) => soma + (item.precoOriginal ?? item.preco) * item.quantidade, 0);
             const total = carrinho.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
-            subtotalVendaEl.textContent = formatarPreco(total);
+            const desconto = subtotalSemDesconto - total;
+
+            subtotalVendaEl.textContent = formatarPreco(subtotalSemDesconto);
             totalVendaEl.textContent = formatarPreco(total);
+
+            if (linhaDescontoVendaEl) {
+                linhaDescontoVendaEl.style.display = desconto > 0 ? 'flex' : 'none';
+                descontoVendaEl.textContent = `- ${formatarPreco(desconto)}`;
+            }
         }
 
         function adicionarAoCarrinho(produtoId) {
@@ -293,11 +319,13 @@
             if (itemExistente) {
                 itemExistente.quantidade += 1;
             } else {
-                const { precoFinal } = calcularPrecoComDesconto(produto, promocoesAtivas);
+                const { precoFinal, precoOriginal, promocao } = calcularPrecoComDesconto(produto, promocoesAtivas);
                 carrinho.push({
                     produtoId: produto.id,
                     nome: produto.nome,
                     preco: precoFinal,
+                    precoOriginal,
+                    promocao,
                     quantidade: 1,
                     estoqueDisponivel: produto.estoque
                 });
