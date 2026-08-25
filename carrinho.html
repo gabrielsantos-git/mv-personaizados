@@ -91,6 +91,13 @@
     <script type="module">
         import { getCarrinho, atualizarQuantidade, removerItem, totalCarrinho, atualizarBadgeCarrinho } from './assets/carrinho.js';
 
+        // Itens salvos antes do agrupamento por produto existir não têm
+        // produtoNome/variacaoDescricao separados — nesse caso, recupera o
+        // nome base tirando o "(...)" de variação de dentro do nome antigo.
+        function nomeBaseAntigo(nome) {
+            return nome.replace(/\s*\([^)]*\)\s*$/, '');
+        }
+
         // Agrupa as linhas do carrinho por produto — várias variações do
         // mesmo produto (ex: Camisa P, M e G) aparecem num card só.
         function agruparPorProduto(itens) {
@@ -102,7 +109,7 @@
                     posicaoPorProduto.set(item.produtoId, grupos.length);
                     grupos.push({
                         produtoId: item.produtoId,
-                        produtoNome: item.produtoNome || item.nome,
+                        produtoNome: item.produtoNome || nomeBaseAntigo(item.nome),
                         imagem: item.imagem,
                         linhas: []
                     });
@@ -146,9 +153,15 @@
             const grupos = agruparPorProduto(itens);
 
             const itensHtml = grupos.map((grupo) => {
-                const linhasHtml = grupo.linhas.map((item) => `
+                const linhasHtml = grupo.linhas.map((item) => {
+                    // Itens salvos antes desse agrupamento existir não têm variacaoDescricao
+                    // separado — nesse caso, tira a descrição de dentro do nome antigo.
+                    const descricao = item.variacaoDescricao
+                        || item.nome.slice(grupo.produtoNome.length).replace(/^\s*\(|\)\s*$/g, '');
+
+                    return `
                     <div class="linhaVariacaoCarrinho">
-                        <span class="descricaoVariacaoCarrinho">${item.variacaoDescricao ? escaparHtml(item.variacaoDescricao) : 'Padrão'}</span>
+                        <span class="descricaoVariacaoCarrinho">${descricao ? escaparHtml(descricao) : 'Padrão'}</span>
                         <span class="precoUnitarioVariacao">${formatarPreco(item.preco)} cada</span>
                         <div class="itemCarrinhoStepper">
                             <button type="button" class="btnDiminuir" data-indice="${item.indice}">−</button>
@@ -160,7 +173,8 @@
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
                         </button>
                     </div>
-                `).join('');
+                `;
+                }).join('');
 
                 return `
                     <div class="itemCarrinho grupoProdutoCarrinho">
@@ -168,10 +182,6 @@
                         <div class="grupoProdutoInfo">
                             <div class="cabecalhoGrupoProduto">
                                 <h4>${escaparHtml(grupo.produtoNome)}</h4>
-                                <a href="produto.html?id=${grupo.produtoId}" class="botaoEditarItemCarrinho">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                                    Editar
-                                </a>
                             </div>
                             <div class="linhasVariacaoCarrinho">${linhasHtml}</div>
                         </div>

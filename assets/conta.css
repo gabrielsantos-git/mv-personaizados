@@ -716,28 +716,6 @@ hr.divisorConta{
     margin: 0;
 }
 
-.botaoEditarItemCarrinho{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 5px 12px;
-    text-decoration: none;
-
-    font-family: 'Almarai', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--cor-primaria);
-}
-
-.botaoEditarItemCarrinho:hover{
-    background-color: #fdf1f2;
-}
-
 .linhasVariacaoCarrinho{
     display: flex;
     flex-direction: column;
