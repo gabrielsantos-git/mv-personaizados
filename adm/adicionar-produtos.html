@@ -189,15 +189,19 @@
                     <p class="descricaoSecaoForm">Selecione uma ou mais variações que esse produto pode ter.</p>
 
                     <div class="opcoesVariacao" id="listaTiposVariacao">
-                        <label class="chipVariacao">
-                            <input type="checkbox" name="tipoVariacao" value="tamanho">
+                        <div class="chipVariacao" data-valor="tamanho">
                             <span>Tamanho</span>
-                        </label>
+                            <button type="button" class="botaoRemoverTipoVariacao" aria-label="Excluir tipo Tamanho">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
 
-                        <label class="chipVariacao">
-                            <input type="checkbox" name="tipoVariacao" value="cor">
+                        <div class="chipVariacao" data-valor="cor">
                             <span>Cor</span>
-                        </label>
+                            <button type="button" class="botaoRemoverTipoVariacao" aria-label="Excluir tipo Cor">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="novoTipoVariacao">
@@ -233,6 +237,18 @@
                             <input type="text" class="inputPrecoVariacao" placeholder="0,00 (opcional)">
                         </div>
 
+                        <div class="campoFormProduto campoEstiloVariacao">
+                            <label>Como aparecer</label>
+                            <select class="selectEstiloVariacao">
+                                <option value="radio">Botão de opção (radio)</option>
+                                <option value="caixa">Caixa de seleção</option>
+                                <option value="botao">Botão</option>
+                                <option value="cor">Cor</option>
+                                <option value="foto">Foto</option>
+                                <option value="quantidade">Quantidade de produto</option>
+                            </select>
+                        </div>
+
                         <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
                         </button>
@@ -258,10 +274,9 @@
         const botaoNovoTipo = document.getElementById('botaoNovoTipoVariacao');
 
         function tiposDisponiveis() {
-            return [...listaTipos.querySelectorAll('input[name="tipoVariacao"]')].map((input) => ({
-                valor: input.value,
-                nome: input.nextElementSibling.textContent,
-                marcado: input.checked
+            return [...listaTipos.querySelectorAll('.chipVariacao')].map((chip) => ({
+                valor: chip.dataset.valor,
+                nome: chip.querySelector('span').textContent
             }));
         }
 
@@ -282,6 +297,22 @@
             });
         }
 
+        const iconeX = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+        function removerTipoVariacao(chip) {
+            const valor = chip.dataset.valor;
+            const nome = chip.querySelector('span').textContent;
+
+            const linhasComEsseTipo = [...listaVariacoes.querySelectorAll('.linhaVariacaoProduto')]
+                .filter((linha) => linha.querySelector('.selectTipoVariacao').value === valor);
+
+            if (!confirm(`Excluir o tipo "${nome}"?${linhasComEsseTipo.length ? ' As variações desse tipo também serão removidas.' : ''}`)) return;
+
+            linhasComEsseTipo.forEach((linha) => linha.remove());
+            chip.remove();
+            sincronizarSelectsDeTipo();
+        }
+
         function criarTipoVariacao() {
             const nome = inputNovoTipo.value.trim();
             if (!nome) {
@@ -291,12 +322,20 @@
 
             const valor = nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
 
-            const label = document.createElement('label');
-            label.className = 'chipVariacao';
-            label.innerHTML = '<input type="checkbox" name="tipoVariacao" value="' + valor + '" checked><span></span>';
-            label.querySelector('span').textContent = nome;
+            if (listaTipos.querySelector(`.chipVariacao[data-valor="${valor}"]`)) {
+                inputNovoTipo.value = '';
+                inputNovoTipo.focus();
+                return;
+            }
 
-            listaTipos.appendChild(label);
+            const chip = document.createElement('div');
+            chip.className = 'chipVariacao';
+            chip.dataset.valor = valor;
+            chip.innerHTML = `<span></span><button type="button" class="botaoRemoverTipoVariacao" aria-label="Excluir tipo ${nome}">${iconeX}</button>`;
+            chip.querySelector('span').textContent = nome;
+            chip.querySelector('.botaoRemoverTipoVariacao').addEventListener('click', () => removerTipoVariacao(chip));
+
+            listaTipos.appendChild(chip);
 
             inputNovoTipo.value = '';
             inputNovoTipo.focus();
@@ -311,7 +350,10 @@
                 criarTipoVariacao();
             }
         });
-        listaTipos.addEventListener('change', sincronizarSelectsDeTipo);
+
+        listaTipos.querySelectorAll('.botaoRemoverTipoVariacao').forEach((botao) => {
+            botao.addEventListener('click', () => removerTipoVariacao(botao.closest('.chipVariacao')));
+        });
 
         // ---------- Linhas de variação (valor + preço adicional) ----------
         const listaVariacoes = document.getElementById('listaVariacoesProduto');
@@ -355,16 +397,16 @@
         const listaImagensExistentes = document.getElementById('listaImagensExistentes');
 
         function garantirChipTipo(tipoValor, tipoNomeSugerido) {
-            const existente = listaTipos.querySelector(`input[value="${tipoValor}"]`);
-            if (existente) {
-                existente.checked = true;
-                return;
-            }
-            const label = document.createElement('label');
-            label.className = 'chipVariacao';
-            label.innerHTML = '<input type="checkbox" name="tipoVariacao" value="' + tipoValor + '" checked><span></span>';
-            label.querySelector('span').textContent = tipoNomeSugerido || tipoValor;
-            listaTipos.appendChild(label);
+            if (listaTipos.querySelector(`.chipVariacao[data-valor="${tipoValor}"]`)) return;
+
+            const chip = document.createElement('div');
+            chip.className = 'chipVariacao';
+            chip.dataset.valor = tipoValor;
+            chip.innerHTML = `<span></span><button type="button" class="botaoRemoverTipoVariacao" aria-label="Excluir tipo ${tipoNomeSugerido || tipoValor}">${iconeX}</button>`;
+            chip.querySelector('span').textContent = tipoNomeSugerido || tipoValor;
+            chip.querySelector('.botaoRemoverTipoVariacao').addEventListener('click', () => removerTipoVariacao(chip));
+
+            listaTipos.appendChild(chip);
         }
 
         function renderizarImagemExistente(imagem) {
@@ -427,6 +469,7 @@
                 linha.querySelector('.selectTipoVariacao').value = variacao.tipo;
                 linha.querySelector('.inputValorVariacao').value = variacao.valor;
                 linha.querySelector('.inputPrecoVariacao').value = Number(variacao.preco_adicional || 0).toFixed(2).replace('.', ',');
+                linha.querySelector('.selectEstiloVariacao').value = variacao.estilo_exibicao || 'radio';
             });
 
             (imagens || []).forEach(renderizarImagemExistente);
@@ -467,7 +510,8 @@
                     produto_id: produtoId,
                     tipo: linha.querySelector('.selectTipoVariacao').value,
                     valor: linha.querySelector('.inputValorVariacao').value.trim(),
-                    preco_adicional: paraNumero(linha.querySelector('.inputPrecoVariacao').value)
+                    preco_adicional: paraNumero(linha.querySelector('.inputPrecoVariacao').value),
+                    estilo_exibicao: linha.querySelector('.selectEstiloVariacao').value
                 }))
                 .filter((variacao) => variacao.tipo && variacao.valor);
 
