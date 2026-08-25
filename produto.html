@@ -178,10 +178,11 @@
                     const adicionalTexto = Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)})` : '';
 
                     if (estilo === 'cor') {
+                        const corFundo = v.cor_hex || v.valor.toLowerCase();
                         return `
                             <label class="opcaoVariacaoCor" title="${escaparHtml(v.valor)}${adicionalTexto}">
                                 <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
-                                <span class="amostraCor" style="background-color: ${escaparHtml(v.valor).toLowerCase()};"></span>
+                                <span class="amostraCor" style="background-color: ${escaparHtml(corFundo)};"></span>
                                 <span class="nomeCor">${escaparHtml(v.valor)}</span>
                             </label>
                         `;
@@ -242,7 +243,7 @@
 
             const { data: produto, error } = await supabase
                 .from('produtos')
-                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url)')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url, cor_hex)')
                 .eq('id', idProduto)
                 .eq('status', 'ativo')
                 .eq('publico', true)
@@ -264,6 +265,10 @@
 
             const variacoes = produto.variacoes_produto || [];
             const variacoesHtml = blocoVariacoesHtml(variacoes);
+            // Quando um grupo de variação já é do tipo "quantidade", a quantidade de
+            // cada item é escolhida ali mesmo (um stepper por valor) — o seletor
+            // genérico de quantidade no fim do formulário fica redundante.
+            const temGrupoQuantidade = variacoes.some((v) => v.estilo_exibicao === 'quantidade');
 
             const semEstoque = produto.estoque <= 0;
             const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
@@ -294,6 +299,7 @@
 
                     ${variacoesHtml}
 
+                    ${temGrupoQuantidade ? '' : `
                     <div class="quantidadeCompra">
                         <span>Quantidade:</span>
                         <div class="barraQuantidade">
@@ -302,6 +308,7 @@
                             <button type="button" class="btnQuantidade" aria-label="Aumentar quantidade">+</button>
                         </div>
                     </div>
+                    `}
 
                     <p class="mensagemProduto" id="mensagemProduto" style="color: var(--cor-primaria); font-family: 'Almarai', sans-serif; min-height: 20px;"></p>
 
@@ -345,30 +352,18 @@
             });
         }
 
-        // Lê o que foi escolhido em cada grupo de variação e devolve o total
-        // adicional de preço, a descrição pra somar ao nome do item, e o id
-        // da variação principal (o pedido só guarda uma variação por item).
+        // Lê o que foi escolhido nos grupos de seleção única (radio, caixa,
+        // botão, cor, foto) e devolve o adicional de preço, a descrição pra
+        // somar ao nome do item, e o id da variação principal.
         function coletarVariacoesSelecionadas() {
             let adicionalTotal = 0;
             let variacaoIdPrincipal = null;
             const partesNome = [];
 
             document.querySelectorAll('.grupoVariacaoProduto').forEach((grupo) => {
+                if (grupo.dataset.estilo === 'quantidade') return;
+
                 const tipoNome = grupo.querySelector('.rotuloGrupoVariacao').textContent;
-
-                if (grupo.dataset.estilo === 'quantidade') {
-                    const escolhidos = [];
-                    grupo.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
-                        const qtd = Number(item.querySelector('.inputQtdVariacao').value) || 0;
-                        if (qtd <= 0) return;
-                        adicionalTotal += Number(item.dataset.adicional) * qtd;
-                        escolhidos.push(`${qtd}x ${item.dataset.valor}`);
-                        if (!variacaoIdPrincipal) variacaoIdPrincipal = item.dataset.id;
-                    });
-                    if (escolhidos.length) partesNome.push(`${tipoNome}: ${escolhidos.join(', ')}`);
-                    return;
-                }
-
                 const selecionado = grupo.querySelector('input:checked');
                 if (!selecionado) return;
 
@@ -384,6 +379,7 @@
             const inputQuantidade = document.getElementById('quantidade');
             const botoesQuantidade = document.querySelectorAll('.btnQuantidade');
             const mensagem = document.getElementById('mensagemProduto');
+            const grupoQuantidade = document.querySelector('.grupoVariacaoProduto[data-estilo="quantidade"]');
 
             botoesQuantidade.forEach((botao, indice) => {
                 botao.addEventListener('click', () => {
@@ -401,22 +397,56 @@
                 });
             });
 
-            function montarItemCarrinho() {
-                const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
+            // Sem grupo de quantidade: 1 item só, com a quantidade do seletor genérico.
+            // Com grupo de quantidade: 1 item pra cada valor com quantidade > 0
+            // (ex: 1x Camisa P, 4x Camisa M), cada um levando os outros grupos escolhidos.
+            function montarItensCarrinho() {
                 const { adicionalTotal, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
 
-                return {
-                    produtoId: produto.id,
-                    variacaoId: variacaoIdPrincipal,
-                    nome: produto.nome + (descricao ? ` (${descricao})` : ''),
-                    preco: Number(precoFinal) + adicionalTotal,
-                    quantidade,
-                    imagem: imagemPrincipal
-                };
+                if (!grupoQuantidade) {
+                    const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
+                    return [{
+                        produtoId: produto.id,
+                        variacaoId: variacaoIdPrincipal,
+                        nome: produto.nome + (descricao ? ` (${descricao})` : ''),
+                        preco: Number(precoFinal) + adicionalTotal,
+                        quantidade,
+                        imagem: imagemPrincipal
+                    }];
+                }
+
+                const tipoNome = grupoQuantidade.querySelector('.rotuloGrupoVariacao').textContent;
+                const itens = [];
+
+                grupoQuantidade.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
+                    const quantidade = Number(item.querySelector('.inputQtdVariacao').value) || 0;
+                    if (quantidade <= 0) return;
+
+                    const partes = descricao ? [descricao] : [];
+                    partes.push(`${tipoNome}: ${item.dataset.valor}`);
+
+                    itens.push({
+                        produtoId: produto.id,
+                        variacaoId: item.dataset.id,
+                        nome: `${produto.nome} (${partes.join(', ')})`,
+                        preco: Number(precoFinal) + adicionalTotal + Number(item.dataset.adicional),
+                        quantidade,
+                        imagem: imagemPrincipal
+                    });
+                });
+
+                return itens;
             }
 
             document.getElementById('botaoAdicionarCarrinho').addEventListener('click', () => {
-                adicionarItem(montarItemCarrinho());
+                const itens = montarItensCarrinho();
+
+                if (itens.length === 0) {
+                    mensagem.textContent = 'Escolha ao menos uma quantidade antes de adicionar.';
+                    return;
+                }
+
+                itens.forEach(adicionarItem);
                 mensagem.textContent = 'Adicionado ao carrinho!';
                 setTimeout(() => { mensagem.textContent = ''; }, 2500);
             });

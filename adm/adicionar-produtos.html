@@ -249,8 +249,8 @@
                             </select>
                         </div>
 
-                        <div class="campoFormProduto campoFotoVariacao">
-                            <label>Foto (opcional)</label>
+                        <div class="campoFormProduto campoFotoVariacao" style="display:none;">
+                            <label>Foto</label>
                             <label class="uploadFotoVariacaoItem">
                                 <img class="previewFotoVariacao" style="display:none;">
                                 <span class="textoUploadFotoVariacao">
@@ -261,6 +261,11 @@
                             <button type="button" class="botaoRemoverFotoVariacao" aria-label="Remover foto" style="display:none;">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                             </button>
+                        </div>
+
+                        <div class="campoFormProduto campoCorVariacao" style="display:none;">
+                            <label>Cor</label>
+                            <input type="color" class="inputCorVariacao" value="#a70c24">
                         </div>
 
                         <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
@@ -413,14 +418,24 @@
             };
         }
 
+        // Mostra o campo de foto só quando o estilo é "Foto", e o seletor de
+        // cor só quando o estilo é "Cor" — nos outros estilos nenhum aparece.
+        function atualizarCamposExtrasVariacao(linha) {
+            const estilo = linha.querySelector('.selectEstiloVariacao').value;
+            linha.querySelector('.campoFotoVariacao').style.display = estilo === 'foto' ? '' : 'none';
+            linha.querySelector('.campoCorVariacao').style.display = estilo === 'cor' ? '' : 'none';
+        }
+
         function adicionarLinhaVariacao() {
             const fragmento = templateLinha.content.cloneNode(true);
             const linha = fragmento.querySelector('.linhaVariacaoProduto');
 
             linha.querySelector('.botaoRemoverVariacao').addEventListener('click', () => linha.remove());
+            linha.querySelector('.selectEstiloVariacao').addEventListener('change', () => atualizarCamposExtrasVariacao(linha));
             ligarFotoVariacao(linha);
 
             listaVariacoes.appendChild(linha);
+            atualizarCamposExtrasVariacao(linha);
             sincronizarSelectsDeTipo();
         }
 
@@ -524,7 +539,9 @@
                 linha.querySelector('.inputValorVariacao').value = variacao.valor;
                 linha.querySelector('.inputPrecoVariacao').value = Number(variacao.preco_adicional || 0).toFixed(2).replace('.', ',');
                 linha.querySelector('.selectEstiloVariacao').value = variacao.estilo_exibicao || 'radio';
+                linha.querySelector('.inputCorVariacao').value = variacao.cor_hex || '#a70c24';
                 linha.definirFotoExistente(variacao.imagem_url);
+                atualizarCamposExtrasVariacao(linha);
             });
 
             (imagens || []).forEach(renderizarImagemExistente);
@@ -584,13 +601,15 @@
             const variacoes = [];
             for (let i = 0; i < linhas.length; i++) {
                 const linha = linhas[i];
+                const estilo = linha.querySelector('.selectEstiloVariacao').value;
                 variacoes.push({
                     produto_id: produtoId,
                     tipo: linha.querySelector('.selectTipoVariacao').value,
                     valor: linha.querySelector('.inputValorVariacao').value.trim(),
                     preco_adicional: paraNumero(linha.querySelector('.inputPrecoVariacao').value),
-                    estilo_exibicao: linha.querySelector('.selectEstiloVariacao').value,
-                    imagem_url: await enviarFotoVariacao(linha, produtoId, i)
+                    estilo_exibicao: estilo,
+                    cor_hex: estilo === 'cor' ? linha.querySelector('.inputCorVariacao').value : null,
+                    imagem_url: estilo === 'foto' ? await enviarFotoVariacao(linha, produtoId, i) : null
                 });
             }
 
