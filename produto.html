@@ -127,6 +127,13 @@
             return (tipo || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
         }
 
+        // Tipos criados no admin ficam salvos como slug (ex: "area-de-personalizacao").
+        // Aqui só trocamos os hifens por espaço e maiúscula na primeira letra pra exibir.
+        function nomeExibicaoTipo(tipo) {
+            const texto = (tipo || '').toString().replace(/-/g, ' ');
+            return texto.charAt(0).toUpperCase() + texto.slice(1);
+        }
+
         // Agrupa as variações por tipo (Tamanho, Cor...) e monta o widget de
         // escolha de cada grupo no estilo definido no admin (estilo_exibicao):
         // radio, caixa de seleção, botão, cor, foto ou quantidade.
@@ -146,7 +153,7 @@
                 if (estilo === 'quantidade') {
                     return `
                         <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="quantidade">
-                            <span class="rotuloGrupoVariacao">${escaparHtml(tipo)}</span>
+                            <span class="rotuloGrupoVariacao">${escaparHtml(nomeExibicaoTipo(tipo))}</span>
                             <div class="opcoesGrupoQuantidade">
                                 ${valores.map((v) => `
                                     <div class="itemQuantidadeVariacao" data-id="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}">
@@ -224,7 +231,7 @@
 
                 return `
                     <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="${estilo}">
-                        <span class="rotuloGrupoVariacao">${escaparHtml(tipo)}</span>
+                        <span class="rotuloGrupoVariacao">${escaparHtml(nomeExibicaoTipo(tipo))}</span>
                         <div class="opcoesGrupoVariacao ${classeOpcoes}">${opcoesHtml}</div>
                     </div>
                 `;
