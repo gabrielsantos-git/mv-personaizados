@@ -149,6 +149,9 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { carregarPromocoesAtivas, calcularPrecoComDesconto } from '../assets/promocoes.js';
+
+        let promocoesAtivas = [];
 
         const nomesCategoria = {
             personalizado: 'Personalizado',
@@ -187,13 +190,18 @@
 
         function linhaProdutoHtml(produto) {
             const semEstoque = produto.estoque <= 0;
+            const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
+            const valorHtml = precoOriginal
+                ? `<span class="precoAntigoVenda">${formatarPreco(precoOriginal)}</span>${formatarPreco(precoFinal)}`
+                : formatarPreco(precoFinal);
+
             return `
                 <div class="linhaTabelaProdutosVenda" data-id="${produto.id}">
                     <div class="colNomeProd">
                         <h4>${produto.nome}</h4>
                         <h6>${produto.codigo || ''}</h6>
                     </div>
-                    <span class="colValorProd">${formatarPreco(produto.preco)}</span>
+                    <div class="colValorProd">${valorHtml}</div>
                     <span class="colCatProd"><span class="categoriaBadge ${classesCategoria[produto.categoria] || 'categoriaPersonalizado'}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
                     <span class="colEstoqueProd"><span class="pontoEstoque ${classeEstoque(produto.estoque)}"></span>${produto.estoque} un</span>
                     <span class="colAcaoProd">
@@ -285,10 +293,11 @@
             if (itemExistente) {
                 itemExistente.quantidade += 1;
             } else {
+                const { precoFinal } = calcularPrecoComDesconto(produto, promocoesAtivas);
                 carrinho.push({
                     produtoId: produto.id,
                     nome: produto.nome,
-                    preco: Number(produto.preco),
+                    preco: precoFinal,
                     quantidade: 1,
                     estoqueDisponivel: produto.estoque
                 });
@@ -404,7 +413,10 @@
         });
 
         renderizarCarrinho();
-        carregarProdutos();
+        carregarPromocoesAtivas().then((promocoes) => {
+            promocoesAtivas = promocoes;
+            carregarProdutos();
+        });
     </script>
 </body>
 </html>
