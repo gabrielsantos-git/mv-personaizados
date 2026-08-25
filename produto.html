@@ -123,6 +123,111 @@
             return div.innerHTML;
         }
 
+        function tipoSlug(tipo) {
+            return (tipo || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
+        }
+
+        // Agrupa as variações por tipo (Tamanho, Cor...) e monta o widget de
+        // escolha de cada grupo no estilo definido no admin (estilo_exibicao):
+        // radio, caixa de seleção, botão, cor, foto ou quantidade.
+        function blocoVariacoesHtml(variacoes) {
+            if (!variacoes.length) return '';
+
+            const grupos = new Map();
+            variacoes.forEach((v) => {
+                if (!grupos.has(v.tipo)) grupos.set(v.tipo, []);
+                grupos.get(v.tipo).push(v);
+            });
+
+            const gruposHtml = [...grupos.entries()].map(([tipo, valores]) => {
+                const estilo = valores[0].estilo_exibicao || 'radio';
+                const slug = tipoSlug(tipo);
+
+                if (estilo === 'quantidade') {
+                    return `
+                        <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="quantidade">
+                            <span class="rotuloGrupoVariacao">${escaparHtml(tipo)}</span>
+                            <div class="opcoesGrupoQuantidade">
+                                ${valores.map((v) => `
+                                    <div class="itemQuantidadeVariacao" data-id="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}">
+                                        <span>${escaparHtml(v.valor)}${Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)} cada)` : ''}</span>
+                                        <div class="barraQuantidade">
+                                            <button type="button" class="btnQtdVariacao" data-acao="menos" aria-label="Diminuir ${escaparHtml(v.valor)}">−</button>
+                                            <input type="number" min="0" value="0" class="inputQtdVariacao">
+                                            <button type="button" class="btnQtdVariacao" data-acao="mais" aria-label="Aumentar ${escaparHtml(v.valor)}">+</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const classeOpcoes = {
+                    radio: 'opcoesGrupoRadio',
+                    caixa: 'opcoesGrupoCaixa',
+                    botao: 'opcoesGrupoBotao',
+                    cor: 'opcoesGrupoCor',
+                    foto: 'opcoesGrupoFoto'
+                }[estilo] || 'opcoesGrupoRadio';
+
+                const tipoInput = estilo === 'caixa' ? 'checkbox' : 'radio';
+
+                const opcoesHtml = valores.map((v, indice) => {
+                    const marcado = indice === 0 ? 'checked' : '';
+                    const adicionalTexto = Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)})` : '';
+
+                    if (estilo === 'cor') {
+                        return `
+                            <label class="opcaoVariacaoCor" title="${escaparHtml(v.valor)}${adicionalTexto}">
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span class="amostraCor" style="background-color: ${escaparHtml(v.valor).toLowerCase()};"></span>
+                                <span class="nomeCor">${escaparHtml(v.valor)}</span>
+                            </label>
+                        `;
+                    }
+
+                    if (estilo === 'foto') {
+                        return `
+                            <label class="opcaoVariacaoFoto">
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span class="cartaoFoto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+                                    <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                                </span>
+                            </label>
+                        `;
+                    }
+
+                    if (estilo === 'botao') {
+                        return `
+                            <label class="opcaoVariacaoBotao">
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                            </label>
+                        `;
+                    }
+
+                    const classeOpcao = estilo === 'caixa' ? 'opcaoVariacaoCaixa' : 'opcaoVariacaoRadio';
+                    return `
+                        <label class="${classeOpcao}">
+                            <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                            <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                        </label>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="${estilo}">
+                        <span class="rotuloGrupoVariacao">${escaparHtml(tipo)}</span>
+                        <div class="opcoesGrupoVariacao ${classeOpcoes}">${opcoesHtml}</div>
+                    </div>
+                `;
+            }).join('');
+
+            return `<div class="blocoVariacoesProduto" id="blocoVariacoes">${gruposHtml}</div>`;
+        }
+
         const idProduto = new URLSearchParams(window.location.search).get('id');
 
         async function carregarProduto() {
@@ -133,7 +238,7 @@
 
             const { data: produto, error } = await supabase
                 .from('produtos')
-                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional)')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao)')
                 .eq('id', idProduto)
                 .eq('status', 'ativo')
                 .eq('publico', true)
@@ -154,14 +259,7 @@
                 : `<div class="imgMiniatura"><img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}"></div>`;
 
             const variacoes = produto.variacoes_produto || [];
-            const variacoesHtml = variacoes.length ? `
-                <div class="quantidadeCompra" id="blocoVariacoes">
-                    <span>Opção:</span>
-                    <select id="variacao" style="height: 36px; border-radius: 8px; border: 1px solid var(--cor-primaria); font-family: 'Almarai', sans-serif;">
-                        ${variacoes.map((v) => `<option value="${v.id}" data-adicional="${v.preco_adicional}">${escaparHtml(v.tipo)}: ${escaparHtml(v.valor)}</option>`).join('')}
-                    </select>
-                </div>
-            ` : '';
+            const variacoesHtml = blocoVariacoesHtml(variacoes);
 
             const semEstoque = produto.estoque <= 0;
             const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
@@ -214,10 +312,73 @@
             carregarRelacionados(produto);
         }
 
+        // Garante seleção única dentro de um grupo "caixa de seleção" — a
+        // aparência é de checkbox, mas o produto só aceita um valor por tipo.
+        function ligarExclusividadeCaixas() {
+            document.querySelectorAll('.grupoVariacaoProduto[data-estilo="caixa"] input[type="checkbox"]').forEach((caixa) => {
+                caixa.addEventListener('change', () => {
+                    if (!caixa.checked) {
+                        caixa.checked = true; // sempre precisa ter uma opção marcada
+                        return;
+                    }
+                    const grupo = caixa.closest('.grupoVariacaoProduto');
+                    grupo.querySelectorAll('input[type="checkbox"]').forEach((outra) => {
+                        if (outra !== caixa) outra.checked = false;
+                    });
+                });
+            });
+        }
+
+        function ligarStepperVariacoes() {
+            document.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
+                const input = item.querySelector('.inputQtdVariacao');
+                item.querySelectorAll('.btnQtdVariacao').forEach((botao) => {
+                    botao.addEventListener('click', () => {
+                        const atual = Number(input.value) || 0;
+                        input.value = botao.dataset.acao === 'menos' ? Math.max(0, atual - 1) : atual + 1;
+                    });
+                });
+            });
+        }
+
+        // Lê o que foi escolhido em cada grupo de variação e devolve o total
+        // adicional de preço, a descrição pra somar ao nome do item, e o id
+        // da variação principal (o pedido só guarda uma variação por item).
+        function coletarVariacoesSelecionadas() {
+            let adicionalTotal = 0;
+            let variacaoIdPrincipal = null;
+            const partesNome = [];
+
+            document.querySelectorAll('.grupoVariacaoProduto').forEach((grupo) => {
+                const tipoNome = grupo.querySelector('.rotuloGrupoVariacao').textContent;
+
+                if (grupo.dataset.estilo === 'quantidade') {
+                    const escolhidos = [];
+                    grupo.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
+                        const qtd = Number(item.querySelector('.inputQtdVariacao').value) || 0;
+                        if (qtd <= 0) return;
+                        adicionalTotal += Number(item.dataset.adicional) * qtd;
+                        escolhidos.push(`${qtd}x ${item.dataset.valor}`);
+                        if (!variacaoIdPrincipal) variacaoIdPrincipal = item.dataset.id;
+                    });
+                    if (escolhidos.length) partesNome.push(`${tipoNome}: ${escolhidos.join(', ')}`);
+                    return;
+                }
+
+                const selecionado = grupo.querySelector('input:checked');
+                if (!selecionado) return;
+
+                adicionalTotal += Number(selecionado.dataset.adicional) || 0;
+                partesNome.push(`${tipoNome}: ${selecionado.dataset.valor}`);
+                if (!variacaoIdPrincipal) variacaoIdPrincipal = selecionado.value;
+            });
+
+            return { adicionalTotal, variacaoIdPrincipal, descricao: partesNome.join(', ') };
+        }
+
         function ligarEventosCompra(produto, imagemPrincipal, precoFinal) {
             const inputQuantidade = document.getElementById('quantidade');
             const botoesQuantidade = document.querySelectorAll('.btnQuantidade');
-            const selectVariacao = document.getElementById('variacao');
             const mensagem = document.getElementById('mensagemProduto');
 
             botoesQuantidade.forEach((botao, indice) => {
@@ -227,6 +388,9 @@
                 });
             });
 
+            ligarExclusividadeCaixas();
+            ligarStepperVariacoes();
+
             document.querySelectorAll('.imgMiniatura').forEach((mini) => {
                 mini.addEventListener('click', () => {
                     document.getElementById('imgPrincipal').src = mini.querySelector('img').src;
@@ -235,15 +399,13 @@
 
             function montarItemCarrinho() {
                 const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
-                const variacaoId = selectVariacao ? selectVariacao.value : null;
-                const adicional = selectVariacao ? Number(selectVariacao.selectedOptions[0].dataset.adicional || 0) : 0;
-                const nomeVariacao = selectVariacao ? ` (${selectVariacao.selectedOptions[0].textContent})` : '';
+                const { adicionalTotal, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
 
                 return {
                     produtoId: produto.id,
-                    variacaoId,
-                    nome: produto.nome + nomeVariacao,
-                    preco: Number(precoFinal) + adicional,
+                    variacaoId: variacaoIdPrincipal,
+                    nome: produto.nome + (descricao ? ` (${descricao})` : ''),
+                    preco: Number(precoFinal) + adicionalTotal,
                     quantidade,
                     imagem: imagemPrincipal
                 };
