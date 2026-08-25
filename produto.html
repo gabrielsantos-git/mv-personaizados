@@ -188,11 +188,15 @@
                     }
 
                     if (estilo === 'foto') {
+                        const miolo = v.imagem_url
+                            ? `<img src="${v.imagem_url}" alt="${escaparHtml(v.valor)}">`
+                            : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>`;
+
                         return `
                             <label class="opcaoVariacaoFoto">
                                 <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span class="cartaoFoto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+                                    ${miolo}
                                     <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
                                 </span>
                             </label>
@@ -238,7 +242,7 @@
 
             const { data: produto, error } = await supabase
                 .from('produtos')
-                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao)')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url)')
                 .eq('id', idProduto)
                 .eq('status', 'ativo')
                 .eq('publico', true)

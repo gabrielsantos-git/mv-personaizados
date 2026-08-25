@@ -249,6 +249,20 @@
                             </select>
                         </div>
 
+                        <div class="campoFormProduto campoFotoVariacao">
+                            <label>Foto (opcional)</label>
+                            <label class="uploadFotoVariacaoItem">
+                                <img class="previewFotoVariacao" style="display:none;">
+                                <span class="textoUploadFotoVariacao">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                </span>
+                                <input type="file" class="inputFotoVariacao" accept="image/*">
+                            </label>
+                            <button type="button" class="botaoRemoverFotoVariacao" aria-label="Remover foto" style="display:none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+
                         <button type="button" class="botaoRemoverVariacao" aria-label="Remover variação">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
                         </button>
@@ -360,11 +374,51 @@
         const templateLinha = document.getElementById('templateLinhaVariacao');
         const botaoAdicionarVariacao = document.getElementById('botaoAdicionarVariacao');
 
+        function ligarFotoVariacao(linha) {
+            const input = linha.querySelector('.inputFotoVariacao');
+            const preview = linha.querySelector('.previewFotoVariacao');
+            const textoUpload = linha.querySelector('.textoUploadFotoVariacao');
+            const botaoRemover = linha.querySelector('.botaoRemoverFotoVariacao');
+
+            function mostrarPreview(url) {
+                preview.src = url;
+                preview.style.display = 'block';
+                textoUpload.style.display = 'none';
+                botaoRemover.style.display = 'flex';
+            }
+
+            function limparPreview() {
+                preview.removeAttribute('src');
+                preview.style.display = 'none';
+                textoUpload.style.display = 'flex';
+                botaoRemover.style.display = 'none';
+            }
+
+            input.addEventListener('change', () => {
+                if (!input.files[0]) return;
+                mostrarPreview(URL.createObjectURL(input.files[0]));
+                linha.dataset.imagemRemovida = '';
+            });
+
+            botaoRemover.addEventListener('click', (evento) => {
+                evento.preventDefault();
+                input.value = '';
+                limparPreview();
+                linha.dataset.imagemRemovida = '1';
+            });
+
+            linha.definirFotoExistente = (url) => {
+                linha.dataset.imagemExistente = url || '';
+                if (url) mostrarPreview(url);
+            };
+        }
+
         function adicionarLinhaVariacao() {
             const fragmento = templateLinha.content.cloneNode(true);
             const linha = fragmento.querySelector('.linhaVariacaoProduto');
 
             linha.querySelector('.botaoRemoverVariacao').addEventListener('click', () => linha.remove());
+            ligarFotoVariacao(linha);
 
             listaVariacoes.appendChild(linha);
             sincronizarSelectsDeTipo();
@@ -470,6 +524,7 @@
                 linha.querySelector('.inputValorVariacao').value = variacao.valor;
                 linha.querySelector('.inputPrecoVariacao').value = Number(variacao.preco_adicional || 0).toFixed(2).replace('.', ',');
                 linha.querySelector('.selectEstiloVariacao').value = variacao.estilo_exibicao || 'radio';
+                linha.definirFotoExistente(variacao.imagem_url);
             });
 
             (imagens || []).forEach(renderizarImagemExistente);
@@ -499,21 +554,45 @@
             }
         }
 
+        async function enviarFotoVariacao(linha, produtoId, indice) {
+            const input = linha.querySelector('.inputFotoVariacao');
+
+            if (input.files && input.files[0]) {
+                const arquivo = input.files[0];
+                const caminho = `${produtoId}/variacoes/${Date.now()}-${indice}-${arquivo.name}`;
+
+                const { error: erroUpload } = await supabase.storage.from('produtos').upload(caminho, arquivo);
+                if (erroUpload) throw erroUpload;
+
+                const { data: urlPublica } = supabase.storage.from('produtos').getPublicUrl(caminho);
+                return urlPublica.publicUrl;
+            }
+
+            if (linha.dataset.imagemRemovida === '1') return null;
+
+            return linha.dataset.imagemExistente || null;
+        }
+
         async function enviarVariacoes(produtoId) {
             // Estratégia simples: substitui todas as variações do produto pelas linhas atuais do formulário.
             const { error: erroLimpeza } = await supabase.from('variacoes_produto').delete().eq('produto_id', produtoId);
             if (erroLimpeza) throw erroLimpeza;
 
-            const linhas = [...listaVariacoes.querySelectorAll('.linhaVariacaoProduto')];
-            const variacoes = linhas
-                .map((linha) => ({
+            const linhas = [...listaVariacoes.querySelectorAll('.linhaVariacaoProduto')]
+                .filter((linha) => linha.querySelector('.selectTipoVariacao').value && linha.querySelector('.inputValorVariacao').value.trim());
+
+            const variacoes = [];
+            for (let i = 0; i < linhas.length; i++) {
+                const linha = linhas[i];
+                variacoes.push({
                     produto_id: produtoId,
                     tipo: linha.querySelector('.selectTipoVariacao').value,
                     valor: linha.querySelector('.inputValorVariacao').value.trim(),
                     preco_adicional: paraNumero(linha.querySelector('.inputPrecoVariacao').value),
-                    estilo_exibicao: linha.querySelector('.selectEstiloVariacao').value
-                }))
-                .filter((variacao) => variacao.tipo && variacao.valor);
+                    estilo_exibicao: linha.querySelector('.selectEstiloVariacao').value,
+                    imagem_url: await enviarFotoVariacao(linha, produtoId, i)
+                });
+            }
 
             if (variacoes.length === 0) return;
 

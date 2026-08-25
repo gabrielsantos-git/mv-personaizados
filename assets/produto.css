@@ -282,6 +282,13 @@ main{
     color: black;
 }
 
+.cartaoFoto img{
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 .opcaoVariacaoFoto:has(input:checked) .cartaoFoto{
     background-color: rgba(167, 12, 36, 0.08);
     border-color: var(--cor-primaria);
