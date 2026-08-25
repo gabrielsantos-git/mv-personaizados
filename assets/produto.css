@@ -325,6 +325,18 @@ main{
     height: 26px;
 }
 
+.avisoEdicaoProduto{
+    background-color: #fdf1f2;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 0;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
 .resumoSelecaoVariacao{
     display: flex;
     flex-direction: column;

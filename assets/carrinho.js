@@ -53,6 +53,13 @@ export function removerItem(indice) {
     salvarCarrinho(itens);
 }
 
+// Usado ao editar as variações de um produto que já está no carrinho: some
+// com todas as linhas antigas antes de adicionar as novas quantidades.
+export function removerItensDoProduto(produtoId) {
+    const itens = getCarrinho().filter((item) => item.produtoId !== produtoId);
+    salvarCarrinho(itens);
+}
+
 export function limparCarrinho() {
     salvarCarrinho([]);
 }

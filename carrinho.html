@@ -91,6 +91,28 @@
     <script type="module">
         import { getCarrinho, atualizarQuantidade, removerItem, totalCarrinho, atualizarBadgeCarrinho } from './assets/carrinho.js';
 
+        // Agrupa as linhas do carrinho por produto — várias variações do
+        // mesmo produto (ex: Camisa P, M e G) aparecem num card só.
+        function agruparPorProduto(itens) {
+            const grupos = [];
+            const posicaoPorProduto = new Map();
+
+            itens.forEach((item, indice) => {
+                if (!posicaoPorProduto.has(item.produtoId)) {
+                    posicaoPorProduto.set(item.produtoId, grupos.length);
+                    grupos.push({
+                        produtoId: item.produtoId,
+                        produtoNome: item.produtoNome || item.nome,
+                        imagem: item.imagem,
+                        linhas: []
+                    });
+                }
+                grupos[posicaoPorProduto.get(item.produtoId)].linhas.push({ ...item, indice });
+            });
+
+            return grupos;
+        }
+
         const pagina = document.getElementById('paginaCarrinho');
 
         function formatarPreco(valor) {
@@ -121,24 +143,41 @@
                 return;
             }
 
-            const itensHtml = itens.map((item, indice) => `
-                <div class="itemCarrinho">
-                    <div class="itemCarrinhoImg"><img src="${item.imagem || 'assets/mockup-cup_1053-247.avif'}" alt="${escaparHtml(item.nome)}"></div>
-                    <div class="itemCarrinhoInfo">
-                        <h4>${escaparHtml(item.nome)}</h4>
-                        <span>${formatarPreco(item.preco)} cada</span>
+            const grupos = agruparPorProduto(itens);
+
+            const itensHtml = grupos.map((grupo) => {
+                const linhasHtml = grupo.linhas.map((item) => `
+                    <div class="linhaVariacaoCarrinho">
+                        <span class="descricaoVariacaoCarrinho">${item.variacaoDescricao ? escaparHtml(item.variacaoDescricao) : 'Padrão'}</span>
+                        <span class="precoUnitarioVariacao">${formatarPreco(item.preco)} cada</span>
+                        <div class="itemCarrinhoStepper">
+                            <button type="button" class="btnDiminuir" data-indice="${item.indice}">−</button>
+                            <input type="number" min="1" value="${item.quantidade}" class="inputQuantidade" data-indice="${item.indice}">
+                            <button type="button" class="btnAumentar" data-indice="${item.indice}">+</button>
+                        </div>
+                        <div class="itemCarrinhoSubtotal">${formatarPreco(item.preco * item.quantidade)}</div>
+                        <button type="button" class="itemCarrinhoRemover" data-indice="${item.indice}" aria-label="Remover item">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                        </button>
                     </div>
-                    <div class="itemCarrinhoStepper">
-                        <button type="button" class="btnDiminuir" data-indice="${indice}">−</button>
-                        <input type="number" min="1" value="${item.quantidade}" class="inputQuantidade" data-indice="${indice}">
-                        <button type="button" class="btnAumentar" data-indice="${indice}">+</button>
+                `).join('');
+
+                return `
+                    <div class="itemCarrinho grupoProdutoCarrinho">
+                        <div class="itemCarrinhoImg"><img src="${grupo.imagem || 'assets/mockup-cup_1053-247.avif'}" alt="${escaparHtml(grupo.produtoNome)}"></div>
+                        <div class="grupoProdutoInfo">
+                            <div class="cabecalhoGrupoProduto">
+                                <h4>${escaparHtml(grupo.produtoNome)}</h4>
+                                <a href="produto.html?id=${grupo.produtoId}" class="botaoEditarItemCarrinho">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                    Editar
+                                </a>
+                            </div>
+                            <div class="linhasVariacaoCarrinho">${linhasHtml}</div>
+                        </div>
                     </div>
-                    <div class="itemCarrinhoSubtotal">${formatarPreco(item.preco * item.quantidade)}</div>
-                    <button type="button" class="itemCarrinhoRemover" data-indice="${indice}" aria-label="Remover item">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             pagina.innerHTML = `
                 <div class="colunaItensCarrinho">
