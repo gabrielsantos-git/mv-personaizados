@@ -109,9 +109,7 @@
                     <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
                 </button>
                 <div class="corpoSecaoFiltro">
-                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="papel_e_cartao"><span>Papel e Cartão</span></label>
-                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="plastico"><span>Plástico</span></label>
-                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="vinil"><span>Vinil</span></label>
+                    <div class="listaCheckboxFiltro" id="listaMaterialFiltro"></div>
                 </div>
             </div>
 
@@ -239,14 +237,35 @@
             estoqueMax: null
         };
 
-        const nomesImpressao = { impressao: 'Impressão', laser: 'Laser', outro: 'Outro' };
-        const nomesCorPersonalizacao = { cores: 'Cores', preto_e_branco: 'Preto e Branco', uma_cor: 'Uma Cor' };
-        const nomesMaterial = { papel_e_cartao: 'Papel e Cartão', plastico: 'Plástico', vinil: 'Vinil' };
+        // Cor do Produto e Material não vêm de um campo único no produto — a
+        // opção da loja foi listar toda cor/material que já existe cadastrado
+        // nas variações dos produtos (adm/adicionar-produtos.html > Variações).
+        let coresPorProduto = new Map(); // produtoId -> Set(cor_hex)
+        let materiaisPorProduto = new Map(); // produtoId -> Set(nome do material)
+
+        async function carregarVariacoesParaFiltros() {
+            const { data } = await supabase
+                .from('variacoes_produto')
+                .select('produto_id, tipo, valor, cor_hex, estilo_exibicao');
+
+            (data || []).forEach((v) => {
+                if (v.estilo_exibicao === 'cor' && v.cor_hex) {
+                    if (!coresPorProduto.has(v.produto_id)) coresPorProduto.set(v.produto_id, new Set());
+                    coresPorProduto.get(v.produto_id).add(v.cor_hex);
+                }
+                if (v.tipo === 'material') {
+                    if (!materiaisPorProduto.has(v.produto_id)) materiaisPorProduto.set(v.produto_id, new Set());
+                    materiaisPorProduto.get(v.produto_id).add(v.valor);
+                }
+            });
+        }
 
         async function carregarProdutos() {
+            await carregarVariacoesParaFiltros();
+
             const { data, error } = await supabase
                 .from('produtos')
-                .select('id, nome, preco, descricao, categoria, estoque, cor_produto, impressao, cor_personalizacao, material, imagens_produto(url, ordem)')
+                .select('id, nome, preco, descricao, categoria, estoque, impressao, cor_personalizacao, imagens_produto(url, ordem)')
                 .eq('status', 'ativo')
                 .eq('publico', true)
                 .order('created_at', { ascending: false });
@@ -268,6 +287,7 @@
 
             montarFiltroProdutos();
             montarFiltroCores();
+            montarFiltroMaterial();
             aplicarFiltros();
         }
 
@@ -287,10 +307,10 @@
 
         function montarFiltroCores() {
             const container = document.getElementById('listaCoresFiltro');
-            const coresUnicas = [...new Set(produtos.map((p) => p.cor_produto).filter(Boolean))];
+            const coresUnicas = [...new Set([...coresPorProduto.values()].flatMap((s) => [...s]))];
 
             if (coresUnicas.length === 0) {
-                container.innerHTML = '<p class="semResultadoFiltro">Nenhuma cor cadastrada.</p>';
+                container.innerHTML = '<p class="semResultadoFiltro">Nenhuma cor cadastrada nas variações ainda.</p>';
                 return;
             }
 
@@ -299,13 +319,39 @@
             `).join('');
         }
 
+        function montarFiltroMaterial() {
+            const container = document.getElementById('listaMaterialFiltro');
+            const materiaisUnicos = [...new Set([...materiaisPorProduto.values()].flatMap((s) => [...s]))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+            if (materiaisUnicos.length === 0) {
+                container.innerHTML = '<p class="semResultadoFiltro">Nenhum material cadastrado nas variações ainda.</p>';
+                return;
+            }
+
+            container.innerHTML = materiaisUnicos.map((material) => `
+                <label class="checkboxFiltro">
+                    <input type="checkbox" data-filtro="material" value="${escaparHtml(material)}" ${filtro.material.has(material) ? 'checked' : ''}>
+                    <span>${escaparHtml(material)}</span>
+                </label>
+            `).join('');
+        }
+
         function produtoPassaNoFiltro(produto) {
             if (filtro.categoria && produto.categoria !== filtro.categoria) return false;
             if (filtro.produtos.size > 0 && !filtro.produtos.has(produto.nome)) return false;
-            if (filtro.cores.size > 0 && !filtro.cores.has(produto.cor_produto)) return false;
+
+            if (filtro.cores.size > 0) {
+                const coresDoProduto = coresPorProduto.get(produto.id) || new Set();
+                if (![...filtro.cores].some((c) => coresDoProduto.has(c))) return false;
+            }
+
+            if (filtro.material.size > 0) {
+                const materiaisDoProduto = materiaisPorProduto.get(produto.id) || new Set();
+                if (![...filtro.material].some((m) => materiaisDoProduto.has(m))) return false;
+            }
+
             if (filtro.impressao.size > 0 && !filtro.impressao.has(produto.impressao)) return false;
             if (filtro.corPersonalizacao.size > 0 && !filtro.corPersonalizacao.has(produto.cor_personalizacao)) return false;
-            if (filtro.material.size > 0 && !filtro.material.has(produto.material)) return false;
             if (filtro.estoqueMin != null && produto.estoque < filtro.estoqueMin) return false;
             if (filtro.estoqueMax != null && produto.estoque > filtro.estoqueMax) return false;
             return true;
@@ -441,6 +487,7 @@
             document.getElementById('estoqueMaxFiltro').value = '';
             montarFiltroProdutos();
             montarFiltroCores();
+            montarFiltroMaterial();
 
             aplicarFiltros();
         });
