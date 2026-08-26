@@ -89,7 +89,9 @@
     </footer>
 
     <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
         import { getCarrinho, atualizarQuantidade, removerItem, totalCarrinho, atualizarBadgeCarrinho } from './assets/carrinho.js';
+        import { getArte, salvarArte, taxaArte } from './assets/arte.js';
 
         // Itens salvos antes do agrupamento por produto existir não têm
         // produtoNome/variacaoDescricao separados — nesse caso, recupera o
@@ -130,6 +132,121 @@
             const div = document.createElement('div');
             div.textContent = texto ?? '';
             return div.innerHTML;
+        }
+
+        // ---------- Arte da personalização ----------
+        // Fica num elemento à parte (fora do que renderizar() reconstrói a
+        // cada troca de quantidade), pra não perder o que o cliente já
+        // digitou/escolheu quando ele mexe em outra coisa no carrinho.
+        function criarCardArte() {
+            const arte = getArte();
+
+            const div = document.createElement('div');
+            div.className = 'cardConta';
+            div.innerHTML = `
+                <h2>Arte da Personalização</h2>
+                <hr class="divisorConta">
+                <div class="linhaContaCampo">
+                    <label class="opcaoRadioArte">
+                        <input type="radio" name="arteTipo" id="arteTipoCliente" value="cliente" ${arte?.tipo !== 'loja' ? 'checked' : ''}>
+                        <span>Já tenho a arte pronta</span>
+                    </label>
+                    <label class="opcaoRadioArte">
+                        <input type="radio" name="arteTipo" id="arteTipoLoja" value="loja" ${arte?.tipo === 'loja' ? 'checked' : ''}>
+                        <span>Quero que a loja faça a arte (+${formatarPreco(50)})</span>
+                    </label>
+                </div>
+
+                <div class="campoConta" id="blocoArteCliente">
+                    <label for="arquivoArte">Envie o arquivo da sua arte</label>
+                    <input type="file" id="arquivoArte" accept="image/*,.pdf,.ai,.cdr,.psd">
+                    <p class="mensagemConta" id="statusArquivoArte">${arte?.arteUrl ? `Arquivo enviado: ${escaparHtml(arte.arteNomeArquivo || 'arquivo')}` : ''}</p>
+                </div>
+
+                <div class="campoConta" id="blocoArteLoja">
+                    <label for="descricaoArte">Descreva como você quer a arte</label>
+                    <textarea id="descricaoArte" placeholder="Conte pra gente as cores, o texto, o estilo... quanto mais detalhe, melhor!">${escaparHtml(arte?.descricao || '')}</textarea>
+                </div>
+
+                <p class="mensagemConta" id="mensagemArte"></p>
+            `;
+
+            const radiosArte = div.querySelectorAll('input[name="arteTipo"]');
+            const blocoArteCliente = div.querySelector('#blocoArteCliente');
+            const blocoArteLoja = div.querySelector('#blocoArteLoja');
+            const mensagemArte = div.querySelector('#mensagemArte');
+            const descricaoArte = div.querySelector('#descricaoArte');
+
+            function tipoSelecionado() {
+                return div.querySelector('input[name="arteTipo"]:checked').value;
+            }
+
+            function atualizarBlocoArte() {
+                const tipo = tipoSelecionado();
+                blocoArteCliente.style.display = tipo === 'cliente' ? '' : 'none';
+                blocoArteLoja.style.display = tipo === 'loja' ? '' : 'none';
+
+                const atual = getArte() || {};
+                salvarArte({ ...atual, tipo });
+                atualizarResumoComArte();
+            }
+
+            radiosArte.forEach((radio) => radio.addEventListener('change', atualizarBlocoArte));
+            atualizarBlocoArte();
+
+            descricaoArte.addEventListener('input', () => {
+                const atual = getArte() || {};
+                salvarArte({ ...atual, tipo: 'loja', descricao: descricaoArte.value.trim() });
+            });
+
+            div.querySelector('#arquivoArte').addEventListener('change', async (evento) => {
+                const arquivo = evento.target.files[0];
+                if (!arquivo) return;
+
+                mensagemArte.textContent = '';
+                const statusArquivo = div.querySelector('#statusArquivoArte');
+
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    mensagemArte.textContent = 'Faça login pra enviar o arquivo da sua arte.';
+                    window.location.href = 'login.html?redirect=carrinho.html';
+                    return;
+                }
+
+                statusArquivo.textContent = 'Enviando arquivo...';
+
+                const caminho = `${session.user.id}/${Date.now()}-${arquivo.name}`;
+                const { error: erroUpload } = await supabase.storage.from('artes-pedidos').upload(caminho, arquivo);
+
+                if (erroUpload) {
+                    statusArquivo.textContent = '';
+                    mensagemArte.textContent = 'Não foi possível enviar o arquivo. Tente novamente.';
+                    return;
+                }
+
+                const arteUrl = supabase.storage.from('artes-pedidos').getPublicUrl(caminho).data.publicUrl;
+                const atual = getArte() || {};
+                salvarArte({ ...atual, tipo: 'cliente', arteUrl, arteNomeArquivo: arquivo.name });
+                statusArquivo.textContent = `Arquivo enviado: ${arquivo.name}`;
+            });
+
+            return div;
+        }
+
+        const elCardArte = criarCardArte();
+
+        function atualizarResumoComArte() {
+            const subtotalEl = document.getElementById('resumoSubtotal');
+            const taxaLinhaEl = document.getElementById('resumoLinhaTaxaArte');
+            const totalEl = document.getElementById('resumoTotal');
+            if (!subtotalEl) return;
+
+            const subtotal = totalCarrinho();
+            const taxa = taxaArte(getArte());
+
+            subtotalEl.textContent = formatarPreco(subtotal);
+            if (taxaLinhaEl) taxaLinhaEl.style.display = taxa > 0 ? '' : 'none';
+            totalEl.textContent = formatarPreco(subtotal + taxa);
         }
 
         function renderizar() {
@@ -196,11 +313,15 @@
                 </div>
                 <aside class="resumoCarrinho">
                     <h2>Resumo</h2>
-                    <div class="linhaResumo"><span>Subtotal</span><span>${formatarPreco(totalCarrinho())}</span></div>
-                    <div class="linhaResumo total"><span>Total</span><span>${formatarPreco(totalCarrinho())}</span></div>
+                    <div class="linhaResumo"><span>Subtotal</span><span id="resumoSubtotal">${formatarPreco(totalCarrinho())}</span></div>
+                    <div class="linhaResumo" id="resumoLinhaTaxaArte" style="display:none;"><span>Arte pela loja</span><span>${formatarPreco(50)}</span></div>
+                    <div class="linhaResumo total"><span>Total</span><span id="resumoTotal">${formatarPreco(totalCarrinho())}</span></div>
                     <button type="button" class="botaoConta" id="botaoFinalizar">Finalizar Compra</button>
                 </aside>
             `;
+
+            pagina.querySelector('.colunaItensCarrinho').appendChild(elCardArte);
+            atualizarResumoComArte();
 
             pagina.querySelectorAll('.btnDiminuir').forEach((botao) => {
                 botao.addEventListener('click', () => {
@@ -234,6 +355,19 @@
             });
 
             document.getElementById('botaoFinalizar').addEventListener('click', () => {
+                const arte = getArte();
+                const mensagemArte = elCardArte.querySelector('#mensagemArte');
+
+                if (!arte || (arte.tipo === 'cliente' && !arte.arteUrl)) {
+                    mensagemArte.textContent = 'Envie o arquivo da sua arte antes de continuar.';
+                    return;
+                }
+
+                if (arte.tipo === 'loja' && !arte.descricao) {
+                    mensagemArte.textContent = 'Descreva como você quer a arte antes de continuar.';
+                    return;
+                }
+
                 window.location.href = 'checkout.html';
             });
         }

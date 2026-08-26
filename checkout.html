@@ -37,6 +37,17 @@
         </div>
     </main>
 
+    <div class="fundoModal" id="modalConfirmarArte">
+        <div class="caixaModal">
+            <h3>Você já tem a arte pronta?</h3>
+            <p>Confirme se você mesmo vai enviar a arte da personalização, ou se prefere que a nossa loja crie ela pra você (nesse caso, some uma taxa de R$ 50,00).</p>
+            <div class="acoesModal">
+                <button type="button" class="botaoConta botaoContaOutline" id="botaoArteQuerLoja">Quero que a loja faça a arte</button>
+                <button type="button" class="botaoConta" id="botaoArteConfirmada">Sim, já tenho a arte pronta</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <section class="footerInfo">
             <div class="infoEmpresa" id="quemsomos">
@@ -92,6 +103,7 @@
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
         import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
+        import { getArte, limparArte, taxaArte } from './assets/arte.js';
 
         const pagina = document.getElementById('paginaCheckout');
         const TAXA_ARTE_LOJA = 50;
@@ -174,33 +186,6 @@
                     </div>
 
                     <div class="cardConta">
-                        <h2>Arte da Personalização</h2>
-                        <hr class="divisorConta">
-                        <div class="linhaContaCampo">
-                            <label class="opcaoRadioArte">
-                                <input type="radio" name="arteTipo" id="arteTipoCliente" value="cliente" checked>
-                                <span>Já tenho a arte pronta</span>
-                            </label>
-                            <label class="opcaoRadioArte">
-                                <input type="radio" name="arteTipo" id="arteTipoLoja" value="loja">
-                                <span>Quero que a loja faça a arte (+R$ 50,00)</span>
-                            </label>
-                        </div>
-
-                        <div class="campoConta" id="blocoArteCliente">
-                            <label for="arquivoArte">Envie o arquivo da sua arte</label>
-                            <input type="file" id="arquivoArte" accept="image/*,.pdf,.ai,.cdr,.psd">
-                        </div>
-
-                        <div class="campoConta" id="blocoArteLoja" style="display:none;">
-                            <label for="descricaoArte">Descreva como você quer a arte</label>
-                            <textarea id="descricaoArte" placeholder="Conte pra gente as cores, o texto, o estilo... quanto mais detalhe, melhor!"></textarea>
-                        </div>
-
-                        <p class="mensagemConta" id="mensagemArte"></p>
-                    </div>
-
-                    <div class="cardConta">
                         <h2>Forma de Pagamento</h2>
                         <hr class="divisorConta">
                         <div class="linhaContaCampo">
@@ -236,64 +221,29 @@
                 </aside>
             `;
 
-            // ---------- Arte da personalização ----------
-            const radiosArte = document.querySelectorAll('input[name="arteTipo"]');
-            const blocoArteCliente = document.getElementById('blocoArteCliente');
-            const blocoArteLoja = document.getElementById('blocoArteLoja');
+            const arte = getArte();
+
+            if (!arte || (arte.tipo === 'cliente' && !arte.arteUrl) || (arte.tipo === 'loja' && !arte.descricao)) {
+                window.location.href = 'carrinho.html';
+                return;
+            }
+
             const linhaTaxaArte = document.getElementById('linhaTaxaArte');
             const valorTotalEl = document.getElementById('valorTotalPedido');
+            const total = totalCarrinho() + taxaArte(arte);
 
-            function tipoArteSelecionado() {
-                return document.querySelector('input[name="arteTipo"]:checked').value;
-            }
+            linhaTaxaArte.style.display = taxaArte(arte) > 0 ? '' : 'none';
+            valorTotalEl.textContent = formatarPreco(total);
 
-            function calcularTotalComArte() {
-                return totalCarrinho() + (tipoArteSelecionado() === 'loja' ? TAXA_ARTE_LOJA : 0);
-            }
-
-            function atualizarBlocoArte() {
-                const tipo = tipoArteSelecionado();
-                blocoArteCliente.style.display = tipo === 'cliente' ? '' : 'none';
-                blocoArteLoja.style.display = tipo === 'loja' ? '' : 'none';
-                linhaTaxaArte.style.display = tipo === 'loja' ? '' : 'none';
-                valorTotalEl.textContent = formatarPreco(calcularTotalComArte());
-            }
-
-            radiosArte.forEach((radio) => radio.addEventListener('change', atualizarBlocoArte));
-            atualizarBlocoArte();
-
-            document.getElementById('botaoConfirmarPedido').addEventListener('click', async () => {
+            async function enviarPedido() {
                 const mensagem = document.getElementById('mensagemCheckout');
-                mensagem.textContent = '';
+                const enderecoEntrega = [
+                    document.getElementById('rua').value.trim(),
+                    document.getElementById('bairro').value.trim(),
+                    document.getElementById('cidade').value.trim(),
+                    document.getElementById('complemento').value.trim()
+                ].filter(Boolean).join(' - ') + ` (CEP ${document.getElementById('cep').value.trim()})`;
 
-                const cep = document.getElementById('cep').value.trim();
-                const rua = document.getElementById('rua').value.trim();
-                const bairro = document.getElementById('bairro').value.trim();
-                const cidade = document.getElementById('cidade').value.trim();
-                const complemento = document.getElementById('complemento').value.trim();
-
-                if (!cep || !rua || !cidade) {
-                    mensagem.textContent = 'Preencha ao menos CEP, Rua e Cidade pra entrega.';
-                    return;
-                }
-
-                const tipoArte = tipoArteSelecionado();
-                const arquivoArte = document.getElementById('arquivoArte').files[0];
-                const descricaoArte = document.getElementById('descricaoArte').value.trim();
-                const mensagemArte = document.getElementById('mensagemArte');
-                mensagemArte.textContent = '';
-
-                if (tipoArte === 'cliente' && !arquivoArte) {
-                    mensagemArte.textContent = 'Envie o arquivo da sua arte antes de confirmar o pedido.';
-                    return;
-                }
-
-                if (tipoArte === 'loja' && !descricaoArte) {
-                    mensagemArte.textContent = 'Descreva como você quer a arte antes de confirmar o pedido.';
-                    return;
-                }
-
-                const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${cep})`;
                 const formaPagamento = document.getElementById('formaPagamento').value;
                 const cartaoEl = document.getElementById('cartaoEscolhido');
                 const cartaoTexto = cartaoEl && cartaoEl.value
@@ -304,24 +254,6 @@
                 botao.disabled = true;
                 botao.textContent = 'Enviando pedido...';
 
-                let arteUrl = null;
-
-                if (tipoArte === 'cliente') {
-                    const caminho = `${window.contaSession.user.id}/${Date.now()}-${arquivoArte.name}`;
-                    const { error: erroUpload } = await supabase.storage.from('artes-pedidos').upload(caminho, arquivoArte);
-
-                    if (erroUpload) {
-                        botao.disabled = false;
-                        botao.textContent = 'Confirmar Pedido';
-                        mensagemArte.textContent = 'Não foi possível enviar o arquivo da arte. Tente novamente.';
-                        return;
-                    }
-
-                    arteUrl = supabase.storage.from('artes-pedidos').getPublicUrl(caminho).data.publicUrl;
-                }
-
-                const total = calcularTotalComArte();
-
                 const { data: pedido, error: erroPedido } = await supabase
                     .from('pedidos')
                     .insert({
@@ -331,9 +263,9 @@
                         forma_pagamento: formaPagamento,
                         endereco_entrega: enderecoEntrega,
                         observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null,
-                        arte_tipo: tipoArte,
-                        arte_url: arteUrl,
-                        arte_descricao: tipoArte === 'loja' ? descricaoArte : null
+                        arte_tipo: arte.tipo,
+                        arte_url: arte.tipo === 'cliente' ? arte.arteUrl : null,
+                        arte_descricao: arte.tipo === 'loja' ? arte.descricao : null
                     })
                     .select('id')
                     .single();
@@ -365,7 +297,41 @@
                 }
 
                 limparCarrinho();
+                limparArte();
                 window.location.href = 'meus-pedidos.html';
+            }
+
+            // ---------- Modal de confirmação da arte ----------
+            const modalArte = document.getElementById('modalConfirmarArte');
+
+            document.getElementById('botaoConfirmarPedido').addEventListener('click', () => {
+                const mensagem = document.getElementById('mensagemCheckout');
+                mensagem.textContent = '';
+
+                const cep = document.getElementById('cep').value.trim();
+                const rua = document.getElementById('rua').value.trim();
+                const cidade = document.getElementById('cidade').value.trim();
+
+                if (!cep || !rua || !cidade) {
+                    mensagem.textContent = 'Preencha ao menos CEP, Rua e Cidade pra entrega.';
+                    return;
+                }
+
+                if (arte.tipo === 'cliente') {
+                    modalArte.classList.add('aberto');
+                    return;
+                }
+
+                enviarPedido();
+            });
+
+            document.getElementById('botaoArteConfirmada').addEventListener('click', () => {
+                modalArte.classList.remove('aberto');
+                enviarPedido();
+            });
+
+            document.getElementById('botaoArteQuerLoja').addEventListener('click', () => {
+                window.location.href = 'carrinho.html';
             });
         });
     </script>
