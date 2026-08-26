@@ -132,6 +132,50 @@
                 </div>
 
                 <div class="secaoFormProduto">
+                    <h3>Atributos de Filtro</h3>
+                    <p class="descricaoSecaoForm">Usados nos filtros da página de Produtos da loja.</p>
+
+                    <div class="linhaFormProduto">
+                        <div class="campoFormProduto">
+                            <label for="corProduto">Cor do Produto</label>
+                            <input type="color" name="corProduto" id="corProduto" value="#a70c24">
+                        </div>
+
+                        <div class="campoFormProduto">
+                            <label for="impressaoProduto">Impressão</label>
+                            <select name="impressaoProduto" id="impressaoProduto">
+                                <option value="">Nenhuma</option>
+                                <option value="impressao">Impressão</option>
+                                <option value="laser">Laser</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="linhaFormProduto">
+                        <div class="campoFormProduto">
+                            <label for="corPersonalizacaoProduto">Cor da Personalização</label>
+                            <select name="corPersonalizacaoProduto" id="corPersonalizacaoProduto">
+                                <option value="">Nenhuma</option>
+                                <option value="cores">Cores</option>
+                                <option value="preto_e_branco">Preto e Branco</option>
+                                <option value="uma_cor">Uma Cor</option>
+                            </select>
+                        </div>
+
+                        <div class="campoFormProduto">
+                            <label for="materialProduto">Material</label>
+                            <select name="materialProduto" id="materialProduto">
+                                <option value="">Nenhum</option>
+                                <option value="papel_e_cartao">Papel e Cartão</option>
+                                <option value="plastico">Plástico</option>
+                                <option value="vinil">Vinil</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secaoFormProduto">
                     <h3>Descrição</h3>
 
                     <div class="campoFormProduto campoFormProdutoFull">
@@ -541,6 +585,10 @@
             document.getElementById('precoProduto').value = Number(produto.preco).toFixed(2).replace('.', ',');
             document.getElementById('estoqueProduto').value = produto.estoque;
             document.getElementById('descricaoProduto').value = produto.descricao || '';
+            document.getElementById('corProduto').value = produto.cor_produto || '#a70c24';
+            document.getElementById('impressaoProduto').value = produto.impressao || '';
+            document.getElementById('corPersonalizacaoProduto').value = produto.cor_personalizacao || '';
+            document.getElementById('materialProduto').value = produto.material || '';
             document.getElementById('visibilidadePublico').checked = !!produto.publico;
             document.getElementById('visibilidadePrivado').checked = !produto.publico;
 
@@ -648,6 +696,10 @@
             const estoque = parseInt(document.getElementById('estoqueProduto').value, 10) || 0;
             const descricao = document.getElementById('descricaoProduto').value.trim();
             const publico = document.getElementById('visibilidadePublico').checked;
+            const corProduto = document.getElementById('corProduto').value;
+            const impressao = document.getElementById('impressaoProduto').value || null;
+            const corPersonalizacao = document.getElementById('corPersonalizacaoProduto').value || null;
+            const material = document.getElementById('materialProduto').value || null;
 
             if (!nome || !categoria) {
                 mensagem.textContent = 'Preencha ao menos o nome e a categoria do produto.';
@@ -660,11 +712,18 @@
 
             try {
                 let produtoId = idEdicao;
+                const dadosProduto = {
+                    nome, categoria, status, preco, estoque, descricao, publico,
+                    cor_produto: corProduto,
+                    impressao,
+                    cor_personalizacao: corPersonalizacao,
+                    material
+                };
 
                 if (idEdicao) {
                     const { error: erroUpdate } = await supabase
                         .from('produtos')
-                        .update({ nome, categoria, status, preco, estoque, descricao, publico })
+                        .update(dadosProduto)
                         .eq('id', idEdicao);
 
                     if (erroUpdate) throw erroUpdate;
@@ -673,7 +732,7 @@
 
                     const { data: produtoCriado, error: erroProduto } = await supabase
                         .from('produtos')
-                        .insert({ nome, categoria, status, preco, estoque, descricao, publico, criado_por: session.user.id })
+                        .insert({ ...dadosProduto, criado_por: session.user.id })
                         .select()
                         .single();
 

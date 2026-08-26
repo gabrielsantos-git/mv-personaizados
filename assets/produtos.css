@@ -14,39 +14,253 @@ main{
     margin-top: 30px;
 }
 
-.sidebarCategorias{
+.sidebarFiltros{
+    display: flex;
+    flex-direction: column;
+
     background-color: white;
-    border-radius: 23px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 
-    padding: 20px 25px;
-    min-width: 200px;
+    width: 280px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.sidebarCategorias h3{
-    font-size: 26px;
+.cabecalhoFiltros{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 22px;
+    border-bottom: 1px solid #eee;
+
+    font-size: 15px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.botaoLimparFiltros{
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.botaoLimparFiltros:hover{
+    text-decoration: underline;
+}
+
+.secaoFiltro{
+    border-bottom: 1px solid #eee;
+}
+
+.secaoFiltro:last-child{
+    border-bottom: none;
+}
+
+.tituloSecaoFiltro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    padding: 16px 22px;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     color: black;
-    margin-top: 0;
+    text-align: left;
 }
 
-.sidebarCategorias ul{
+.iconeSetaFiltro{
+    flex-shrink: 0;
+    color: #94a3b8;
+    transition: transform 0.15s ease;
+}
+
+.secaoFiltro.aberta .iconeSetaFiltro{
+    transform: rotate(180deg);
+}
+
+.corpoSecaoFiltro{
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 0 22px 18px;
+}
+
+.secaoFiltro.aberta .corpoSecaoFiltro{
+    display: flex;
+}
+
+.listaCategoriasFiltro{
     list-style: none;
     margin: 0;
     padding: 0;
 
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 12px;
 }
 
-.sidebarCategorias a{
+.listaCategoriasFiltro a{
     color: black;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 14px;
 }
 
-.sidebarCategorias .categoriaAtiva a{
+.listaCategoriasFiltro .categoriaAtiva a{
     color: var(--cor-primaria);
+    font-weight: 700;
+}
+
+.buscaFiltro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+
+    color: #94a3b8;
+}
+
+.buscaFiltro input{
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: black;
+}
+
+.buscaFiltro input:focus{
+    outline: none;
+}
+
+.listaCheckboxFiltro{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.checkboxFiltro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    font-size: 13px;
+    color: #334155;
+}
+
+.checkboxFiltro input{
+    accent-color: var(--cor-primaria);
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.semResultadoFiltro{
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.gradeCoresFiltro{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.amostraCorFiltro{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.amostraCorFiltro.selecionada{
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px white inset, 0 0 0 3px var(--cor-primaria);
+}
+
+.faixaQuantidadeFiltro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.faixaQuantidadeFiltro input{
+    width: 0;
+    flex: 1;
+    min-width: 0;
+
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    color: black;
+}
+
+.faixaQuantidadeFiltro span{
+    font-size: 13px;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.faixaQuantidadeFiltro button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 32px;
+    height: 32px;
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+}
+
+.faixaQuantidadeFiltro button:hover{
+    background-color: #8a0a1d;
 }
 
 .produtosCategoria{

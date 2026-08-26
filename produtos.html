@@ -32,16 +32,105 @@
     </header>
 
     <main class="produtosPage">
-        <aside class="sidebarCategorias">
-            <h3>Produtos</h3>
-            <ul id="listaCategorias">
-                <li class="categoriaAtiva"><a href="#" data-categoria="">Todos</a></li>
-                <li><a href="#" data-categoria="personalizado">Personalizados</a></li>
-                <li><a href="#" data-categoria="vestuario">Vestuário</a></li>
-                <li><a href="#" data-categoria="informatica">Informática</a></li>
-                <li><a href="#" data-categoria="papelaria">Papelaria</a></li>
-                <li><a href="#" data-categoria="armarinho">Armarinho</a></li>
-            </ul>
+        <aside class="sidebarFiltros">
+            <div class="cabecalhoFiltros">
+                <span>Filtrar por</span>
+                <button type="button" class="botaoLimparFiltros" id="botaoLimparFiltros">Limpar</button>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="categoria">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Categoria</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <ul class="listaCategoriasFiltro" id="listaCategorias">
+                        <li class="categoriaAtiva"><a href="#" data-categoria="">Todos</a></li>
+                        <li><a href="#" data-categoria="personalizado">Personalizados</a></li>
+                        <li><a href="#" data-categoria="vestuario">Vestuário</a></li>
+                        <li><a href="#" data-categoria="informatica">Informática</a></li>
+                        <li><a href="#" data-categoria="papelaria">Papelaria</a></li>
+                        <li><a href="#" data-categoria="armarinho">Armarinho</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="produto">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Produto</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <div class="buscaFiltro">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="search" id="buscaProdutoFiltro" placeholder="Buscar...">
+                    </div>
+                    <div class="listaCheckboxFiltro" id="listaProdutosFiltro"></div>
+                </div>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="cor">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Cor do Produto</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <div class="gradeCoresFiltro" id="listaCoresFiltro"></div>
+                </div>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="impressao">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Impressão</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="impressao" value="impressao"><span>Impressão</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="impressao" value="laser"><span>Laser</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="impressao" value="outro"><span>Outro</span></label>
+                </div>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="corPersonalizacao">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Cor da Personalização</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="corPersonalizacao" value="cores"><span>Cores</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="corPersonalizacao" value="preto_e_branco"><span>Preto e Branco</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="corPersonalizacao" value="uma_cor"><span>Uma Cor</span></label>
+                </div>
+            </div>
+
+            <div class="secaoFiltro" data-secao="material">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Material</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="papel_e_cartao"><span>Papel e Cartão</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="plastico"><span>Plástico</span></label>
+                    <label class="checkboxFiltro"><input type="checkbox" data-filtro="material" value="vinil"><span>Vinil</span></label>
+                </div>
+            </div>
+
+            <div class="secaoFiltro aberta" data-secao="quantidade">
+                <button type="button" class="tituloSecaoFiltro">
+                    <span>Quantidade</span>
+                    <svg class="iconeSetaFiltro" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <div class="corpoSecaoFiltro">
+                    <div class="faixaQuantidadeFiltro">
+                        <input type="number" id="estoqueMinFiltro" placeholder="de" min="0">
+                        <span>a</span>
+                        <input type="number" id="estoqueMaxFiltro" placeholder="até" min="0">
+                        <button type="button" id="botaoAplicarQuantidade" aria-label="Aplicar filtro de quantidade">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </aside>
 
         <section class="produtosCategoria">
@@ -137,10 +226,27 @@
 
         let produtos = [];
 
+        // Estado de todos os filtros da barra lateral. categoria é único; os
+        // demais são conjuntos (checkbox/cor = múltipla escolha, tipo "ou").
+        const filtro = {
+            categoria: '',
+            produtos: new Set(),
+            cores: new Set(),
+            impressao: new Set(),
+            corPersonalizacao: new Set(),
+            material: new Set(),
+            estoqueMin: null,
+            estoqueMax: null
+        };
+
+        const nomesImpressao = { impressao: 'Impressão', laser: 'Laser', outro: 'Outro' };
+        const nomesCorPersonalizacao = { cores: 'Cores', preto_e_branco: 'Preto e Branco', uma_cor: 'Uma Cor' };
+        const nomesMaterial = { papel_e_cartao: 'Papel e Cartão', plastico: 'Plástico', vinil: 'Vinil' };
+
         async function carregarProdutos() {
             const { data, error } = await supabase
                 .from('produtos')
-                .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
+                .select('id, nome, preco, descricao, categoria, estoque, cor_produto, impressao, cor_personalizacao, material, imagens_produto(url, ordem)')
                 .eq('status', 'ativo')
                 .eq('publico', true)
                 .order('created_at', { ascending: false });
@@ -154,20 +260,66 @@
 
             const categoriaInicial = new URLSearchParams(window.location.search).get('categoria') || '';
             if (categoriaInicial) {
+                filtro.categoria = categoriaInicial;
                 linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
                 const linkAtivo = document.querySelector(`#listaCategorias a[data-categoria="${categoriaInicial}"]`);
                 if (linkAtivo) linkAtivo.parentElement.classList.add('categoriaAtiva');
             }
 
-            renderizarGrid(categoriaInicial);
+            montarFiltroProdutos();
+            montarFiltroCores();
+            aplicarFiltros();
         }
 
-        function renderizarGrid(categoria) {
-            const filtrados = categoria ? produtos.filter((p) => p.categoria === categoria) : produtos;
-            titulo.textContent = nomesCategoria[categoria] || 'Produtos';
+        function montarFiltroProdutos(termo) {
+            const container = document.getElementById('listaProdutosFiltro');
+            const nomesUnicos = [...new Set(produtos.map((p) => p.nome))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            const termoBusca = (termo || '').trim().toLowerCase();
+            const visiveis = termoBusca ? nomesUnicos.filter((n) => n.toLowerCase().includes(termoBusca)) : nomesUnicos;
+
+            container.innerHTML = visiveis.map((nome) => `
+                <label class="checkboxFiltro">
+                    <input type="checkbox" data-filtro="produtos" value="${escaparHtml(nome)}" ${filtro.produtos.has(nome) ? 'checked' : ''}>
+                    <span>${escaparHtml(nome)}</span>
+                </label>
+            `).join('') || '<p class="semResultadoFiltro">Nenhum produto encontrado.</p>';
+        }
+
+        function montarFiltroCores() {
+            const container = document.getElementById('listaCoresFiltro');
+            const coresUnicas = [...new Set(produtos.map((p) => p.cor_produto).filter(Boolean))];
+
+            if (coresUnicas.length === 0) {
+                container.innerHTML = '<p class="semResultadoFiltro">Nenhuma cor cadastrada.</p>';
+                return;
+            }
+
+            container.innerHTML = coresUnicas.map((cor) => `
+                <button type="button" class="amostraCorFiltro ${filtro.cores.has(cor) ? 'selecionada' : ''}" style="background-color: ${escaparHtml(cor)};" data-cor="${escaparHtml(cor)}" aria-label="Filtrar pela cor ${escaparHtml(cor)}"></button>
+            `).join('');
+        }
+
+        function produtoPassaNoFiltro(produto) {
+            if (filtro.categoria && produto.categoria !== filtro.categoria) return false;
+            if (filtro.produtos.size > 0 && !filtro.produtos.has(produto.nome)) return false;
+            if (filtro.cores.size > 0 && !filtro.cores.has(produto.cor_produto)) return false;
+            if (filtro.impressao.size > 0 && !filtro.impressao.has(produto.impressao)) return false;
+            if (filtro.corPersonalizacao.size > 0 && !filtro.corPersonalizacao.has(produto.cor_personalizacao)) return false;
+            if (filtro.material.size > 0 && !filtro.material.has(produto.material)) return false;
+            if (filtro.estoqueMin != null && produto.estoque < filtro.estoqueMin) return false;
+            if (filtro.estoqueMax != null && produto.estoque > filtro.estoqueMax) return false;
+            return true;
+        }
+
+        function aplicarFiltros() {
+            renderizarGrid(produtos.filter(produtoPassaNoFiltro));
+        }
+
+        function renderizarGrid(filtrados) {
+            titulo.textContent = nomesCategoria[filtro.categoria] || 'Produtos';
 
             if (filtrados.length === 0) {
-                grid.innerHTML = '<p>Nenhum produto encontrado nessa categoria.</p>';
+                grid.innerHTML = '<p>Nenhum produto encontrado com esses filtros.</p>';
                 return;
             }
 
@@ -219,8 +371,78 @@
                 evento.preventDefault();
                 linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
                 link.parentElement.classList.add('categoriaAtiva');
-                renderizarGrid(link.dataset.categoria);
+                filtro.categoria = link.dataset.categoria;
+                aplicarFiltros();
             });
+        });
+
+        // Seções que abrem/fecham (Categoria, Produto, Cor do Produto...).
+        document.querySelectorAll('.tituloSecaoFiltro').forEach((botao) => {
+            botao.addEventListener('click', () => {
+                botao.closest('.secaoFiltro').classList.toggle('aberta');
+            });
+        });
+
+        // Checkboxes de Impressão, Cor da Personalização, Material e Produto.
+        document.querySelector('.sidebarFiltros').addEventListener('change', (evento) => {
+            const input = evento.target;
+            if (input.tagName !== 'INPUT' || input.type !== 'checkbox' || !input.dataset.filtro) return;
+
+            const conjunto = filtro[input.dataset.filtro];
+            if (input.checked) conjunto.add(input.value);
+            else conjunto.delete(input.value);
+
+            aplicarFiltros();
+        });
+
+        // Busca dentro da lista de produtos do filtro.
+        document.getElementById('buscaProdutoFiltro').addEventListener('input', (evento) => {
+            montarFiltroProdutos(evento.target.value);
+        });
+
+        // Amostras de cor (clique alterna seleção — pode marcar mais de uma).
+        document.getElementById('listaCoresFiltro').addEventListener('click', (evento) => {
+            const amostra = evento.target.closest('.amostraCorFiltro');
+            if (!amostra) return;
+
+            const cor = amostra.dataset.cor;
+            if (filtro.cores.has(cor)) filtro.cores.delete(cor);
+            else filtro.cores.add(cor);
+
+            amostra.classList.toggle('selecionada');
+            aplicarFiltros();
+        });
+
+        // Faixa de quantidade (estoque).
+        document.getElementById('botaoAplicarQuantidade').addEventListener('click', () => {
+            const min = document.getElementById('estoqueMinFiltro').value;
+            const max = document.getElementById('estoqueMaxFiltro').value;
+            filtro.estoqueMin = min === '' ? null : Number(min);
+            filtro.estoqueMax = max === '' ? null : Number(max);
+            aplicarFiltros();
+        });
+
+        // Limpa todos os filtros e volta pra listagem completa.
+        document.getElementById('botaoLimparFiltros').addEventListener('click', () => {
+            filtro.categoria = '';
+            filtro.produtos.clear();
+            filtro.cores.clear();
+            filtro.impressao.clear();
+            filtro.corPersonalizacao.clear();
+            filtro.material.clear();
+            filtro.estoqueMin = null;
+            filtro.estoqueMax = null;
+
+            linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
+            document.querySelector('#listaCategorias a[data-categoria=""]').parentElement.classList.add('categoriaAtiva');
+            document.querySelectorAll('.sidebarFiltros input[type="checkbox"]').forEach((input) => { input.checked = false; });
+            document.getElementById('buscaProdutoFiltro').value = '';
+            document.getElementById('estoqueMinFiltro').value = '';
+            document.getElementById('estoqueMaxFiltro').value = '';
+            montarFiltroProdutos();
+            montarFiltroCores();
+
+            aplicarFiltros();
         });
 
         carregarPromocoesAtivas().then((promocoes) => {
