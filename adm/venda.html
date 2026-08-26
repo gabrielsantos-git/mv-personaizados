@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/venda.css">
+    <link rel="stylesheet" href="../assets/produto.css">
     <script type="module" src="../assets/admGuard.js"></script>
     <title>Ponto de Vendas - Mv Personalizados</title>
 </head>
@@ -157,6 +158,18 @@
         </div>
     </div>
 
+    <div class="fundoModal" id="modalVariacaoVenda">
+        <div class="caixaModal caixaModalVariacaoVenda">
+            <h3 id="tituloModalVariacaoVenda">Escolher variação</h3>
+            <div id="corpoModalVariacaoVenda"></div>
+            <p class="mensagemFormProduto" id="mensagemModalVariacaoVenda"></p>
+            <div class="acoesModal">
+                <button type="button" class="botaoContaOutline" id="botaoCancelarVariacaoVenda">Cancelar</button>
+                <button type="button" class="botaoFinalizarVenda" id="botaoConfirmarVariacaoVenda">Adicionar à venda</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { carregarPromocoesAtivas, calcularPrecoComDesconto } from '../assets/promocoes.js';
@@ -188,6 +201,174 @@
             return 'pontoEstoqueOk';
         }
 
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        // Tipos criados no admin ficam salvos como slug (ex: "area-de-personalizacao").
+        function nomeExibicaoTipo(tipo) {
+            const texto = (tipo || '').toString().replace(/-/g, ' ');
+            return texto.charAt(0).toUpperCase() + texto.slice(1);
+        }
+
+        // Monta o mesmo tipo de seletor de variações da página do produto
+        // (radio, caixa, botão, cor, foto, quantidade), pra escolher no PDV
+        // qual variação está saindo antes de adicionar à venda.
+        function blocoVariacoesVendaHtml(variacoes, precoBase) {
+            const grupos = new Map();
+            variacoes.forEach((v) => {
+                if (!grupos.has(v.tipo)) grupos.set(v.tipo, []);
+                grupos.get(v.tipo).push(v);
+            });
+
+            return [...grupos.entries()].map(([tipo, valores]) => {
+                const estilo = valores[0].estilo_exibicao || 'radio';
+                const slug = tipo.replace(/\s+/g, '-').toLowerCase();
+
+                if (estilo === 'quantidade') {
+                    return `
+                        <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="quantidade">
+                            <span class="rotuloGrupoVariacao">${escaparHtml(nomeExibicaoTipo(tipo))}</span>
+                            <div class="opcoesGrupoQuantidade">
+                                ${valores.map((v) => {
+                                    const precoUnitario = Number(v.preco_adicional) > 0 ? Number(v.preco_adicional) : Number(precoBase);
+                                    return `
+                                    <div class="itemQuantidadeVariacao" data-id="${v.id}" data-preco-unitario="${precoUnitario}" data-valor="${escaparHtml(v.valor)}">
+                                        <span>${escaparHtml(v.valor)} (${formatarPreco(precoUnitario)} cada)</span>
+                                        <div class="barraQuantidade">
+                                            <button type="button" class="btnQtdVariacao" data-acao="menos" aria-label="Diminuir ${escaparHtml(v.valor)}">−</button>
+                                            <input type="number" min="0" value="0" class="inputQtdVariacao">
+                                            <button type="button" class="btnQtdVariacao" data-acao="mais" aria-label="Aumentar ${escaparHtml(v.valor)}">+</button>
+                                        </div>
+                                    </div>
+                                `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const classeOpcoes = {
+                    radio: 'opcoesGrupoRadio',
+                    caixa: 'opcoesGrupoCaixa',
+                    botao: 'opcoesGrupoBotao',
+                    cor: 'opcoesGrupoCor',
+                    foto: 'opcoesGrupoFoto'
+                }[estilo] || 'opcoesGrupoRadio';
+
+                const tipoInput = estilo === 'caixa' ? 'checkbox' : 'radio';
+
+                const opcoesHtml = valores.map((v, indice) => {
+                    const marcado = indice === 0 ? 'checked' : '';
+                    const adicionalTexto = Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)})` : '';
+
+                    if (estilo === 'cor') {
+                        const corFundo = v.cor_hex || v.valor.toLowerCase();
+                        return `
+                            <label class="opcaoVariacaoCor" title="${escaparHtml(v.valor)}${adicionalTexto}">
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span class="amostraCor" style="background-color: ${escaparHtml(corFundo)};"></span>
+                                <span class="nomeCor">${escaparHtml(v.valor)}</span>
+                            </label>
+                        `;
+                    }
+
+                    if (estilo === 'foto') {
+                        const miolo = v.imagem_url
+                            ? `<img src="${v.imagem_url}" alt="${escaparHtml(v.valor)}">`
+                            : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>`;
+
+                        return `
+                            <label class="opcaoVariacaoFoto">
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span class="cartaoFoto">
+                                    ${miolo}
+                                    <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                                </span>
+                            </label>
+                        `;
+                    }
+
+                    if (estilo === 'botao') {
+                        return `
+                            <label class="opcaoVariacaoBotao">
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                            </label>
+                        `;
+                    }
+
+                    const classeOpcao = estilo === 'caixa' ? 'opcaoVariacaoCaixa' : 'opcaoVariacaoRadio';
+                    return `
+                        <label class="${classeOpcao}">
+                            <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                            <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
+                        </label>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="grupoVariacaoProduto" data-tipo="${slug}" data-estilo="${estilo}">
+                        <span class="rotuloGrupoVariacao">${escaparHtml(nomeExibicaoTipo(tipo))}</span>
+                        <div class="opcoesGrupoVariacao ${classeOpcoes}">${opcoesHtml}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Garante seleção única dentro de um grupo "caixa de seleção" (aparência
+        // de checkbox, mas só aceita um valor por tipo).
+        function ligarExclusividadeCaixasVenda() {
+            corpoModalVariacaoVenda.querySelectorAll('.grupoVariacaoProduto[data-estilo="caixa"] input[type="checkbox"]').forEach((caixa) => {
+                caixa.addEventListener('change', () => {
+                    if (!caixa.checked) {
+                        caixa.checked = true;
+                        return;
+                    }
+                    const grupo = caixa.closest('.grupoVariacaoProduto');
+                    grupo.querySelectorAll('input[type="checkbox"]').forEach((outra) => {
+                        if (outra !== caixa) outra.checked = false;
+                    });
+                });
+            });
+        }
+
+        function ligarStepperVariacoesVenda() {
+            corpoModalVariacaoVenda.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
+                const input = item.querySelector('.inputQtdVariacao');
+                item.querySelectorAll('.btnQtdVariacao').forEach((botao) => {
+                    botao.addEventListener('click', () => {
+                        const atual = Number(input.value) || 0;
+                        input.value = botao.dataset.acao === 'menos' ? Math.max(0, atual - 1) : atual + 1;
+                    });
+                });
+            });
+        }
+
+        // Lê o que foi escolhido nos grupos de seleção única (radio, caixa,
+        // botão, cor, foto) do modal — devolve o adicional de preço e a descrição.
+        function coletarVariacoesSelecionadasVenda() {
+            let adicionalTotal = 0;
+            let variacaoIdPrincipal = null;
+            const partesNome = [];
+
+            corpoModalVariacaoVenda.querySelectorAll('.grupoVariacaoProduto').forEach((grupo) => {
+                if (grupo.dataset.estilo === 'quantidade') return;
+
+                const tipoNome = grupo.querySelector('.rotuloGrupoVariacao').textContent;
+                const selecionado = grupo.querySelector('input:checked');
+                if (!selecionado) return;
+
+                adicionalTotal += Number(selecionado.dataset.adicional) || 0;
+                partesNome.push(`${tipoNome}: ${selecionado.dataset.valor}`);
+                if (!variacaoIdPrincipal) variacaoIdPrincipal = selecionado.value;
+            });
+
+            return { adicionalTotal, variacaoIdPrincipal, descricao: partesNome.join(', ') };
+        }
+
         // ---------- Produtos disponíveis ----------
         const corpoTabela = document.getElementById('corpoTabelaProdutosVenda');
         const estadoVazioProdutos = document.getElementById('estadoVazioProdutosVenda');
@@ -195,7 +376,7 @@
         const inputBusca = document.getElementById('buscaProduto');
 
         let todosProdutos = [];
-        let carrinho = []; // { produtoId, nome, preco, quantidade, categoria, estoqueDisponivel }
+        let carrinho = []; // { chave, produtoId, variacaoId, variacaoDescricao, nome, preco, quantidade, estoqueDisponivel }
         let formaPagamento = 'dinheiro';
 
         function linhaProdutoHtml(produto) {
@@ -237,7 +418,7 @@
         async function carregarProdutos() {
             const { data, error } = await supabase
                 .from('produtos')
-                .select('*')
+                .select('*, variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url, cor_hex)')
                 .eq('status', 'ativo')
                 .order('nome');
 
@@ -269,11 +450,15 @@
             const badgePromo = item.promocao
                 ? `<span class="badgePromoItemVenda">Promoção ${rotuloPromocao(item.promocao)}</span>`
                 : '';
+            const linhaVariacao = item.variacaoDescricao
+                ? `<h6 class="variacaoItemCarrinhoVenda">${escaparHtml(item.variacaoDescricao)}</h6>`
+                : '';
 
             return `
-                <div class="itemCarrinhoVenda" data-id="${item.produtoId}">
+                <div class="itemCarrinhoVenda" data-chave="${item.chave}">
                     <div class="infoItemCarrinho">
                         <h4>${item.nome}</h4>
+                        ${linhaVariacao}
                         <h6>${item.precoOriginal ? `<span class="precoAntigoVenda">${formatarPreco(item.precoOriginal)}</span>` : ''}${formatarPreco(item.preco)} / un</h6>
                         ${badgePromo}
                     </div>
@@ -312,21 +497,37 @@
             }
         }
 
+        // Soma a quantidade já no carrinho pra um produto, somando todas as
+        // linhas (uma por variação escolhida) — o estoque é por produto, não
+        // por variação.
+        function quantidadeNoCarrinho(produtoId) {
+            return carrinho.filter((i) => i.produtoId === produtoId).reduce((soma, i) => soma + i.quantidade, 0);
+        }
+
         function adicionarAoCarrinho(produtoId) {
             const produto = todosProdutos.find((p) => p.id === produtoId);
             if (!produto || produto.estoque <= 0) return;
 
-            const itemExistente = carrinho.find((item) => item.produtoId === produtoId);
-            const quantidadeAtual = itemExistente ? itemExistente.quantidade : 0;
+            const variacoes = produto.variacoes_produto || [];
+            if (variacoes.length > 0) {
+                abrirModalVariacaoVenda(produto);
+                return;
+            }
 
-            if (quantidadeAtual + 1 > produto.estoque) return;
+            const chave = `${produtoId}|_base`;
+            const itemExistente = carrinho.find((item) => item.chave === chave);
+
+            if (quantidadeNoCarrinho(produtoId) + 1 > produto.estoque) return;
 
             if (itemExistente) {
                 itemExistente.quantidade += 1;
             } else {
                 const { precoFinal, precoOriginal, promocao } = calcularPrecoComDesconto(produto, promocoesAtivas);
                 carrinho.push({
+                    chave,
                     produtoId: produto.id,
+                    variacaoId: null,
+                    variacaoDescricao: '',
                     nome: produto.nome,
                     preco: precoFinal,
                     precoOriginal,
@@ -339,23 +540,23 @@
             renderizarCarrinho();
         }
 
-        function alterarQuantidade(produtoId, delta) {
-            const item = carrinho.find((i) => i.produtoId === produtoId);
+        function alterarQuantidade(chave, delta) {
+            const item = carrinho.find((i) => i.chave === chave);
             if (!item) return;
 
             const novaQtd = item.quantidade + delta;
 
             if (novaQtd <= 0) {
-                carrinho = carrinho.filter((i) => i.produtoId !== produtoId);
-            } else if (novaQtd <= item.estoqueDisponivel) {
+                carrinho = carrinho.filter((i) => i.chave !== chave);
+            } else if (quantidadeNoCarrinho(item.produtoId) - item.quantidade + novaQtd <= item.estoqueDisponivel) {
                 item.quantidade = novaQtd;
             }
 
             renderizarCarrinho();
         }
 
-        function removerDoCarrinho(produtoId) {
-            carrinho = carrinho.filter((i) => i.produtoId !== produtoId);
+        function removerDoCarrinho(chave) {
+            carrinho = carrinho.filter((i) => i.chave !== chave);
             renderizarCarrinho();
         }
 
@@ -369,11 +570,121 @@
         listaCarrinho.addEventListener('click', (evento) => {
             const linha = evento.target.closest('.itemCarrinhoVenda');
             if (!linha) return;
-            const produtoId = linha.dataset.id;
+            const chave = linha.dataset.chave;
 
-            if (evento.target.closest('.btnAumentar')) alterarQuantidade(produtoId, 1);
-            else if (evento.target.closest('.btnDiminuir')) alterarQuantidade(produtoId, -1);
-            else if (evento.target.closest('.botaoRemoverCarrinho')) removerDoCarrinho(produtoId);
+            if (evento.target.closest('.btnAumentar')) alterarQuantidade(chave, 1);
+            else if (evento.target.closest('.btnDiminuir')) alterarQuantidade(chave, -1);
+            else if (evento.target.closest('.botaoRemoverCarrinho')) removerDoCarrinho(chave);
+        });
+
+        // ---------- Modal de seleção de variação ----------
+        const modalVariacaoVenda = document.getElementById('modalVariacaoVenda');
+        const tituloModalVariacaoVenda = document.getElementById('tituloModalVariacaoVenda');
+        const corpoModalVariacaoVenda = document.getElementById('corpoModalVariacaoVenda');
+        const mensagemModalVariacaoVenda = document.getElementById('mensagemModalVariacaoVenda');
+        let produtoAtualModal = null;
+
+        function abrirModalVariacaoVenda(produto) {
+            produtoAtualModal = produto;
+            tituloModalVariacaoVenda.textContent = produto.nome;
+            mensagemModalVariacaoVenda.textContent = '';
+            mensagemModalVariacaoVenda.classList.remove('mensagemErro');
+
+            const { precoFinal } = calcularPrecoComDesconto(produto, promocoesAtivas);
+            corpoModalVariacaoVenda.innerHTML = blocoVariacoesVendaHtml(produto.variacoes_produto || [], precoFinal);
+
+            ligarExclusividadeCaixasVenda();
+            ligarStepperVariacoesVenda();
+
+            modalVariacaoVenda.classList.add('aberto');
+        }
+
+        function fecharModalVariacaoVenda() {
+            modalVariacaoVenda.classList.remove('aberto');
+            produtoAtualModal = null;
+        }
+
+        // Monta as linhas a adicionar: sem grupo de quantidade, 1 linha com a
+        // variação escolhida; com grupo de quantidade, 1 linha pra cada valor
+        // marcado (ex: 1x P, 3x M), cada uma levando os outros grupos escolhidos.
+        function montarItensVariacaoVenda(produto) {
+            const { precoFinal, precoOriginal, promocao } = calcularPrecoComDesconto(produto, promocoesAtivas);
+            const grupoQuantidade = corpoModalVariacaoVenda.querySelector('.grupoVariacaoProduto[data-estilo="quantidade"]');
+            const { adicionalTotal, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadasVenda();
+
+            if (!grupoQuantidade) {
+                return [{
+                    chave: `${produto.id}|${variacaoIdPrincipal || '_base'}`,
+                    produtoId: produto.id,
+                    variacaoId: variacaoIdPrincipal,
+                    variacaoDescricao: descricao,
+                    nome: produto.nome,
+                    preco: Number(precoFinal) + adicionalTotal,
+                    precoOriginal,
+                    promocao,
+                    quantidade: 1
+                }];
+            }
+
+            const tipoNome = grupoQuantidade.querySelector('.rotuloGrupoVariacao').textContent;
+            const itens = [];
+
+            grupoQuantidade.querySelectorAll('.itemQuantidadeVariacao').forEach((item) => {
+                const quantidade = Number(item.querySelector('.inputQtdVariacao').value) || 0;
+                if (quantidade <= 0) return;
+
+                const partes = descricao ? [descricao] : [];
+                partes.push(`${tipoNome}: ${item.dataset.valor}`);
+
+                itens.push({
+                    chave: `${produto.id}|${item.dataset.id}`,
+                    produtoId: produto.id,
+                    variacaoId: item.dataset.id,
+                    variacaoDescricao: partes.join(', '),
+                    nome: produto.nome,
+                    preco: Number(item.dataset.precoUnitario) + adicionalTotal,
+                    precoOriginal: null,
+                    promocao: null,
+                    quantidade
+                });
+            });
+
+            return itens;
+        }
+
+        document.getElementById('botaoCancelarVariacaoVenda').addEventListener('click', fecharModalVariacaoVenda);
+        modalVariacaoVenda.addEventListener('click', (evento) => {
+            if (evento.target === modalVariacaoVenda) fecharModalVariacaoVenda();
+        });
+
+        document.getElementById('botaoConfirmarVariacaoVenda').addEventListener('click', () => {
+            if (!produtoAtualModal) return;
+
+            const itens = montarItensVariacaoVenda(produtoAtualModal);
+            if (itens.length === 0) {
+                mensagemModalVariacaoVenda.textContent = 'Escolha ao menos uma quantidade antes de adicionar.';
+                mensagemModalVariacaoVenda.classList.add('mensagemErro');
+                return;
+            }
+
+            const totalPedido = itens.reduce((soma, item) => soma + item.quantidade, 0);
+            if (quantidadeNoCarrinho(produtoAtualModal.id) + totalPedido > produtoAtualModal.estoque) {
+                mensagemModalVariacaoVenda.textContent = 'Quantidade escolhida passa do estoque disponível.';
+                mensagemModalVariacaoVenda.classList.add('mensagemErro');
+                return;
+            }
+
+            itens.forEach((novoItem) => {
+                const itemExistente = carrinho.find((i) => i.chave === novoItem.chave);
+                if (itemExistente) {
+                    itemExistente.quantidade += novoItem.quantidade;
+                } else {
+                    carrinho.push({ ...novoItem, estoqueDisponivel: produtoAtualModal.estoque });
+                }
+            });
+
+            fecharModalVariacaoVenda();
+            renderizarCarrinho();
         });
 
         inputBusca.addEventListener('input', renderizarProdutos);
@@ -422,7 +733,8 @@
                 const itens = carrinho.map((item) => ({
                     venda_id: venda.id,
                     produto_id: item.produtoId,
-                    nome_produto: item.nome,
+                    variacao_id: item.variacaoId || null,
+                    nome_produto: item.variacaoDescricao ? `${item.nome} (${item.variacaoDescricao})` : item.nome,
                     preco_unitario: item.preco,
                     quantidade: item.quantidade,
                     subtotal: item.preco * item.quantidade

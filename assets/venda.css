@@ -805,3 +805,86 @@ body{
     background-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
+
+/* ---------- Modal de seleção de variação (Vendas / PDV) ---------- */
+
+.fundoModal{
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.fundoModal.aberto{
+    display: flex;
+}
+
+.caixaModal{
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+    max-width: 420px;
+    width: 100%;
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+.caixaModalVariacaoVenda{
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.caixaModal h3{
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+    margin: 0 0 16px;
+}
+
+#corpoModalVariacaoVenda{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.acoesModal{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.acoesModal .botaoContaOutline{
+    background-color: white;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 12px;
+    cursor: pointer;
+
+    padding: 14px;
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.acoesModal .botaoContaOutline:hover{
+    background-color: var(--cor-quaternaria);
+}
+
+.variacaoItemCarrinhoVenda{
+    color: var(--cor-primaria) !important;
+    font-weight: 700 !important;
+    margin: 2px 0 !important;
+}
