@@ -146,7 +146,7 @@
                         <h6 class="descricaoProduto">${escaparHtml(produto.descricao || '')}</h6>
                         <div class="infoProduto">
                             ${blocoPrecoHtml(produto, promocoesAtivas, formatarPreco)}
-                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${precoFinal}" data-imagem="${imagem}">${iconeCarrinho}</button>
+                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${precoFinal}" data-imagem="${imagem}" data-categoria="${escaparHtml(produto.categoria || '')}">${iconeCarrinho}</button>
                         </div>
                 </div>
                 </a>
@@ -164,6 +164,7 @@
                         variacaoId: null,
                         nome: botao.dataset.nome,
                         produtoNome: botao.dataset.nome,
+                        categoria: botao.dataset.categoria || null,
                         preco: Number(botao.dataset.preco),
                         quantidade: 1,
                         imagem: botao.dataset.imagem

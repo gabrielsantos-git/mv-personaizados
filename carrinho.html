@@ -126,6 +126,7 @@
                     grupos.push({
                         produtoId: item.produtoId,
                         produtoNome: item.produtoNome || nomeBaseAntigo(item.nome),
+                        categoria: item.categoria || null,
                         imagem: item.imagem,
                         linhas: []
                     });
@@ -154,6 +155,7 @@
         // cliente já digitou/escolheu — só é recriado se o produto sumir do
         // carrinho e voltar depois.
         const blocosArtePorProduto = new Map();
+        let produtoIdsComBlocoArte = [];
 
         function obterOuCriarBlocoArte(produtoId) {
             if (blocosArtePorProduto.has(produtoId)) return blocosArtePorProduto.get(produtoId);
@@ -271,6 +273,10 @@
             const itens = getCarrinho();
 
             if (itens.length === 0) {
+                blocosArtePorProduto.clear();
+                produtoIdsComBlocoArte = [];
+                limparArtesForaDoCarrinho([]);
+
                 pagina.innerHTML = `
                     <div style="width: 100%;">
                         <h1>Meu Carrinho</h1>
@@ -338,15 +344,28 @@
                 </aside>
             `;
 
-            const produtoIds = grupos.map((g) => g.produtoId);
-            limparArtesForaDoCarrinho(produtoIds);
+            // Só produtos da categoria "personalizado" pedem arte.
+            const gruposComArte = grupos.filter((g) => g.categoria === 'personalizado');
+            const produtoIdsComArte = gruposComArte.map((g) => g.produtoId);
+            limparArtesForaDoCarrinho(produtoIdsComArte);
 
-            grupos.forEach((grupo) => {
+            // Se o conjunto de produtos com arte mudou (produto novo, ou um
+            // que tinha arte saiu do carrinho), descarta os blocos em cache —
+            // evita qualquer resquício de um produto removido aparecendo se
+            // um produto novo reaproveitar estado antigo por engano.
+            const mudouConjunto = produtoIdsComArte.length !== produtoIdsComBlocoArte.length
+                || produtoIdsComArte.some((id) => !produtoIdsComBlocoArte.includes(id));
+            if (mudouConjunto) {
+                blocosArtePorProduto.clear();
+            }
+            produtoIdsComBlocoArte = produtoIdsComArte;
+
+            gruposComArte.forEach((grupo) => {
                 const cardProduto = pagina.querySelector(`.grupoProdutoCarrinho[data-produto-id="${grupo.produtoId}"] .grupoProdutoInfo`);
                 cardProduto.appendChild(obterOuCriarBlocoArte(grupo.produtoId));
             });
 
-            atualizarResumoComArte(produtoIds);
+            atualizarResumoComArte(produtoIdsComArte);
 
             pagina.querySelectorAll('.btnDiminuir').forEach((botao) => {
                 botao.addEventListener('click', () => {
@@ -380,8 +399,8 @@
             });
 
             document.getElementById('botaoFinalizar').addEventListener('click', () => {
-                if (!todasArtesCompletas(produtoIds)) {
-                    produtoIds.forEach((produtoId) => {
+                if (!todasArtesCompletas(produtoIdsComArte)) {
+                    produtoIdsComArte.forEach((produtoId) => {
                         const arte = getArtePorProduto(produtoId);
                         const bloco = blocosArtePorProduto.get(produtoId);
                         const mensagemArte = bloco?.querySelector('.mensagemArteProduto');
@@ -396,7 +415,7 @@
                     return;
                 }
 
-                if (algumProdutoComArteDoCliente(produtoIds)) {
+                if (algumProdutoComArteDoCliente(produtoIdsComArte)) {
                     document.getElementById('modalConfirmarArte').classList.add('aberto');
                     return;
                 }

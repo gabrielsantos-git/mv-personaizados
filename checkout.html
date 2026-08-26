@@ -209,16 +209,17 @@
                 </aside>
             `;
 
-            const produtoIds = [...new Set(itens.map((item) => item.produtoId))];
+            // Só produtos da categoria "personalizado" pedem arte.
+            const produtoIdsComArte = [...new Set(itens.filter((item) => item.categoria === 'personalizado').map((item) => item.produtoId))];
 
-            if (!todasArtesCompletas(produtoIds)) {
+            if (!todasArtesCompletas(produtoIdsComArte)) {
                 window.location.href = 'carrinho.html';
                 return;
             }
 
             const linhaTaxaArte = document.getElementById('linhaTaxaArte');
             const valorTotalEl = document.getElementById('valorTotalPedido');
-            const taxa = taxaTotalArtes(produtoIds);
+            const taxa = taxaTotalArtes(produtoIdsComArte);
             const total = totalCarrinho() + taxa;
 
             linhaTaxaArte.style.display = taxa > 0 ? '' : 'none';
