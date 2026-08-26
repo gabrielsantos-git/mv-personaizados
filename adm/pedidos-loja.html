@@ -268,6 +268,8 @@
                     <p class="infoExtraPedido"><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</p>
                     <p class="infoExtraPedido"><strong>Forma de pagamento:</strong> ${escaparHtml(pedido.forma_pagamento) || '–'}</p>
                     ${pedido.observacoes ? `<p class="infoExtraPedido"><strong>Observações:</strong> ${escaparHtml(pedido.observacoes)}</p>` : ''}
+                    ${pedido.arte_tipo === 'cliente' ? `<p class="infoExtraPedido"><strong>Arte:</strong> enviada pelo cliente — <a href="${escaparHtml(pedido.arte_url)}" target="_blank" rel="noopener">ver arquivo</a></p>` : ''}
+                    ${pedido.arte_tipo === 'loja' ? `<p class="infoExtraPedido"><strong>Arte:</strong> a loja precisa criar — "${escaparHtml(pedido.arte_descricao)}"</p>` : ''}
                     ${cliente?.telefone ? `<p class="infoExtraPedido"><strong>Contato do cliente:</strong> ${escaparHtml(cliente.telefone)}</p>` : ''}
                 </div>
             `;
@@ -488,6 +490,18 @@
                     ${pedido.observacoes ? `
                         <div class="blocoObs">
                             <strong>Observações:</strong><br>${escaparHtml(pedido.observacoes)}
+                        </div>
+                    ` : ''}
+
+                    ${pedido.arte_tipo === 'cliente' ? `
+                        <div class="blocoObs">
+                            <strong>Arte:</strong><br>Enviada pelo cliente — ${escaparHtml(pedido.arte_url)}
+                        </div>
+                    ` : ''}
+
+                    ${pedido.arte_tipo === 'loja' ? `
+                        <div class="blocoObs">
+                            <strong>Arte (a loja precisa criar):</strong><br>${escaparHtml(pedido.arte_descricao)}
                         </div>
                     ` : ''}
 

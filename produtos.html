@@ -228,6 +228,7 @@
         // demais são conjuntos (checkbox/cor = múltipla escolha, tipo "ou").
         const filtro = {
             categoria: '',
+            busca: '',
             produtos: new Set(),
             cores: new Set(),
             impressao: new Set(),
@@ -277,13 +278,17 @@
 
             produtos = data || [];
 
-            const categoriaInicial = new URLSearchParams(window.location.search).get('categoria') || '';
+            const paramsUrl = new URLSearchParams(window.location.search);
+
+            const categoriaInicial = paramsUrl.get('categoria') || '';
             if (categoriaInicial) {
                 filtro.categoria = categoriaInicial;
                 linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
                 const linkAtivo = document.querySelector(`#listaCategorias a[data-categoria="${categoriaInicial}"]`);
                 if (linkAtivo) linkAtivo.parentElement.classList.add('categoriaAtiva');
             }
+
+            filtro.busca = paramsUrl.get('busca') || '';
 
             montarFiltroProdutos();
             montarFiltroCores();
@@ -340,6 +345,12 @@
             if (filtro.categoria && produto.categoria !== filtro.categoria) return false;
             if (filtro.produtos.size > 0 && !filtro.produtos.has(produto.nome)) return false;
 
+            if (filtro.busca) {
+                const termo = filtro.busca.toLowerCase();
+                const alvo = `${produto.nome} ${produto.descricao || ''}`.toLowerCase();
+                if (!alvo.includes(termo)) return false;
+            }
+
             if (filtro.cores.size > 0) {
                 const coresDoProduto = coresPorProduto.get(produto.id) || new Set();
                 if (![...filtro.cores].some((c) => coresDoProduto.has(c))) return false;
@@ -362,7 +373,9 @@
         }
 
         function renderizarGrid(filtrados) {
-            titulo.textContent = nomesCategoria[filtro.categoria] || 'Produtos';
+            titulo.textContent = filtro.busca
+                ? `Resultados para "${filtro.busca}"`
+                : (nomesCategoria[filtro.categoria] || 'Produtos');
 
             if (filtrados.length === 0) {
                 grid.innerHTML = '<p>Nenhum produto encontrado com esses filtros.</p>';
@@ -471,6 +484,10 @@
         // Limpa todos os filtros e volta pra listagem completa.
         document.getElementById('botaoLimparFiltros').addEventListener('click', () => {
             filtro.categoria = '';
+            filtro.busca = '';
+            const buscaHeader = document.getElementById('search');
+            if (buscaHeader) buscaHeader.value = '';
+            window.history.replaceState({}, '', 'produtos.html');
             filtro.produtos.clear();
             filtro.cores.clear();
             filtro.impressao.clear();
@@ -499,5 +516,6 @@
     </script>
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module" src="assets/configuracoesLoja.js"></script>
+    <script type="module" src="assets/buscaHeader.js"></script>
 </body>
 </html>

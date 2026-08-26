@@ -94,6 +94,7 @@
         import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
 
         const pagina = document.getElementById('paginaCheckout');
+        const TAXA_ARTE_LOJA = 50;
 
         function formatarPreco(valor) {
             return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -173,6 +174,33 @@
                     </div>
 
                     <div class="cardConta">
+                        <h2>Arte da Personalização</h2>
+                        <hr class="divisorConta">
+                        <div class="linhaContaCampo">
+                            <label class="opcaoRadioArte">
+                                <input type="radio" name="arteTipo" id="arteTipoCliente" value="cliente" checked>
+                                <span>Já tenho a arte pronta</span>
+                            </label>
+                            <label class="opcaoRadioArte">
+                                <input type="radio" name="arteTipo" id="arteTipoLoja" value="loja">
+                                <span>Quero que a loja faça a arte (+R$ 50,00)</span>
+                            </label>
+                        </div>
+
+                        <div class="campoConta" id="blocoArteCliente">
+                            <label for="arquivoArte">Envie o arquivo da sua arte</label>
+                            <input type="file" id="arquivoArte" accept="image/*,.pdf,.ai,.cdr,.psd">
+                        </div>
+
+                        <div class="campoConta" id="blocoArteLoja" style="display:none;">
+                            <label for="descricaoArte">Descreva como você quer a arte</label>
+                            <textarea id="descricaoArte" placeholder="Conte pra gente as cores, o texto, o estilo... quanto mais detalhe, melhor!"></textarea>
+                        </div>
+
+                        <p class="mensagemConta" id="mensagemArte"></p>
+                    </div>
+
+                    <div class="cardConta">
                         <h2>Forma de Pagamento</h2>
                         <hr class="divisorConta">
                         <div class="linhaContaCampo">
@@ -201,11 +229,38 @@
                 <aside class="resumoCarrinho">
                     <h2>Resumo do Pedido</h2>
                     ${itensResumoHtml}
-                    <div class="linhaResumo total"><span>Total</span><span>${formatarPreco(totalCarrinho())}</span></div>
+                    <div class="linhaResumo" id="linhaTaxaArte" style="display:none;"><span>Arte pela loja</span><span>${formatarPreco(TAXA_ARTE_LOJA)}</span></div>
+                    <div class="linhaResumo total"><span>Total</span><span id="valorTotalPedido">${formatarPreco(totalCarrinho())}</span></div>
                     <p class="mensagemConta" id="mensagemCheckout"></p>
                     <button type="button" class="botaoConta" id="botaoConfirmarPedido">Confirmar Pedido</button>
                 </aside>
             `;
+
+            // ---------- Arte da personalização ----------
+            const radiosArte = document.querySelectorAll('input[name="arteTipo"]');
+            const blocoArteCliente = document.getElementById('blocoArteCliente');
+            const blocoArteLoja = document.getElementById('blocoArteLoja');
+            const linhaTaxaArte = document.getElementById('linhaTaxaArte');
+            const valorTotalEl = document.getElementById('valorTotalPedido');
+
+            function tipoArteSelecionado() {
+                return document.querySelector('input[name="arteTipo"]:checked').value;
+            }
+
+            function calcularTotalComArte() {
+                return totalCarrinho() + (tipoArteSelecionado() === 'loja' ? TAXA_ARTE_LOJA : 0);
+            }
+
+            function atualizarBlocoArte() {
+                const tipo = tipoArteSelecionado();
+                blocoArteCliente.style.display = tipo === 'cliente' ? '' : 'none';
+                blocoArteLoja.style.display = tipo === 'loja' ? '' : 'none';
+                linhaTaxaArte.style.display = tipo === 'loja' ? '' : 'none';
+                valorTotalEl.textContent = formatarPreco(calcularTotalComArte());
+            }
+
+            radiosArte.forEach((radio) => radio.addEventListener('change', atualizarBlocoArte));
+            atualizarBlocoArte();
 
             document.getElementById('botaoConfirmarPedido').addEventListener('click', async () => {
                 const mensagem = document.getElementById('mensagemCheckout');
@@ -222,6 +277,22 @@
                     return;
                 }
 
+                const tipoArte = tipoArteSelecionado();
+                const arquivoArte = document.getElementById('arquivoArte').files[0];
+                const descricaoArte = document.getElementById('descricaoArte').value.trim();
+                const mensagemArte = document.getElementById('mensagemArte');
+                mensagemArte.textContent = '';
+
+                if (tipoArte === 'cliente' && !arquivoArte) {
+                    mensagemArte.textContent = 'Envie o arquivo da sua arte antes de confirmar o pedido.';
+                    return;
+                }
+
+                if (tipoArte === 'loja' && !descricaoArte) {
+                    mensagemArte.textContent = 'Descreva como você quer a arte antes de confirmar o pedido.';
+                    return;
+                }
+
                 const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${cep})`;
                 const formaPagamento = document.getElementById('formaPagamento').value;
                 const cartaoEl = document.getElementById('cartaoEscolhido');
@@ -233,7 +304,23 @@
                 botao.disabled = true;
                 botao.textContent = 'Enviando pedido...';
 
-                const total = totalCarrinho();
+                let arteUrl = null;
+
+                if (tipoArte === 'cliente') {
+                    const caminho = `${window.contaSession.user.id}/${Date.now()}-${arquivoArte.name}`;
+                    const { error: erroUpload } = await supabase.storage.from('artes-pedidos').upload(caminho, arquivoArte);
+
+                    if (erroUpload) {
+                        botao.disabled = false;
+                        botao.textContent = 'Confirmar Pedido';
+                        mensagemArte.textContent = 'Não foi possível enviar o arquivo da arte. Tente novamente.';
+                        return;
+                    }
+
+                    arteUrl = supabase.storage.from('artes-pedidos').getPublicUrl(caminho).data.publicUrl;
+                }
+
+                const total = calcularTotalComArte();
 
                 const { data: pedido, error: erroPedido } = await supabase
                     .from('pedidos')
@@ -243,7 +330,10 @@
                         total,
                         forma_pagamento: formaPagamento,
                         endereco_entrega: enderecoEntrega,
-                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null
+                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null,
+                        arte_tipo: tipoArte,
+                        arte_url: arteUrl,
+                        arte_descricao: tipoArte === 'loja' ? descricaoArte : null
                     })
                     .select('id')
                     .single();
@@ -281,5 +371,6 @@
     </script>
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module" src="assets/configuracoesLoja.js"></script>
+    <script type="module" src="assets/buscaHeader.js"></script>
 </body>
 </html>

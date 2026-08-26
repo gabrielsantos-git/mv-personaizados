@@ -222,7 +222,8 @@ hr.divisorConta{
 }
 
 .campoConta input,
-.campoConta select{
+.campoConta select,
+.campoConta textarea{
     box-sizing: border-box;
 
     border: 1px solid #ccb4c5;
@@ -235,10 +236,34 @@ hr.divisorConta{
     color: black;
 }
 
+.campoConta textarea{
+    min-height: 90px;
+    resize: vertical;
+}
+
 .campoConta input:focus,
-.campoConta select:focus{
+.campoConta select:focus,
+.campoConta textarea:focus{
     outline: none;
     border-color: var(--cor-primaria);
+}
+
+.opcaoRadioArte{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 220px;
+
+    font-size: 15px;
+    font-weight: 400;
+    color: black;
+    cursor: pointer;
+}
+
+.opcaoRadioArte input{
+    accent-color: var(--cor-primaria);
+    width: auto;
 }
 
 .campoConta input:disabled{
