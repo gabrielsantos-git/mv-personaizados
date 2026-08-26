@@ -268,8 +268,8 @@
                     <p class="infoExtraPedido"><strong>Endereço de entrega:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</p>
                     <p class="infoExtraPedido"><strong>Forma de pagamento:</strong> ${escaparHtml(pedido.forma_pagamento) || '–'}</p>
                     ${pedido.observacoes ? `<p class="infoExtraPedido"><strong>Observações:</strong> ${escaparHtml(pedido.observacoes)}</p>` : ''}
-                    ${pedido.arte_tipo === 'cliente' ? `<p class="infoExtraPedido"><strong>Arte:</strong> enviada pelo cliente — <a href="${escaparHtml(pedido.arte_url)}" target="_blank" rel="noopener">ver arquivo</a></p>` : ''}
-                    ${pedido.arte_tipo === 'loja' ? `<p class="infoExtraPedido"><strong>Arte:</strong> a loja precisa criar — "${escaparHtml(pedido.arte_descricao)}"</p>` : ''}
+                    ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'cliente').map((i) => `<p class="infoExtraPedido"><strong>Arte (${escaparHtml(i.nome_produto)}):</strong> enviada pelo cliente — <a href="${escaparHtml(i.arte_url)}" target="_blank" rel="noopener">ver arquivo</a></p>`).join('')}
+                    ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'loja').map((i) => `<p class="infoExtraPedido"><strong>Arte (${escaparHtml(i.nome_produto)}):</strong> a loja precisa criar — "${escaparHtml(i.arte_descricao)}"</p>`).join('')}
                     ${cliente?.telefone ? `<p class="infoExtraPedido"><strong>Contato do cliente:</strong> ${escaparHtml(cliente.telefone)}</p>` : ''}
                 </div>
             `;
@@ -493,17 +493,17 @@
                         </div>
                     ` : ''}
 
-                    ${pedido.arte_tipo === 'cliente' ? `
+                    ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'cliente').map((i) => `
                         <div class="blocoObs">
-                            <strong>Arte:</strong><br>Enviada pelo cliente — ${escaparHtml(pedido.arte_url)}
+                            <strong>Arte (${escaparHtml(i.nome_produto)}):</strong><br>Enviada pelo cliente — ${escaparHtml(i.arte_url)}
                         </div>
-                    ` : ''}
+                    `).join('')}
 
-                    ${pedido.arte_tipo === 'loja' ? `
+                    ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'loja').map((i) => `
                         <div class="blocoObs">
-                            <strong>Arte (a loja precisa criar):</strong><br>${escaparHtml(pedido.arte_descricao)}
+                            <strong>Arte (${escaparHtml(i.nome_produto)}, a loja precisa criar):</strong><br>${escaparHtml(i.arte_descricao)}
                         </div>
-                    ` : ''}
+                    `).join('')}
 
                     <div class="rodapeRecibo">
                         <div class="infoRodape">

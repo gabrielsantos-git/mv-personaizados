@@ -37,17 +37,6 @@
         </div>
     </main>
 
-    <div class="fundoModal" id="modalConfirmarArte">
-        <div class="caixaModal">
-            <h3>Você já tem a arte pronta?</h3>
-            <p>Confirme se você mesmo vai enviar a arte da personalização, ou se prefere que a nossa loja crie ela pra você (nesse caso, some uma taxa de R$ 50,00).</p>
-            <div class="acoesModal">
-                <button type="button" class="botaoConta botaoContaOutline" id="botaoArteQuerLoja">Quero que a loja faça a arte</button>
-                <button type="button" class="botaoConta" id="botaoArteConfirmada">Sim, já tenho a arte pronta</button>
-            </div>
-        </div>
-    </div>
-
     <footer>
         <section class="footerInfo">
             <div class="infoEmpresa" id="quemsomos">
@@ -103,10 +92,9 @@
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
         import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
-        import { getArte, limparArte, taxaArte } from './assets/arte.js';
+        import { getArtePorProduto, limparArtes, taxaArte, taxaTotalArtes, todasArtesCompletas, TAXA_ARTE_LOJA } from './assets/arte.js';
 
         const pagina = document.getElementById('paginaCheckout');
-        const TAXA_ARTE_LOJA = 50;
 
         function formatarPreco(valor) {
             return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -214,36 +202,45 @@
                 <aside class="resumoCarrinho">
                     <h2>Resumo do Pedido</h2>
                     ${itensResumoHtml}
-                    <div class="linhaResumo" id="linhaTaxaArte" style="display:none;"><span>Arte pela loja</span><span>${formatarPreco(TAXA_ARTE_LOJA)}</span></div>
+                    <div class="linhaResumo" id="linhaTaxaArte" style="display:none;"><span>Arte pela loja</span><span id="valorTaxaArte">${formatarPreco(TAXA_ARTE_LOJA)}</span></div>
                     <div class="linhaResumo total"><span>Total</span><span id="valorTotalPedido">${formatarPreco(totalCarrinho())}</span></div>
                     <p class="mensagemConta" id="mensagemCheckout"></p>
                     <button type="button" class="botaoConta" id="botaoConfirmarPedido">Confirmar Pedido</button>
                 </aside>
             `;
 
-            const arte = getArte();
+            const produtoIds = [...new Set(itens.map((item) => item.produtoId))];
 
-            if (!arte || (arte.tipo === 'cliente' && !arte.arteUrl) || (arte.tipo === 'loja' && !arte.descricao)) {
+            if (!todasArtesCompletas(produtoIds)) {
                 window.location.href = 'carrinho.html';
                 return;
             }
 
             const linhaTaxaArte = document.getElementById('linhaTaxaArte');
             const valorTotalEl = document.getElementById('valorTotalPedido');
-            const total = totalCarrinho() + taxaArte(arte);
+            const taxa = taxaTotalArtes(produtoIds);
+            const total = totalCarrinho() + taxa;
 
-            linhaTaxaArte.style.display = taxaArte(arte) > 0 ? '' : 'none';
+            linhaTaxaArte.style.display = taxa > 0 ? '' : 'none';
+            document.getElementById('valorTaxaArte').textContent = formatarPreco(taxa);
             valorTotalEl.textContent = formatarPreco(total);
 
-            async function enviarPedido() {
+            document.getElementById('botaoConfirmarPedido').addEventListener('click', async () => {
                 const mensagem = document.getElementById('mensagemCheckout');
-                const enderecoEntrega = [
-                    document.getElementById('rua').value.trim(),
-                    document.getElementById('bairro').value.trim(),
-                    document.getElementById('cidade').value.trim(),
-                    document.getElementById('complemento').value.trim()
-                ].filter(Boolean).join(' - ') + ` (CEP ${document.getElementById('cep').value.trim()})`;
+                mensagem.textContent = '';
 
+                const cep = document.getElementById('cep').value.trim();
+                const rua = document.getElementById('rua').value.trim();
+                const bairro = document.getElementById('bairro').value.trim();
+                const cidade = document.getElementById('cidade').value.trim();
+                const complemento = document.getElementById('complemento').value.trim();
+
+                if (!cep || !rua || !cidade) {
+                    mensagem.textContent = 'Preencha ao menos CEP, Rua e Cidade pra entrega.';
+                    return;
+                }
+
+                const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${cep})`;
                 const formaPagamento = document.getElementById('formaPagamento').value;
                 const cartaoEl = document.getElementById('cartaoEscolhido');
                 const cartaoTexto = cartaoEl && cartaoEl.value
@@ -262,10 +259,7 @@
                         total,
                         forma_pagamento: formaPagamento,
                         endereco_entrega: enderecoEntrega,
-                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null,
-                        arte_tipo: arte.tipo,
-                        arte_url: arte.tipo === 'cliente' ? arte.arteUrl : null,
-                        arte_descricao: arte.tipo === 'loja' ? arte.descricao : null
+                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null
                     })
                     .select('id')
                     .single();
@@ -277,15 +271,21 @@
                     return;
                 }
 
-                const itensParaInserir = itens.map((item) => ({
-                    pedido_id: pedido.id,
-                    produto_id: item.produtoId,
-                    variacao_id: item.variacaoId || null,
-                    nome_produto: item.nome,
-                    preco_unitario: item.preco,
-                    quantidade: item.quantidade,
-                    subtotal: item.preco * item.quantidade
-                }));
+                const itensParaInserir = itens.map((item) => {
+                    const arte = getArtePorProduto(item.produtoId);
+                    return {
+                        pedido_id: pedido.id,
+                        produto_id: item.produtoId,
+                        variacao_id: item.variacaoId || null,
+                        nome_produto: item.nome,
+                        preco_unitario: item.preco,
+                        quantidade: item.quantidade,
+                        subtotal: item.preco * item.quantidade,
+                        arte_tipo: arte?.tipo || null,
+                        arte_url: arte?.tipo === 'cliente' ? arte.arteUrl : null,
+                        arte_descricao: arte?.tipo === 'loja' ? arte.descricao : null
+                    };
+                });
 
                 const { error: erroItens } = await supabase.from('itens_pedido').insert(itensParaInserir);
 
@@ -297,41 +297,8 @@
                 }
 
                 limparCarrinho();
-                limparArte();
+                limparArtes();
                 window.location.href = 'meus-pedidos.html';
-            }
-
-            // ---------- Modal de confirmação da arte ----------
-            const modalArte = document.getElementById('modalConfirmarArte');
-
-            document.getElementById('botaoConfirmarPedido').addEventListener('click', () => {
-                const mensagem = document.getElementById('mensagemCheckout');
-                mensagem.textContent = '';
-
-                const cep = document.getElementById('cep').value.trim();
-                const rua = document.getElementById('rua').value.trim();
-                const cidade = document.getElementById('cidade').value.trim();
-
-                if (!cep || !rua || !cidade) {
-                    mensagem.textContent = 'Preencha ao menos CEP, Rua e Cidade pra entrega.';
-                    return;
-                }
-
-                if (arte.tipo === 'cliente') {
-                    modalArte.classList.add('aberto');
-                    return;
-                }
-
-                enviarPedido();
-            });
-
-            document.getElementById('botaoArteConfirmada').addEventListener('click', () => {
-                modalArte.classList.remove('aberto');
-                enviarPedido();
-            });
-
-            document.getElementById('botaoArteQuerLoja').addEventListener('click', () => {
-                window.location.href = 'carrinho.html';
             });
         });
     </script>

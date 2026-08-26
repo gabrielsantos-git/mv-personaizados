@@ -800,6 +800,45 @@ hr.divisorConta{
     flex-direction: column;
 }
 
+.blocoArteProduto{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+}
+
+.tituloBlocoArte{
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+}
+
+.blocoArteProduto .linhaContaCampo{
+    gap: 16px;
+}
+
+.blocoArteProduto .opcaoRadioArte{
+    font-size: 13px;
+    min-width: 0;
+}
+
+.blocoArteProduto .campoConta label{
+    font-size: 13px;
+}
+
+.blocoArteProduto .campoConta input,
+.blocoArteProduto .campoConta textarea{
+    font-size: 13px;
+    padding: 10px 12px;
+}
+
+.blocoArteProduto .mensagemConta{
+    font-size: 12px;
+}
+
 .linhaVariacaoCarrinho{
     display: flex;
     flex-direction: row;
