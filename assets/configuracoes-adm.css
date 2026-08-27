@@ -357,3 +357,139 @@ body{
     background-color: #cbd5e1;
     cursor: not-allowed;
 }
+
+/* ---------- Categorias (Configurações) ---------- */
+
+.listaCategoriasAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.linhaCategoriaAdm{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.infoCategoriaAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.nomeCategoriaAdm{
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: black;
+}
+
+.inputEditarCategoria{
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    color: black;
+
+    border: 1px solid var(--cor-primaria);
+    border-radius: 8px;
+    padding: 8px 12px;
+    max-width: 260px;
+    flex: 1;
+}
+
+.qtdCategoriaAdm{
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.acoesCategoriaAdm{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.acoesCategoriaAdm .botaoSalvarProduto{
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.linhaCategoriaAdm .botaoAcaoProduto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding: 8px;
+    color: #64748b;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+}
+
+.linhaCategoriaAdm .botaoAcaoProduto:hover{
+    background-color: white;
+    color: var(--cor-primaria);
+}
+
+.linhaCategoriaAdm .botaoExcluirCategoria:hover{
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+.painelMoverCategoria{
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.painelMoverCategoria p{
+    font-family: 'Almarai', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: black;
+    margin: 0;
+}
+
+.painelMoverCategoria .selectMoverCategoria{
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    color: black;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.acoesPainelMoverCategoria{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.acoesPainelMoverCategoria .botaoSalvarProduto{
+    padding: 8px 16px;
+    font-size: 13px;
+}

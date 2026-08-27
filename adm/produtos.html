@@ -141,11 +141,6 @@
                     <span>Categoria:</span>
                     <select id="filtroCategoria" class="selectFiltro">
                         <option value="">Todas</option>
-                        <option value="personalizado">Personalizado</option>
-                        <option value="informatica">Informática</option>
-                        <option value="armarinho">Armarinho</option>
-                        <option value="papelaria">Papelaria</option>
-                        <option value="vestuario">Vestuário</option>
                     </select>
                 </div>
 
@@ -190,6 +185,7 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { carregarCategorias as buscarCategorias, mapaNomesCategoria, classeCorCategoria } from '../assets/categorias.js';
 
         const corpoTabela = document.getElementById('corpoTabelaProdutos');
         const estadoVazio = document.getElementById('estadoVazioProdutos');
@@ -198,21 +194,23 @@
         const selectCategoria = document.getElementById('filtroCategoria');
         const selectEstoque = document.getElementById('filtroEstoque');
 
-        const nomesCategoria = {
-            personalizado: 'Personalizado',
-            informatica: 'Informática',
-            armarinho: 'Armarinho',
-            papelaria: 'Papelaria',
-            vestuario: 'Vestuário'
-        };
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
 
-        const classesCategoria = {
-            personalizado: 'categoriaPersonalizado',
-            informatica: 'categoriaInformatica',
-            armarinho: 'categoriaArmarinho',
-            papelaria: 'categoriaPapelaria',
-            vestuario: 'categoriaVestuario'
-        };
+        // Categorias vêm do banco (editáveis em Configurações no adm).
+        let listaCategorias = [];
+        let nomesCategoria = {};
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            listaCategorias = categorias;
+            nomesCategoria = mapaNomesCategoria(categorias);
+            selectCategoria.insertAdjacentHTML('beforeend', categorias.map((c) =>
+                `<option value="${c.slug}">${escaparHtml(c.nome)}</option>`
+            ).join(''));
+            return categorias;
+        });
 
         const iconeEditar = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
         const iconeExcluir = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
@@ -236,7 +234,7 @@
                         <h4>${produto.nome}</h4>
                         <h6>${produto.codigo || ''}</h6>
                     </div>
-                    <span class="colProdCategoria"><span class="categoriaBadge ${classesCategoria[produto.categoria] || 'categoriaPersonalizado'}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
+                    <span class="colProdCategoria"><span class="categoriaBadge ${classeCorCategoria(produto.categoria, listaCategorias)}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
                     <span class="colProdPreco">${formatarPreco(produto.preco)}</span>
                     <span class="colProdEstoque"><span class="pontoEstoque ${classeEstoque(produto.estoque)}"></span>${produto.estoque} un</span>
                     <span class="colProdStatus"><span class="statusProdutoBadge ${produto.status === 'ativo' ? 'statusAtivo' : 'statusInativo'}">${produto.status === 'ativo' ? 'Ativo' : 'Inativo'}</span></span>
@@ -292,6 +290,7 @@
             }
 
             todosProdutos = data;
+            await categoriasPromise;
             atualizarKpis(todosProdutos);
             renderizarLista();
         }

@@ -96,6 +96,7 @@
         import { adicionarItem, getCarrinho, removerItensDoProduto } from './assets/carrinho.js';
         import { carregarAnunciosPorTipo, cardsAnuncioSimplesHtml, registrarMetricasAnuncio } from './assets/anuncios.js';
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
+        import { carregarCategorias as buscarCategorias, mapaNomesCategoria } from './assets/categorias.js';
 
         let promocoesAtivas = [];
         // Dispara a busca de promoções em paralelo com a do produto — ela só
@@ -106,16 +107,17 @@
             return promocoes;
         });
 
+        // Categorias agora vêm do banco (editáveis em Configurações no adm).
+        let nomesCategoria = {};
+        let listaCategorias = [];
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            listaCategorias = categorias;
+            nomesCategoria = mapaNomesCategoria(categorias);
+            return categorias;
+        });
+
         const galeria = document.getElementById('galeriaCompra');
         const containerRelacionados = document.getElementById('containerRelacionados');
-
-        const nomesCategoria = {
-            personalizado: 'Personalizados',
-            vestuario: 'Vestuário',
-            informatica: 'Informática',
-            papelaria: 'Papelaria',
-            armarinho: 'Armarinho'
-        };
 
         const iconeCarrinho = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>';
 
@@ -591,6 +593,7 @@
         }
 
         async function carregarRelacionados(produto) {
+            await categoriasPromise;
             const secoesHtml = [];
 
             const { data: mesmaCategoria } = await supabase
@@ -606,7 +609,7 @@
                 secoesHtml.push(secaoLinhaHtml(nomesCategoria[produto.categoria] || 'Você também pode gostar', mesmaCategoria, produto.categoria));
             }
 
-            const outrasCategorias = Object.keys(nomesCategoria).filter((c) => c !== produto.categoria);
+            const outrasCategorias = listaCategorias.map((c) => c.slug).filter((c) => c !== produto.categoria);
 
             // Todas as categorias buscadas em paralelo (em vez de uma query
             // por vez, em série) — só usamos as 2 primeiras com produto pra

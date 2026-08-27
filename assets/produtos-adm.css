@@ -478,6 +478,15 @@ body{
     color: #6d28d9;
 }
 
+/* Paleta de cores por posição — categorias agora são cadastradas livremente
+   (adm/configuracoes.html), então a cor do badge é escolhida pela ordem da
+   categoria na lista, não mais por um nome fixo. */
+.categoriaCor0{ background-color: #fef2f2; color: #dc2626; }
+.categoriaCor1{ background-color: #eff6ff; color: #1d4ed8; }
+.categoriaCor2{ background-color: #f0fdf4; color: #15803d; }
+.categoriaCor3{ background-color: #fef3c7; color: #b45309; }
+.categoriaCor4{ background-color: #f5f3ff; color: #6d28d9; }
+
 .selectFiltro{
     background-color: rgba(255, 255, 255, 0);
     border: none;

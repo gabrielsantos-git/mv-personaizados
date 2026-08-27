@@ -45,11 +45,6 @@
                 <div class="corpoSecaoFiltro">
                     <ul class="listaCategoriasFiltro" id="listaCategorias">
                         <li class="categoriaAtiva"><a href="#" data-categoria="">Todos</a></li>
-                        <li><a href="#" data-categoria="personalizado">Personalizados</a></li>
-                        <li><a href="#" data-categoria="vestuario">Vestuário</a></li>
-                        <li><a href="#" data-categoria="informatica">Informática</a></li>
-                        <li><a href="#" data-categoria="papelaria">Papelaria</a></li>
-                        <li><a href="#" data-categoria="armarinho">Armarinho</a></li>
                     </ul>
                 </div>
             </div>
@@ -193,6 +188,7 @@
         import { supabase } from './assets/supabaseClient.js';
         import { adicionarItem } from './assets/carrinho.js';
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
+        import { carregarCategorias as buscarCategorias } from './assets/categorias.js';
 
         let promocoesAtivas = [];
         // Dispara em paralelo com a busca de produtos — só é necessária na
@@ -204,16 +200,44 @@
 
         const grid = document.getElementById('produtosGrid');
         const titulo = document.getElementById('tituloCategoria');
-        const linksCategoria = document.querySelectorAll('#listaCategorias a');
+        const listaCategoriasEl = document.getElementById('listaCategorias');
 
-        const nomesCategoria = {
-            '': 'Todos os produtos',
-            personalizado: 'Personalizados',
-            vestuario: 'Vestuário',
-            informatica: 'Informática',
-            papelaria: 'Papelaria',
-            armarinho: 'Armarinho'
-        };
+        // Categorias vêm do banco (editáveis em Configurações no adm) — o link
+        // "Todos" já existe fixo no HTML, os outros são montados dinamicamente.
+        let linksCategoria = listaCategoriasEl.querySelectorAll('a');
+        let nomesCategoria = { '': 'Todos os produtos' };
+
+        async function montarListaCategoriasFiltro() {
+            const categorias = await buscarCategorias();
+            categorias.forEach((c) => { nomesCategoria[c.slug] = c.nome; });
+
+            listaCategoriasEl.insertAdjacentHTML('beforeend', categorias.map((c) =>
+                `<li><a href="#" data-categoria="${c.slug}">${escaparHtml(c.nome)}</a></li>`
+            ).join(''));
+
+            linksCategoria = listaCategoriasEl.querySelectorAll('a');
+            linksCategoria.forEach((link) => {
+                link.addEventListener('click', (evento) => {
+                    evento.preventDefault();
+                    linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
+                    link.parentElement.classList.add('categoriaAtiva');
+                    filtro.categoria = link.dataset.categoria;
+                    aplicarFiltros();
+                });
+            });
+
+            // Se a categoria da URL já foi aplicada antes da lista carregar
+            // (ver carregarProdutos), marca o link certo agora que ele existe.
+            if (filtro.categoria) {
+                linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
+                const linkAtivo = document.querySelector(`#listaCategorias a[data-categoria="${filtro.categoria}"]`);
+                if (linkAtivo) linkAtivo.parentElement.classList.add('categoriaAtiva');
+            }
+
+            // Atualiza o título (ex: "Personalizados") assim que os nomes de
+            // categoria chegam, caso essa busca termine depois da de produtos.
+            aplicarFiltros();
+        }
 
         const iconeCarrinho = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>';
 
@@ -242,6 +266,15 @@
             estoqueMin: null,
             estoqueMax: null
         };
+
+        // Lidos da URL de cara (não depois, dentro de alguma busca assíncrona)
+        // pra que tanto a lista de produtos quanto a lista de categorias do
+        // filtro (que carregam em paralelo) já saibam qual categoria/busca
+        // aplicar assim que cada uma terminar, sem depender de quem chega
+        // primeiro.
+        const paramsUrlIniciais = new URLSearchParams(window.location.search);
+        filtro.categoria = paramsUrlIniciais.get('categoria') || '';
+        filtro.busca = paramsUrlIniciais.get('busca') || '';
 
         // Cor do Produto e Material não vêm de um campo único no produto — a
         // opção da loja foi listar toda cor/material que já existe cadastrado
@@ -287,17 +320,10 @@
             produtos = data || [];
             await promocoesPromise;
 
-            const paramsUrl = new URLSearchParams(window.location.search);
-
-            const categoriaInicial = paramsUrl.get('categoria') || '';
-            if (categoriaInicial) {
-                filtro.categoria = categoriaInicial;
-                linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
-                const linkAtivo = document.querySelector(`#listaCategorias a[data-categoria="${categoriaInicial}"]`);
-                if (linkAtivo) linkAtivo.parentElement.classList.add('categoriaAtiva');
-            }
-
-            filtro.busca = paramsUrl.get('busca') || '';
+            // filtro.categoria/filtro.busca já foram lidos da URL antes (ver
+            // declaração de "filtro" acima) — a marcação do link ativo na
+            // barra lateral fica por conta de montarListaCategoriasFiltro,
+            // que roda em paralelo com esta função.
 
             montarFiltroProdutos();
             montarFiltroCores();
@@ -435,16 +461,6 @@
             });
         }
 
-        linksCategoria.forEach((link) => {
-            link.addEventListener('click', (evento) => {
-                evento.preventDefault();
-                linksCategoria.forEach((l) => l.parentElement.classList.remove('categoriaAtiva'));
-                link.parentElement.classList.add('categoriaAtiva');
-                filtro.categoria = link.dataset.categoria;
-                aplicarFiltros();
-            });
-        });
-
         // Seções que abrem/fecham (Categoria, Produto, Cor do Produto...).
         document.querySelectorAll('.tituloSecaoFiltro').forEach((botao) => {
             botao.addEventListener('click', () => {
@@ -520,6 +536,7 @@
         });
 
         carregarProdutos();
+        montarListaCategoriasFiltro();
     </script>
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module" src="assets/configuracoesLoja.js"></script>

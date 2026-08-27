@@ -97,11 +97,6 @@
                             <label for="categoriaProduto">Categoria</label>
                             <select name="categoriaProduto" id="categoriaProduto">
                                 <option value="">Selecione</option>
-                                <option value="personalizado">Personalizado</option>
-                                <option value="informatica">Informática</option>
-                                <option value="armarinho">Armarinho</option>
-                                <option value="papelaria">Papelaria</option>
-                                <option value="vestuario">Vestuário</option>
                             </select>
                         </div>
 
@@ -318,6 +313,22 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { carregarCategorias as buscarCategorias } from '../assets/categorias.js';
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        // Categorias vêm do banco (editáveis em Configurações no adm).
+        const selectCategoriaProduto = document.getElementById('categoriaProduto');
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            selectCategoriaProduto.insertAdjacentHTML('beforeend', categorias.map((c) =>
+                `<option value="${c.slug}">${escaparHtml(c.nome)}</option>`
+            ).join(''));
+            return categorias;
+        });
 
         // ---------- Tipos de variação (chips) ----------
         const listaTipos = document.getElementById('listaTiposVariacao');
@@ -563,6 +574,7 @@
             botaoSalvar.textContent = 'Salvar Alterações';
 
             document.getElementById('nomeProduto').value = produto.nome || '';
+            await categoriasPromise;
             document.getElementById('categoriaProduto').value = produto.categoria || '';
             document.getElementById('statusProduto').value = produto.status || 'ativo';
             document.getElementById('precoProduto').value = Number(produto.preco).toFixed(2).replace('.', ',');

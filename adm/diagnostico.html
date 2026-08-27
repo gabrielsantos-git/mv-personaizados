@@ -189,14 +189,14 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { carregarCategorias as buscarCategorias, mapaNomesCategoria } from '../assets/categorias.js';
 
-        const nomesCategoria = {
-            personalizado: 'Personalizado',
-            informatica: 'Informática',
-            armarinho: 'Armarinho',
-            papelaria: 'Papelaria',
-            vestuario: 'Vestuário'
-        };
+        // Categorias vêm do banco (editáveis em Configurações no adm).
+        let nomesCategoria = {};
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            nomesCategoria = mapaNomesCategoria(categorias);
+            return categorias;
+        });
 
         const nomesStatusPedido = {
             pendente: 'Pendente',
@@ -399,6 +399,7 @@
             }
 
             const listaRank = document.getElementById('listaProdutosRank');
+            await categoriasPromise;
 
             if (topProdutos.length === 0) {
                 listaRank.innerHTML = '<p class="estadoVazioAdm">Nenhuma venda registrada ainda.</p>';

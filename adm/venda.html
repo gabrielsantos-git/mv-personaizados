@@ -173,23 +173,18 @@
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { carregarPromocoesAtivas, calcularPrecoComDesconto } from '../assets/promocoes.js';
+        import { carregarCategorias as buscarCategorias, mapaNomesCategoria, classeCorCategoria } from '../assets/categorias.js';
 
         let promocoesAtivas = [];
 
-        const nomesCategoria = {
-            personalizado: 'Personalizado',
-            informatica: 'Informática',
-            armarinho: 'Armarinho',
-            papelaria: 'Papelaria',
-            vestuario: 'Vestuário'
-        };
-        const classesCategoria = {
-            personalizado: 'categoriaPersonalizado',
-            informatica: 'categoriaInformatica',
-            armarinho: 'categoriaArmarinho',
-            papelaria: 'categoriaPapelaria',
-            vestuario: 'categoriaVestuario'
-        };
+        // Categorias vêm do banco (editáveis em Configurações no adm).
+        let listaCategorias = [];
+        let nomesCategoria = {};
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            listaCategorias = categorias;
+            nomesCategoria = mapaNomesCategoria(categorias);
+            return categorias;
+        });
 
         function formatarPreco(valor) {
             return 'R$ ' + Number(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -393,7 +388,7 @@
                         <h6>${produto.codigo || ''}</h6>
                     </div>
                     <div class="colValorProd">${valorHtml}</div>
-                    <span class="colCatProd"><span class="categoriaBadge ${classesCategoria[produto.categoria] || 'categoriaPersonalizado'}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
+                    <span class="colCatProd"><span class="categoriaBadge ${classeCorCategoria(produto.categoria, listaCategorias)}">${nomesCategoria[produto.categoria] || produto.categoria}</span></span>
                     <span class="colEstoqueProd"><span class="pontoEstoque ${classeEstoque(produto.estoque)}"></span>${produto.estoque} un</span>
                     <span class="colAcaoProd">
                         <button type="button" class="botaoAdicionarVenda" data-id="${produto.id}" ${semEstoque ? 'disabled' : ''} aria-label="Adicionar ${produto.nome}">+</button>
@@ -428,6 +423,7 @@
             }
 
             todosProdutos = data;
+            await categoriasPromise;
             renderizarProdutos();
         }
 

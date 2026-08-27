@@ -104,6 +104,7 @@
         import { adicionarItem } from './assets/carrinho.js';
         import { carregarAnunciosPorTipo, cardsAnuncioHtml, registrarMetricasAnuncio } from './assets/anuncios.js';
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
+        import { carregarCategorias as buscarCategorias, mapaNomesCategoria } from './assets/categorias.js';
 
         let promocoesAtivas = [];
         // Dispara a busca de promoções logo de cara e guarda a promise — os
@@ -115,16 +116,16 @@
             return promocoes;
         });
 
+        // Categorias agora vêm do banco (editáveis em Configurações no adm) —
+        // buscadas em paralelo com o resto, do mesmo jeito que as promoções.
+        let nomesCategoria = {};
+        const categoriasPromise = buscarCategorias().then((categorias) => {
+            nomesCategoria = mapaNomesCategoria(categorias);
+            return categorias;
+        });
+
         const gridMaisVendidos = document.getElementById('gridMaisVendidos');
         const containerCategorias = document.getElementById('containerCategoriasHome');
-
-        const nomesCategoria = {
-            personalizado: 'Personalizados',
-            vestuario: 'Vestuário',
-            informatica: 'Informática',
-            papelaria: 'Papelaria',
-            armarinho: 'Armarinho'
-        };
 
         const iconeCarrinho = '<svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>';
 
@@ -254,6 +255,8 @@
         }
 
         async function carregarCategorias() {
+            const categorias = await categoriasPromise;
+
             // Uma query por categoria, todas disparadas ao mesmo tempo em vez de
             // esperar uma terminar pra começar a próxima — isso sozinho já
             // cortava a página inteira de espera em ~5x (uma ida e volta ao banco
@@ -263,7 +266,7 @@
             // esperar na fila.
             const [resultados, blocoAnuncio] = await Promise.all([
                 Promise.all(
-                    Object.keys(nomesCategoria).map((categoria) =>
+                    categorias.map(({ slug: categoria }) =>
                         supabase
                             .from('produtos')
                             .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')

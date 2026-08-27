@@ -118,6 +118,30 @@
                     <button type="submit" class="botaoSalvarProduto" id="botaoSalvarConfiguracoes">Salvar Alterações</button>
                 </div>
             </form>
+
+            <div class="cardFormProduto">
+                <div class="secaoFormProduto">
+                    <h3>Categorias de Produto</h3>
+                    <p class="descricaoSecaoForm">Categorias usadas no cadastro de produtos, nos filtros e no menu da loja. Excluir uma categoria com produtos exige mover eles pra outra antes.</p>
+
+                    <div id="listaCategoriasAdm" class="listaCategoriasAdm"></div>
+                </div>
+
+                <div class="secaoFormProduto">
+                    <div class="linhaFormProduto">
+                        <div class="campoFormProduto">
+                            <label for="novaCategoriaNome">Nova categoria</label>
+                            <input type="text" id="novaCategoriaNome" placeholder="Ex: Decoração">
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mensagemFormProduto" id="mensagemCategorias"></p>
+
+                <div class="acoesFormProduto">
+                    <button type="button" class="botaoSalvarProduto" id="botaoAdicionarCategoria">Adicionar Categoria</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -182,6 +206,256 @@
         });
 
         carregarConfiguracoes();
+
+        // ---------- Categorias ----------
+        const listaCategoriasEl = document.getElementById('listaCategoriasAdm');
+        const mensagemCategorias = document.getElementById('mensagemCategorias');
+        const inputNovaCategoria = document.getElementById('novaCategoriaNome');
+        const botaoAdicionarCategoria = document.getElementById('botaoAdicionarCategoria');
+
+        const iconeEditar = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
+        const iconeExcluir = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+
+        let categorias = [];
+        let contagemPorCategoria = {};
+        let categoriaEmEdicao = null; // slug da categoria com o campo de nome aberto
+        let categoriaEmExclusao = null; // slug da categoria mostrando o seletor de mover produtos
+
+        function mostrarMensagemCategorias(texto, tipo) {
+            mensagemCategorias.textContent = texto;
+            mensagemCategorias.classList.remove('mensagemErro', 'mensagemSucesso');
+            if (tipo) mensagemCategorias.classList.add(tipo);
+            if (tipo === 'mensagemSucesso') {
+                setTimeout(() => {
+                    mensagemCategorias.textContent = '';
+                    mensagemCategorias.classList.remove('mensagemSucesso');
+                }, 3000);
+            }
+        }
+
+        function gerarSlug(nome, existentes) {
+            const base = nome
+                .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '') || 'categoria';
+
+            let slug = base;
+            let contador = 2;
+            while (existentes.includes(slug)) {
+                slug = `${base}-${contador}`;
+                contador += 1;
+            }
+            return slug;
+        }
+
+        async function carregarCategoriasAdm() {
+            const [{ data: categoriasData, error: erroCategorias }, { data: produtosData }] = await Promise.all([
+                supabase.from('categorias').select('*').order('criado_em'),
+                supabase.from('produtos').select('categoria')
+            ]);
+
+            if (erroCategorias) {
+                listaCategoriasEl.innerHTML = '<p class="mensagemFormProduto mensagemErro">Não foi possível carregar as categorias.</p>';
+                return;
+            }
+
+            categorias = categoriasData || [];
+            contagemPorCategoria = {};
+            (produtosData || []).forEach((p) => {
+                contagemPorCategoria[p.categoria] = (contagemPorCategoria[p.categoria] || 0) + 1;
+            });
+
+            renderizarCategorias();
+        }
+
+        function renderizarCategorias() {
+            if (categorias.length === 0) {
+                listaCategoriasEl.innerHTML = '<p class="mensagemFormProduto">Nenhuma categoria cadastrada.</p>';
+                return;
+            }
+
+            listaCategoriasEl.innerHTML = categorias.map((categoria) => {
+                const qtd = contagemPorCategoria[categoria.slug] || 0;
+                const emEdicao = categoriaEmEdicao === categoria.slug;
+                const emExclusao = categoriaEmExclusao === categoria.slug;
+
+                const outrasCategorias = categorias.filter((c) => c.slug !== categoria.slug);
+
+                return `
+                    <div class="linhaCategoriaAdm" data-slug="${categoria.slug}">
+                        <div class="infoCategoriaAdm">
+                            ${emEdicao
+                                ? `<input type="text" class="inputEditarCategoria" value="${escaparHtml(categoria.nome)}">`
+                                : `<span class="nomeCategoriaAdm">${escaparHtml(categoria.nome)}</span>`}
+                            <span class="qtdCategoriaAdm">${qtd} produto${qtd === 1 ? '' : 's'}</span>
+                        </div>
+
+                        <div class="acoesCategoriaAdm">
+                            ${emEdicao ? `
+                                <button type="button" class="botaoSalvarProduto botaoSalvarCategoria" data-slug="${categoria.slug}">Salvar</button>
+                                <button type="button" class="botaoAcaoProduto botaoCancelarEdicaoCategoria" data-slug="${categoria.slug}">Cancelar</button>
+                            ` : `
+                                <button type="button" class="botaoAcaoProduto botaoEditarCategoria" data-slug="${categoria.slug}" aria-label="Editar ${escaparHtml(categoria.nome)}">${iconeEditar}</button>
+                                <button type="button" class="botaoAcaoProduto botaoExcluirCategoria" data-slug="${categoria.slug}" aria-label="Excluir ${escaparHtml(categoria.nome)}">${iconeExcluir}</button>
+                            `}
+                        </div>
+
+                        ${emExclusao ? `
+                            <div class="painelMoverCategoria">
+                                ${qtd > 0 ? `
+                                    <p>Essa categoria tem ${qtd} produto${qtd === 1 ? '' : 's'}. Escolha pra onde mover antes de excluir:</p>
+                                    <select class="selectMoverCategoria">
+                                        ${outrasCategorias.length === 0
+                                            ? '<option value="">Nenhuma outra categoria disponível</option>'
+                                            : outrasCategorias.map((c) => `<option value="${c.slug}">${escaparHtml(c.nome)}</option>`).join('')}
+                                    </select>
+                                ` : `<p>Excluir a categoria "${escaparHtml(categoria.nome)}"? Essa ação não pode ser desfeita.</p>`}
+                                <div class="acoesPainelMoverCategoria">
+                                    <button type="button" class="botaoAcaoProduto botaoCancelarExclusaoCategoria" data-slug="${categoria.slug}">Cancelar</button>
+                                    <button type="button" class="botaoSalvarProduto botaoConfirmarExclusaoCategoria" data-slug="${categoria.slug}" ${qtd > 0 && outrasCategorias.length === 0 ? 'disabled' : ''}>Confirmar exclusão</button>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        listaCategoriasEl.addEventListener('click', async (evento) => {
+            const btnEditar = evento.target.closest('.botaoEditarCategoria');
+            const btnCancelarEdicao = evento.target.closest('.botaoCancelarEdicaoCategoria');
+            const btnSalvar = evento.target.closest('.botaoSalvarCategoria');
+            const btnExcluir = evento.target.closest('.botaoExcluirCategoria');
+            const btnCancelarExclusao = evento.target.closest('.botaoCancelarExclusaoCategoria');
+            const btnConfirmarExclusao = evento.target.closest('.botaoConfirmarExclusaoCategoria');
+
+            if (btnEditar) {
+                categoriaEmEdicao = btnEditar.dataset.slug;
+                categoriaEmExclusao = null;
+                renderizarCategorias();
+                return;
+            }
+
+            if (btnCancelarEdicao) {
+                categoriaEmEdicao = null;
+                renderizarCategorias();
+                return;
+            }
+
+            if (btnSalvar) {
+                const slug = btnSalvar.dataset.slug;
+                const linha = listaCategoriasEl.querySelector(`.linhaCategoriaAdm[data-slug="${slug}"]`);
+                const novoNome = linha.querySelector('.inputEditarCategoria').value.trim();
+
+                if (!novoNome) {
+                    mostrarMensagemCategorias('Digite um nome pra categoria.', 'mensagemErro');
+                    return;
+                }
+
+                btnSalvar.disabled = true;
+                const { error } = await supabase.from('categorias').update({ nome: novoNome }).eq('slug', slug);
+                btnSalvar.disabled = false;
+
+                if (error) {
+                    mostrarMensagemCategorias('Não foi possível renomear a categoria.', 'mensagemErro');
+                    return;
+                }
+
+                categoriaEmEdicao = null;
+                mostrarMensagemCategorias('Categoria renomeada com sucesso!', 'mensagemSucesso');
+                await carregarCategoriasAdm();
+                return;
+            }
+
+            if (btnExcluir) {
+                categoriaEmExclusao = btnExcluir.dataset.slug;
+                categoriaEmEdicao = null;
+                renderizarCategorias();
+                return;
+            }
+
+            if (btnCancelarExclusao) {
+                categoriaEmExclusao = null;
+                renderizarCategorias();
+                return;
+            }
+
+            if (btnConfirmarExclusao) {
+                const slug = btnConfirmarExclusao.dataset.slug;
+                const linha = listaCategoriasEl.querySelector(`.linhaCategoriaAdm[data-slug="${slug}"]`);
+                const qtd = contagemPorCategoria[slug] || 0;
+                const selectMover = linha.querySelector('.selectMoverCategoria');
+                const destino = selectMover ? selectMover.value : null;
+
+                if (qtd > 0 && !destino) {
+                    mostrarMensagemCategorias('Escolha pra onde mover os produtos antes de excluir.', 'mensagemErro');
+                    return;
+                }
+
+                btnConfirmarExclusao.disabled = true;
+                btnConfirmarExclusao.textContent = 'Excluindo...';
+
+                if (qtd > 0) {
+                    const { error: erroMover } = await supabase.from('produtos').update({ categoria: destino }).eq('categoria', slug);
+                    if (erroMover) {
+                        mostrarMensagemCategorias('Não foi possível mover os produtos dessa categoria.', 'mensagemErro');
+                        btnConfirmarExclusao.disabled = false;
+                        btnConfirmarExclusao.textContent = 'Confirmar exclusão';
+                        return;
+                    }
+                }
+
+                const { error: erroExcluir } = await supabase.from('categorias').delete().eq('slug', slug);
+
+                if (erroExcluir) {
+                    mostrarMensagemCategorias('Não foi possível excluir a categoria.', 'mensagemErro');
+                    btnConfirmarExclusao.disabled = false;
+                    btnConfirmarExclusao.textContent = 'Confirmar exclusão';
+                    return;
+                }
+
+                categoriaEmExclusao = null;
+                mostrarMensagemCategorias('Categoria excluída com sucesso!', 'mensagemSucesso');
+                await carregarCategoriasAdm();
+            }
+        });
+
+        botaoAdicionarCategoria.addEventListener('click', async () => {
+            const nome = inputNovaCategoria.value.trim();
+            if (!nome) {
+                mostrarMensagemCategorias('Digite um nome pra nova categoria.', 'mensagemErro');
+                return;
+            }
+
+            const slug = gerarSlug(nome, categorias.map((c) => c.slug));
+
+            botaoAdicionarCategoria.disabled = true;
+            botaoAdicionarCategoria.textContent = 'Adicionando...';
+
+            const { error } = await supabase.from('categorias').insert({ slug, nome });
+
+            botaoAdicionarCategoria.disabled = false;
+            botaoAdicionarCategoria.textContent = 'Adicionar Categoria';
+
+            if (error) {
+                mostrarMensagemCategorias('Não foi possível adicionar a categoria.', 'mensagemErro');
+                return;
+            }
+
+            inputNovaCategoria.value = '';
+            mostrarMensagemCategorias('Categoria adicionada com sucesso!', 'mensagemSucesso');
+            await carregarCategoriasAdm();
+        });
+
+        function escaparHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        carregarCategoriasAdm();
     </script>
 </body>
 </html>
