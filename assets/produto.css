@@ -119,6 +119,12 @@ main{
     color: black;
 }
 
+.avisoQuantidadeMinima{
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--cor-primaria);
+}
+
 .barraQuantidade{
     display: flex;
     flex-direction: row;

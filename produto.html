@@ -272,7 +272,7 @@
 
             const { data: produto, error } = await supabase
                 .from('produtos')
-                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, preco_modo, estilo_exibicao, imagem_url, cor_hex)')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, quantidade_minima, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, preco_modo, estilo_exibicao, imagem_url, cor_hex)')
                 .eq('id', idProduto)
                 .eq('status', 'ativo')
                 .eq('publico', true)
@@ -298,6 +298,7 @@
                 : `<div class="imgMiniatura"><img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}"></div>`;
 
             const semEstoque = produto.estoque <= 0;
+            const quantidadeMinima = produto.quantidade_minima || 1;
             await promocoesPromise;
             const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
 
@@ -339,9 +340,10 @@
                         <span>Quantidade:</span>
                         <div class="barraQuantidade">
                             <button type="button" class="btnQuantidade" aria-label="Diminuir quantidade">−</button>
-                            <input type="number" min="1" value="1" id="quantidade">
+                            <input type="number" min="${quantidadeMinima}" value="${quantidadeMinima}" id="quantidade">
                             <button type="button" class="btnQuantidade" aria-label="Aumentar quantidade">+</button>
                         </div>
+                        ${quantidadeMinima > 1 ? `<span class="avisoQuantidadeMinima">Pedido mínimo: ${quantidadeMinima} un.</span>` : ''}
                     </div>
                     `}
 
@@ -422,11 +424,12 @@
             const botoesQuantidade = document.querySelectorAll('.btnQuantidade');
             const mensagem = document.getElementById('mensagemProduto');
             const grupoQuantidade = document.querySelector('.grupoVariacaoProduto[data-estilo="quantidade"]');
+            const quantidadeMinima = produto.quantidade_minima || 1;
 
             botoesQuantidade.forEach((botao, indice) => {
                 botao.addEventListener('click', () => {
-                    const atual = Number(inputQuantidade.value) || 1;
-                    inputQuantidade.value = indice === 0 ? Math.max(1, atual - 1) : atual + 1;
+                    const atual = Number(inputQuantidade.value) || quantidadeMinima;
+                    inputQuantidade.value = indice === 0 ? Math.max(quantidadeMinima, atual - 1) : atual + 1;
                     atualizarPrecoExibido();
                 });
             });
@@ -450,7 +453,7 @@
                 const { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
 
                 if (!grupoQuantidade) {
-                    const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
+                    const quantidade = Math.max(quantidadeMinima, Number(inputQuantidade.value) || quantidadeMinima);
                     // Se alguma variação selecionada foi marcada "é o valor do
                     // produto" (não soma), o preço dela substitui o preço base —
                     // outras variações "soma com o preço do produto" continuam

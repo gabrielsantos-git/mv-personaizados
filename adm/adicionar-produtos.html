@@ -127,6 +127,11 @@
                             <label for="estoqueProduto">Estoque (un)</label>
                             <input type="number" name="estoqueProduto" id="estoqueProduto" min="0" placeholder="0">
                         </div>
+
+                        <div class="campoFormProduto">
+                            <label for="quantidadeMinimaProduto">Quantidade mínima (un)</label>
+                            <input type="number" name="quantidadeMinimaProduto" id="quantidadeMinimaProduto" min="1" value="1" placeholder="1">
+                        </div>
                     </div>
                 </div>
 
@@ -597,6 +602,7 @@
             document.getElementById('statusProduto').value = produto.status || 'ativo';
             document.getElementById('precoProduto').value = Number(produto.preco).toFixed(2).replace('.', ',');
             document.getElementById('estoqueProduto').value = produto.estoque;
+            document.getElementById('quantidadeMinimaProduto').value = produto.quantidade_minima || 1;
             document.getElementById('descricaoProduto').value = produto.descricao || '';
             document.getElementById('impressaoProduto').value = produto.impressao || '';
             document.getElementById('corPersonalizacaoProduto').value = produto.cor_personalizacao || '';
@@ -709,6 +715,7 @@
             const status = document.getElementById('statusProduto').value;
             const preco = paraNumero(document.getElementById('precoProduto').value);
             const estoque = parseInt(document.getElementById('estoqueProduto').value, 10) || 0;
+            const quantidadeMinima = Math.max(1, parseInt(document.getElementById('quantidadeMinimaProduto').value, 10) || 1);
             const descricao = document.getElementById('descricaoProduto').value.trim();
             const publico = document.getElementById('visibilidadePublico').checked;
             const impressao = document.getElementById('impressaoProduto').value || null;
@@ -727,6 +734,7 @@
                 let produtoId = idEdicao;
                 const dadosProduto = {
                     nome, categoria, status, preco, estoque, descricao, publico,
+                    quantidade_minima: quantidadeMinima,
                     impressao,
                     cor_personalizacao: corPersonalizacao
                 };
