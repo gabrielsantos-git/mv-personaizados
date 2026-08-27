@@ -85,6 +85,12 @@ header{
 }
 
 #search{
+    /* Flex-basis fixo (não "auto" + width:100%) pra já nascer do tamanho certo
+       como filho direto do .header, antes do buscaHeader.js envolver o campo
+       num wrapper de 500px — sem isso, o campo aparecia pequeno (encolhido
+       pelo flex-shrink) e só voltava ao tamanho configurado depois que o
+       script rodava, dando aquele "pulo" visível a cada carregamento. */
+    flex: 0 1 500px;
     width: 100%;
     height: 40px;
     border: none;
