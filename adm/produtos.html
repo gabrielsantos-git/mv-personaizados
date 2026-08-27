@@ -190,7 +190,7 @@
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { carregarCategorias as buscarCategorias, mapaNomesCategoria, classeCorCategoria } from '../assets/categorias.js';
-        import { confirmModal, alertModal } from '../assets/modal.js';
+        import { confirmModal, alertModal, escolherModal } from '../assets/modal.js';
 
         const corpoTabela = document.getElementById('corpoTabelaProdutos');
         const estadoVazio = document.getElementById('estadoVazioProdutos');
@@ -300,37 +300,22 @@
             renderizarLista();
         }
 
-        async function excluirProduto(id, nome) {
-            if (!await confirmModal(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
-
-            const { error } = await supabase.from('produtos').delete().eq('id', id);
-
+        async function inativarProduto(id) {
+            const { error } = await supabase.from('produtos').update({ status: 'inativo' }).eq('id', id);
             if (error) {
-                // 23503 = violação de chave estrangeira — o produto já apareceu em
-                // algum pedido (itens_pedido), então o banco impede a exclusão pra
-                // não quebrar o histórico de pedidos. Nesse caso oferece inativar
-                // o produto em vez de excluir (some da loja, mas mantém o histórico).
-                if (error.code === '23503') {
-                    const inativar = await confirmModal(
-                        `"${nome}" já está em pedidos feitos por clientes, então não pode ser excluído (isso quebraria o histórico de pedidos).\n\nDeseja inativar o produto em vez disso? Ele deixa de aparecer na loja, mas continua no histórico.`,
-                        { textoConfirmar: 'Inativar produto' }
-                    );
+                await alertModal('Não foi possível inativar o produto.');
+                return;
+            }
 
-                    if (inativar) {
-                        const { error: erroInativar } = await supabase.from('produtos').update({ status: 'inativo' }).eq('id', id);
-                        if (erroInativar) {
-                            await alertModal('Não foi possível inativar o produto.');
-                            return;
-                        }
+            const produto = todosProdutos.find((p) => p.id === id);
+            if (produto) produto.status = 'inativo';
+            atualizarKpis(todosProdutos);
+            renderizarLista();
+        }
 
-                        const produto = todosProdutos.find((p) => p.id === id);
-                        if (produto) produto.status = 'inativo';
-                        atualizarKpis(todosProdutos);
-                        renderizarLista();
-                    }
-                    return;
-                }
-
+        async function excluirProdutoDeVerdade(id) {
+            const { error } = await supabase.from('produtos').delete().eq('id', id);
+            if (error) {
                 await alertModal('Não foi possível excluir o produto.');
                 return;
             }
@@ -338,6 +323,36 @@
             todosProdutos = todosProdutos.filter((p) => p.id !== id);
             atualizarKpis(todosProdutos);
             renderizarLista();
+        }
+
+        async function excluirProduto(id, nome) {
+            // Produto já apareceu em algum pedido de cliente (itens_pedido)? Se sim,
+            // deixa a decisão explícita com o admin em vez de só bloquear — pode
+            // inativar (some da loja, mantém tudo) ou excluir mesmo assim (o pedido
+            // continua registrado, só perde o vínculo com o produto).
+            const { count } = await supabase
+                .from('itens_pedido')
+                .select('id', { count: 'exact', head: true })
+                .eq('produto_id', id);
+
+            if (count && count > 0) {
+                const acao = await escolherModal(
+                    `"${nome}" já está em ${count} pedido${count === 1 ? '' : 's'} feito${count === 1 ? '' : 's'} por clientes.`,
+                    {
+                        botoes: [
+                            { texto: 'Inativar produto', valor: 'inativar', primario: true },
+                            { texto: 'Excluir produto mesmo assim', valor: 'excluir' }
+                        ]
+                    }
+                );
+
+                if (acao === 'inativar') await inativarProduto(id);
+                else if (acao === 'excluir') await excluirProdutoDeVerdade(id);
+                return;
+            }
+
+            if (!await confirmModal(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+            await excluirProdutoDeVerdade(id);
         }
 
         corpoTabela.addEventListener('click', (evento) => {

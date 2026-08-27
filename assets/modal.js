@@ -199,3 +199,29 @@ export function alertModal(mensagem, opcoes) {
         permiteFecharFora: true
     });
 }
+
+// Modal com botões de ação livres (não é um simples sim/não) — cada botão
+// tem seu próprio texto e valor de retorno. Ex: "Inativar produto" /
+// "Excluir produto mesmo assim", sem um "Cancelar" separado — fechar com
+// Esc ou clicando fora resolve como null (nenhuma ação escolhida).
+//
+//   const acao = await escolherModal('...', {
+//       botoes: [
+//           { texto: 'Inativar produto', valor: 'inativar', primario: true },
+//           { texto: 'Excluir produto mesmo assim', valor: 'excluir' }
+//       ]
+//   });
+//   if (acao === 'inativar') { ... }
+export function escolherModal(mensagem, opcoes) {
+    const { titulo, botoes } = opcoes || {};
+
+    return criarModal({
+        titulo,
+        mensagem,
+        botoes: {
+            valorEscape: null,
+            lista: botoes
+        },
+        permiteFecharFora: true
+    });
+}
