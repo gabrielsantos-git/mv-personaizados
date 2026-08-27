@@ -1,0 +1,89 @@
+/* ---------- Responsivo do painel admin (sidebar vira gaveta) ----------
+   Carregado em toda página de adm/ depois do CSS específico da página, pra
+   poder sobrepor .layoutAdm/.sidebarAdm/.areaConteudoAdm/.cabecalhoTopoAdm
+   (definidos, iguais, em cada CSS de página do admin). */
+
+.botaoAbrirSidebarAdm{
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    color: #1e293b;
+}
+
+.overlaySidebarAdm{
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.overlaySidebarAdm.aberto{
+    display: block;
+}
+
+img{
+    max-width: 100%;
+}
+
+@media (max-width: 1024px){
+    .botaoAbrirSidebarAdm{
+        display: flex;
+    }
+
+    .layoutAdm{
+        position: relative;
+    }
+
+    .sidebarAdm{
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 200;
+
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        overflow-y: auto;
+    }
+
+    .sidebarAdm.sidebarAdmAberta{
+        transform: translateX(0);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .areaConteudoAdm{
+        width: 100%;
+        min-width: 0;
+        padding: 24px 20px;
+    }
+
+    .cabecalhoTopoAdm{
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .linhaKpiAdm{
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 600px){
+    .areaConteudoAdm{
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .tituloTopoAdm h1{
+        font-size: 22px;
+    }
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/pedidos-loja.css">
+    <link rel="stylesheet" href="../assets/adminResponsivo.css">
     <script type="module" src="../assets/admGuard.js"></script>
     <title>Pedidos da Loja - Mv Personalizados</title>
 </head>
@@ -71,6 +72,9 @@
 
         <div class="areaConteudoAdm">
             <div class="cabecalhoTopoAdm">
+                <button type="button" class="botaoAbrirSidebarAdm" id="botaoAbrirSidebarAdm" aria-label="Abrir menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
                 <div class="tituloTopoAdm">
                     <h1>Controle de Pedidos</h1>
                     <p>Monitore e organize a fila de produção personalizada dos clientes.</p>
@@ -519,7 +523,8 @@
                     <div class="avisoFinal">Impressão em 1 via &nbsp;—&nbsp; *** Obrigado pela preferência! ***</div>
 
                     <script>window.print();<\/script>
-                </body>
+                    <script type="module" src="../assets/adminSidebar.js"></script>
+</body>
                 </html>
             `);
             janela.document.close();
