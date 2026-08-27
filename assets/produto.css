@@ -102,6 +102,12 @@ main{
     margin: 0;
 }
 
+.precoAtualProduto{
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
 .quantidadeCompra{
     display: flex;
     flex-direction: row;
@@ -594,6 +600,10 @@ main{
 
     .descricaoCompraProduto p{
         font-size: 15px;
+    }
+
+    .precoAtualProduto{
+        font-size: 24px;
     }
 
     .quantidadeCompra{

@@ -327,7 +327,7 @@
                         <p>
                             <strong>Preço:</strong>
                             ${precoOriginal ? `<span class="precoAntigo" id="precoAntigoExibido" style="margin-left: 6px;">${formatarPreco(precoOriginal)}</span>` : ''}
-                            <span id="precoExibido" style="${precoOriginal ? 'color: var(--cor-primaria); font-weight: 700;' : ''}">${formatarPreco(precoFinal)}</span>
+                            <span class="precoAtualProduto" id="precoExibido">${formatarPreco(precoFinal)}</span>
                         </p>
                         ${semEstoque ? '<p style="color: var(--cor-primaria); font-weight: 700;">Produto sem estoque no momento.</p>' : ''}
                     </div>
@@ -508,13 +508,27 @@
 
                 const total = itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
                 precoExibidoEl.textContent = formatarPreco(total);
-                if (precoAntigoEl) precoAntigoEl.style.display = 'none';
+
+                if (precoAntigoEl) {
+                    // Com grupo de quantidade, qualquer quantidade escolhida já
+                    // esconde o preço riscado (o total vira soma de vários itens,
+                    // não dá pra comparar 1 pra 1 com o preço unitário). Sem
+                    // grupo de quantidade, só esconde se a variação escolhida
+                    // realmente mudou o preço — senão ficaria escondido só por
+                    // ter uma variação padrão já marcada ao abrir a página.
+                    const escondePrecoAntigo = grupoQuantidade || itens[0].preco !== Number(precoFinal);
+                    precoAntigoEl.style.display = escondePrecoAntigo ? 'none' : '';
+                }
             }
 
-            if (grupoQuantidade) {
-                document.getElementById('blocoVariacoes').addEventListener('click', atualizarPrecoExibido);
-                document.getElementById('blocoVariacoes').addEventListener('change', atualizarPrecoExibido);
-                document.getElementById('blocoVariacoes').addEventListener('input', atualizarPrecoExibido);
+            // Atualiza o preço exibido ao trocar QUALQUER variação (radio, caixa,
+            // botão, cor, foto ou quantidade) — antes só reagia ao grupo de
+            // quantidade, então escolher uma cor/tamanho não refletia no preço.
+            const blocoVariacoesEl = document.getElementById('blocoVariacoes');
+            if (blocoVariacoesEl) {
+                blocoVariacoesEl.addEventListener('click', atualizarPrecoExibido);
+                blocoVariacoesEl.addEventListener('change', atualizarPrecoExibido);
+                blocoVariacoesEl.addEventListener('input', atualizarPrecoExibido);
                 atualizarPrecoExibido();
             }
 
