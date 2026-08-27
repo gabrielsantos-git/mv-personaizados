@@ -195,6 +195,12 @@
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
 
         let promocoesAtivas = [];
+        // Dispara em paralelo com a busca de produtos — só é necessária na
+        // hora de renderizar (calcular preço), não antes de buscar.
+        const promocoesPromise = carregarPromocoesAtivas().then((promocoes) => {
+            promocoesAtivas = promocoes;
+            return promocoes;
+        });
 
         const grid = document.getElementById('produtosGrid');
         const titulo = document.getElementById('tituloCategoria');
@@ -261,14 +267,17 @@
         }
 
         async function carregarProdutos() {
-            await carregarVariacoesParaFiltros();
-
-            const { data, error } = await supabase
-                .from('produtos')
-                .select('id, nome, preco, descricao, categoria, estoque, impressao, cor_personalizacao, imagens_produto(url, ordem)')
-                .eq('status', 'ativo')
-                .eq('publico', true)
-                .order('created_at', { ascending: false });
+            // Produtos e variações (usadas nos filtros de cor/material) não
+            // dependem uma da outra — buscadas ao mesmo tempo em vez de em série.
+            const [{ data, error }] = await Promise.all([
+                supabase
+                    .from('produtos')
+                    .select('id, nome, preco, descricao, categoria, estoque, impressao, cor_personalizacao, imagens_produto(url, ordem)')
+                    .eq('status', 'ativo')
+                    .eq('publico', true)
+                    .order('created_at', { ascending: false }),
+                carregarVariacoesParaFiltros()
+            ]);
 
             if (error) {
                 grid.innerHTML = '<p>Não foi possível carregar os produtos.</p>';
@@ -276,6 +285,7 @@
             }
 
             produtos = data || [];
+            await promocoesPromise;
 
             const paramsUrl = new URLSearchParams(window.location.search);
 
@@ -509,10 +519,7 @@
             aplicarFiltros();
         });
 
-        carregarPromocoesAtivas().then((promocoes) => {
-            promocoesAtivas = promocoes;
-            carregarProdutos();
-        });
+        carregarProdutos();
     </script>
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module" src="assets/configuracoesLoja.js"></script>

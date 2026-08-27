@@ -106,6 +106,14 @@
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
 
         let promocoesAtivas = [];
+        // Dispara a busca de promoções logo de cara e guarda a promise — os
+        // blocos de produto usam ela só na hora de renderizar (não de buscar),
+        // então a query de promoções roda em paralelo com as de produto em vez
+        // de bloquear tudo antes delas nem começarem.
+        const promocoesPromise = carregarPromocoesAtivas().then((promocoes) => {
+            promocoesAtivas = promocoes;
+            return promocoes;
+        });
 
         const gridMaisVendidos = document.getElementById('gridMaisVendidos');
         const containerCategorias = document.getElementById('containerCategoriasHome');
@@ -227,6 +235,7 @@
                 return;
             }
 
+            await promocoesPromise;
             gridMaisVendidos.innerHTML = produtosOrdenados.map(cartaoProdutoHtml).join('');
             ligarBotoesCarrinho(gridMaisVendidos);
         }
@@ -245,23 +254,32 @@
         }
 
         async function carregarCategorias() {
-            const secoes = [];
+            // Uma query por categoria, todas disparadas ao mesmo tempo em vez de
+            // esperar uma terminar pra começar a próxima — isso sozinho já
+            // cortava a página inteira de espera em ~5x (uma ida e volta ao banco
+            // por categoria, em série).
+            // O banner de anúncios também é buscado em paralelo com as
+            // categorias, não depois — mais uma ida e volta que não precisa
+            // esperar na fila.
+            const [resultados, blocoAnuncio] = await Promise.all([
+                Promise.all(
+                    Object.keys(nomesCategoria).map((categoria) =>
+                        supabase
+                            .from('produtos')
+                            .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
+                            .eq('categoria', categoria)
+                            .eq('status', 'ativo')
+                            .eq('publico', true)
+                            .limit(5)
+                            .then(({ data }) => ({ categoria, produtos: data || [] }))
+                    )
+                ),
+                anuncioHtml()
+            ]);
 
-            for (const categoria of Object.keys(nomesCategoria)) {
-                const { data } = await supabase
-                    .from('produtos')
-                    .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
-                    .eq('categoria', categoria)
-                    .eq('status', 'ativo')
-                    .eq('publico', true)
-                    .limit(5);
+            const secoes = resultados.filter((secao) => secao.produtos.length > 0);
 
-                if (data && data.length > 0) {
-                    secoes.push({ categoria, produtos: data });
-                }
-            }
-
-            const blocoAnuncio = await anuncioHtml();
+            await promocoesPromise;
 
             const blocosHtml = secoes.map(({ categoria, produtos }, indice) => {
                 const linha = `
@@ -284,11 +302,8 @@
             registrarMetricasAnuncio(containerCategorias);
         }
 
-        carregarPromocoesAtivas().then((promocoes) => {
-            promocoesAtivas = promocoes;
-            carregarMaisVendidos();
-            carregarCategorias();
-        });
+        carregarMaisVendidos();
+        carregarCategorias();
     </script>
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module" src="assets/configuracoesLoja.js"></script>

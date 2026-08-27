@@ -98,6 +98,13 @@
         import { carregarPromocoesAtivas, calcularPrecoComDesconto, blocoPrecoHtml } from './assets/promocoes.js';
 
         let promocoesAtivas = [];
+        // Dispara a busca de promoções em paralelo com a do produto — ela só
+        // é necessária na hora de calcular o preço, não pra começar a buscar
+        // os dados do produto.
+        const promocoesPromise = carregarPromocoesAtivas().then((promocoes) => {
+            promocoesAtivas = promocoes;
+            return promocoes;
+        });
 
         const galeria = document.getElementById('galeriaCompra');
         const containerRelacionados = document.getElementById('containerRelacionados');
@@ -280,6 +287,7 @@
                 : `<div class="imgMiniatura"><img src="${imagemPrincipal}" alt="${escaparHtml(produto.nome)}"></div>`;
 
             const semEstoque = produto.estoque <= 0;
+            await promocoesPromise;
             const { precoFinal, precoOriginal } = calcularPrecoComDesconto(produto, promocoesAtivas);
 
             const variacoes = produto.variacoes_produto || [];
@@ -600,19 +608,26 @@
 
             const outrasCategorias = Object.keys(nomesCategoria).filter((c) => c !== produto.categoria);
 
-            for (const categoria of outrasCategorias) {
-                const { data: produtosCategoria } = await supabase
-                    .from('produtos')
-                    .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
-                    .eq('categoria', categoria)
-                    .eq('status', 'ativo')
-                    .eq('publico', true)
-                    .limit(6);
+            // Todas as categorias buscadas em paralelo (em vez de uma query
+            // por vez, em série) — só usamos as 2 primeiras com produto pra
+            // completar as 3 seções, mas a busca em si não fica mais lenta
+            // por buscar todas de uma vez.
+            const resultadosOutras = await Promise.all(
+                outrasCategorias.map((categoria) =>
+                    supabase
+                        .from('produtos')
+                        .select('id, nome, preco, descricao, categoria, imagens_produto(url, ordem)')
+                        .eq('categoria', categoria)
+                        .eq('status', 'ativo')
+                        .eq('publico', true)
+                        .limit(6)
+                        .then(({ data }) => ({ categoria, produtos: data || [] }))
+                )
+            );
 
-                if (produtosCategoria && produtosCategoria.length > 0) {
-                    secoesHtml.push(secaoLinhaHtml(nomesCategoria[categoria], produtosCategoria, categoria));
-                }
-
+            for (const { categoria, produtos } of resultadosOutras) {
+                if (produtos.length === 0) continue;
+                secoesHtml.push(secaoLinhaHtml(nomesCategoria[categoria], produtos, categoria));
                 if (secoesHtml.length >= 3) break;
             }
 
@@ -630,10 +645,7 @@
             registrarMetricasAnuncio(secaoAnuncio);
         }
 
-        carregarPromocoesAtivas().then((promocoes) => {
-            promocoesAtivas = promocoes;
-            carregarProduto();
-        });
+        carregarProduto();
         carregarAnuncioProduto();
     </script>
     <script type="module" src="assets/carrinho.js"></script>
