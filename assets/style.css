@@ -172,6 +172,17 @@ nav ul, a{
     font-size: 15px;
 }
 
+.botaoMenuMobile{
+    display: none;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    color: var(--cor-secundaria);
+}
+
 footer{
     display: flex;
     flex-direction: column;
@@ -301,4 +312,112 @@ footer{
     font-weight: 700;
     color: white;
     white-space: nowrap;
+}
+
+/* ---------- Responsivo: header, nav e footer (compartilhados por quase
+   toda página da loja) ---------- */
+
+img{
+    max-width: 100%;
+}
+
+@media (max-width: 1024px){
+    .header{
+        gap: 16px;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+
+    .buscaHeaderWrapper{
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    #search{
+        flex: 1 1 auto;
+    }
+
+    .logo img{
+        width: 70px;
+        height: 70px;
+    }
+
+    nav ul{
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footerInfo{
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 600px){
+    .header{
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 10px 16px 0;
+    }
+
+    .logo img{
+        width: 56px;
+        height: 56px;
+    }
+
+    .buscaHeaderWrapper{
+        order: 4;
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .cart-button,
+    .profile-button{
+        margin-left: 0;
+    }
+
+    .botaoMenuMobile{
+        display: flex;
+        align-items: center;
+    }
+
+    nav{
+        width: 100%;
+    }
+
+    nav#navPrincipal{
+        display: none;
+        padding-bottom: 12px;
+    }
+
+    nav#navPrincipal.navAberta{
+        display: block;
+    }
+
+    nav#navPrincipal ul{
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    footer{
+        margin-top: 100px;
+    }
+
+    .footerInfo{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 32px;
+        padding: 0 24px;
+    }
+
+    .InfoOndeFicamos h6{
+        width: auto;
+    }
 }
