@@ -425,17 +425,26 @@
             const mensagem = document.getElementById('mensagemProduto');
             const grupoQuantidade = document.querySelector('.grupoVariacaoProduto[data-estilo="quantidade"]');
             const quantidadeMinima = produto.quantidade_minima || 1;
+            // A quantidade mínima já vem preenchida no campo, mas isso sozinho
+            // não deve multiplicar o "Preço:" exibido (senão um pedido mínimo
+            // de 10x R$45 mostraria R$450 assim que a página abre). Só passa a
+            // multiplicar depois que o cliente mexe na quantidade de propósito.
+            let quantidadeAlteradaPeloUsuario = false;
 
             botoesQuantidade.forEach((botao, indice) => {
                 botao.addEventListener('click', () => {
                     const atual = Number(inputQuantidade.value) || quantidadeMinima;
                     inputQuantidade.value = indice === 0 ? Math.max(quantidadeMinima, atual - 1) : atual + 1;
+                    quantidadeAlteradaPeloUsuario = true;
                     atualizarPrecoExibido();
                 });
             });
 
             // Digitar a quantidade direto no campo também atualiza o preço.
-            inputQuantidade.addEventListener('input', atualizarPrecoExibido);
+            inputQuantidade.addEventListener('input', () => {
+                quantidadeAlteradaPeloUsuario = true;
+                atualizarPrecoExibido();
+            });
 
             ligarExclusividadeCaixas();
             ligarStepperVariacoes();
@@ -513,7 +522,12 @@
                     return;
                 }
 
-                const total = itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
+                // Sem grupo de quantidade, só multiplica pela quantidade depois
+                // que o cliente mexeu nela de propósito — a quantidade mínima
+                // pré-preenchida sozinha não deve inflar o preço mostrado.
+                const total = (!grupoQuantidade && !quantidadeAlteradaPeloUsuario)
+                    ? itens[0].preco
+                    : itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
                 precoExibidoEl.textContent = formatarPreco(total);
 
                 if (precoAntigoEl) {
