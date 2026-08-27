@@ -189,6 +189,7 @@
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
+        import { confirmModal } from './assets/modal.js';
 
         const grid = document.getElementById('gridCartoes');
         const formArea = document.getElementById('formNovoCartao');
@@ -264,7 +265,7 @@
 
             grid.querySelectorAll('.botaoRemoverCartao').forEach((botao) => {
                 botao.addEventListener('click', async () => {
-                    if (!window.confirm('Remover este cartão?')) return;
+                    if (!await confirmModal('Remover este cartão?')) return;
                     await supabase.from('cartoes').delete().eq('id', botao.dataset.id);
                     carregarCartoes();
                 });

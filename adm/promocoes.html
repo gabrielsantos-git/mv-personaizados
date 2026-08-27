@@ -178,6 +178,7 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { confirmModal, alertModal } from '../assets/modal.js';
 
         const corpoTabela = document.getElementById('corpoTabelaPromocoes');
         const estadoVazio = document.getElementById('estadoVazioPromocoes');
@@ -311,11 +312,11 @@
         }
 
         async function excluirPromocao(id, nome) {
-            if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+            if (!await confirmModal(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
 
             const { error } = await supabase.from('promocoes').delete().eq('id', id);
             if (error) {
-                alert('Não foi possível excluir a promoção.');
+                await alertModal('Não foi possível excluir a promoção.');
                 return;
             }
 
@@ -331,7 +332,7 @@
             const novoValor = !promocao.rascunho;
             const { error } = await supabase.from('promocoes').update({ rascunho: novoValor }).eq('id', id);
             if (error) {
-                alert('Não foi possível atualizar a promoção.');
+                await alertModal('Não foi possível atualizar a promoção.');
                 return;
             }
 

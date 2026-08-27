@@ -181,6 +181,7 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { confirmModal, alertModal } from '../assets/modal.js';
 
         const corpoTabela = document.getElementById('corpoTabelaPedidos');
         const estadoVazio = document.getElementById('estadoVazioPedidos');
@@ -345,7 +346,7 @@
 
             const { error } = await supabase.from('pedidos').update({ status: novoStatus }).eq('id', id);
             if (error) {
-                alert('Não foi possível atualizar o status do pedido.');
+                await alertModal('Não foi possível atualizar o status do pedido.');
                 return;
             }
 
@@ -355,11 +356,11 @@
         }
 
         async function cancelarPedido(id) {
-            if (!confirm('Cancelar este pedido? O cliente não será notificado automaticamente.')) return;
+            if (!await confirmModal('Cancelar este pedido? O cliente não será notificado automaticamente.')) return;
 
             const { error } = await supabase.from('pedidos').update({ status: 'cancelado' }).eq('id', id);
             if (error) {
-                alert('Não foi possível cancelar o pedido.');
+                await alertModal('Não foi possível cancelar o pedido.');
                 return;
             }
 

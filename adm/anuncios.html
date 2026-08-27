@@ -149,6 +149,7 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { confirmModal, alertModal } from '../assets/modal.js';
 
         const corpoTabela = document.getElementById('corpoTabelaAnuncios');
         const estadoVazio = document.getElementById('estadoVazioAnuncios');
@@ -248,11 +249,11 @@
         }
 
         async function excluirAnuncio(id, titulo) {
-            if (!confirm(`Excluir "${titulo}"? Essa ação não pode ser desfeita.`)) return;
+            if (!await confirmModal(`Excluir "${titulo}"? Essa ação não pode ser desfeita.`)) return;
 
             const { error } = await supabase.from('anuncios').delete().eq('id', id);
             if (error) {
-                alert('Não foi possível excluir o anúncio.');
+                await alertModal('Não foi possível excluir o anúncio.');
                 return;
             }
 

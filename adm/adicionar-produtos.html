@@ -318,6 +318,7 @@
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { carregarCategorias as buscarCategorias } from '../assets/categorias.js';
+        import { confirmModal } from '../assets/modal.js';
 
         function escaparHtml(texto) {
             const div = document.createElement('div');
@@ -365,14 +366,14 @@
 
         const iconeX = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 
-        function removerTipoVariacao(chip) {
+        async function removerTipoVariacao(chip) {
             const valor = chip.dataset.valor;
             const nome = chip.querySelector('span').textContent;
 
             const linhasComEsseTipo = [...listaVariacoes.querySelectorAll('.linhaVariacaoProduto')]
                 .filter((linha) => linha.querySelector('.selectTipoVariacao').value === valor);
 
-            if (!confirm(`Excluir o tipo "${nome}"?${linhasComEsseTipo.length ? ' As variações desse tipo também serão removidas.' : ''}`)) return;
+            if (!await confirmModal(`Excluir o tipo "${nome}"?${linhasComEsseTipo.length ? ' As variações desse tipo também serão removidas.' : ''}`)) return;
 
             linhasComEsseTipo.forEach((linha) => linha.remove());
             chip.remove();
@@ -548,7 +549,7 @@
                 </button>`;
 
             item.querySelector('.botaoRemoverImagemExistente').addEventListener('click', async () => {
-                if (!confirm('Remover essa imagem do produto?')) return;
+                if (!await confirmModal('Remover essa imagem do produto?')) return;
 
                 const caminho = imagem.url.split('/produtos/').pop();
                 await supabase.storage.from('produtos').remove([caminho]);

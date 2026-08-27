@@ -190,6 +190,7 @@
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { carregarCategorias as buscarCategorias, mapaNomesCategoria, classeCorCategoria } from '../assets/categorias.js';
+        import { confirmModal, alertModal } from '../assets/modal.js';
 
         const corpoTabela = document.getElementById('corpoTabelaProdutos');
         const estadoVazio = document.getElementById('estadoVazioProdutos');
@@ -300,7 +301,7 @@
         }
 
         async function excluirProduto(id, nome) {
-            if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+            if (!await confirmModal(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
 
             const { error } = await supabase.from('produtos').delete().eq('id', id);
 
@@ -310,14 +311,15 @@
                 // não quebrar o histórico de pedidos. Nesse caso oferece inativar
                 // o produto em vez de excluir (some da loja, mas mantém o histórico).
                 if (error.code === '23503') {
-                    const inativar = confirm(
-                        `"${nome}" já está em pedidos feitos por clientes, então não pode ser excluído (isso quebraria o histórico de pedidos).\n\nDeseja inativar o produto em vez disso? Ele deixa de aparecer na loja, mas continua no histórico.`
+                    const inativar = await confirmModal(
+                        `"${nome}" já está em pedidos feitos por clientes, então não pode ser excluído (isso quebraria o histórico de pedidos).\n\nDeseja inativar o produto em vez disso? Ele deixa de aparecer na loja, mas continua no histórico.`,
+                        { textoConfirmar: 'Inativar produto' }
                     );
 
                     if (inativar) {
                         const { error: erroInativar } = await supabase.from('produtos').update({ status: 'inativo' }).eq('id', id);
                         if (erroInativar) {
-                            alert('Não foi possível inativar o produto.');
+                            await alertModal('Não foi possível inativar o produto.');
                             return;
                         }
 
@@ -329,7 +331,7 @@
                     return;
                 }
 
-                alert('Não foi possível excluir o produto.');
+                await alertModal('Não foi possível excluir o produto.');
                 return;
             }
 
