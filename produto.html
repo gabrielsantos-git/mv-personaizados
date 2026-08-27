@@ -198,13 +198,19 @@
 
                 const opcoesHtml = valores.map((v, indice) => {
                     const marcado = indice === 0 ? 'checked' : '';
-                    const adicionalTexto = Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)})` : '';
+                    const modo = v.preco_modo === 'absoluto' ? 'absoluto' : 'adicional';
+                    // Modo "adicional": mostra "+R$ X" (soma com o preço do produto).
+                    // Modo "absoluto": mostra "R$ X" sem o "+" (esse é o preço final,
+                    // não soma com o preço base) — só quando o valor é maior que zero.
+                    const adicionalTexto = Number(v.preco_adicional) > 0
+                        ? (modo === 'absoluto' ? ` (${formatarPreco(v.preco_adicional)})` : ` (+${formatarPreco(v.preco_adicional)})`)
+                        : '';
 
                     if (estilo === 'cor') {
                         const corFundo = v.cor_hex || v.valor.toLowerCase();
                         return `
                             <label class="opcaoVariacaoCor" title="${escaparHtml(v.valor)}${adicionalTexto}">
-                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span class="amostraCor" style="background-color: ${escaparHtml(corFundo)};"></span>
                                 <span class="nomeCor">${escaparHtml(v.valor)}</span>
                             </label>
@@ -218,7 +224,7 @@
 
                         return `
                             <label class="opcaoVariacaoFoto">
-                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span class="cartaoFoto">
                                     ${miolo}
                                     <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
@@ -230,7 +236,7 @@
                     if (estilo === 'botao') {
                         return `
                             <label class="opcaoVariacaoBotao">
-                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
                             </label>
                         `;
@@ -239,7 +245,7 @@
                     const classeOpcao = estilo === 'caixa' ? 'opcaoVariacaoCaixa' : 'opcaoVariacaoRadio';
                     return `
                         <label class="${classeOpcao}">
-                            <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                            <input type="${tipoInput}" name="variacao-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                             <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
                         </label>
                     `;
@@ -266,7 +272,7 @@
 
             const { data: produto, error } = await supabase
                 .from('produtos')
-                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url, cor_hex)')
+                .select('id, nome, codigo, preco, descricao, categoria, estoque, imagens_produto(url, ordem), variacoes_produto(id, tipo, valor, preco_adicional, preco_modo, estilo_exibicao, imagem_url, cor_hex)')
                 .eq('id', idProduto)
                 .eq('status', 'ativo')
                 .eq('publico', true)
@@ -387,6 +393,7 @@
         // somar ao nome do item, e o id da variação principal.
         function coletarVariacoesSelecionadas() {
             let adicionalTotal = 0;
+            let precoAbsoluto = null; // se alguma variação marcada "é o valor do produto" foi escolhida
             let variacaoIdPrincipal = null;
             const partesNome = [];
 
@@ -397,12 +404,17 @@
                 const selecionado = grupo.querySelector('input:checked');
                 if (!selecionado) return;
 
-                adicionalTotal += Number(selecionado.dataset.adicional) || 0;
+                const valor = Number(selecionado.dataset.adicional) || 0;
+                if (selecionado.dataset.modo === 'absoluto') {
+                    precoAbsoluto = valor;
+                } else {
+                    adicionalTotal += valor;
+                }
                 partesNome.push(`${tipoNome}: ${selecionado.dataset.valor}`);
                 if (!variacaoIdPrincipal) variacaoIdPrincipal = selecionado.value;
             });
 
-            return { adicionalTotal, variacaoIdPrincipal, descricao: partesNome.join(', ') };
+            return { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao: partesNome.join(', ') };
         }
 
         function ligarEventosCompra(produto, imagemPrincipal, precoFinal, itensNoCarrinho, modoEdicao) {
@@ -431,10 +443,15 @@
             // Com grupo de quantidade: 1 item pra cada valor com quantidade > 0
             // (ex: 1x Camisa P, 4x Camisa M), cada um levando os outros grupos escolhidos.
             function montarItensCarrinho() {
-                const { adicionalTotal, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
+                const { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
 
                 if (!grupoQuantidade) {
                     const quantidade = Math.max(1, Number(inputQuantidade.value) || 1);
+                    // Se alguma variação selecionada foi marcada "é o valor do
+                    // produto" (não soma), o preço dela substitui o preço base —
+                    // outras variações "soma com o preço do produto" continuam
+                    // somando em cima desse valor normalmente.
+                    const precoBase = precoAbsoluto !== null ? precoAbsoluto : Number(precoFinal);
                     return [{
                         produtoId: produto.id,
                         variacaoId: variacaoIdPrincipal,
@@ -442,7 +459,7 @@
                         produtoNome: produto.nome,
                         categoria: produto.categoria,
                         variacaoDescricao: descricao,
-                        preco: Number(precoFinal) + adicionalTotal,
+                        preco: precoBase + adicionalTotal,
                         quantidade,
                         imagem: imagemPrincipal
                     }];

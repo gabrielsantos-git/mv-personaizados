@@ -603,6 +603,10 @@ body{
     max-width: 200px;
 }
 
+.campoModoPrecoVariacao{
+    max-width: 220px;
+}
+
 .campoEstiloVariacao{
     max-width: 200px;
 }
@@ -873,6 +877,7 @@ body{
 
     .linhaVariacaoProduto .campoFormProduto:first-child,
     .campoPrecoVariacao,
+    .campoModoPrecoVariacao,
     .campoEstiloVariacao{
         max-width: none;
     }

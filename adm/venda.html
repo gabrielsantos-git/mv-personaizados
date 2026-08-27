@@ -261,13 +261,16 @@
 
                 const opcoesHtml = valores.map((v, indice) => {
                     const marcado = indice === 0 ? 'checked' : '';
-                    const adicionalTexto = Number(v.preco_adicional) > 0 ? ` (+${formatarPreco(v.preco_adicional)})` : '';
+                    const modo = v.preco_modo === 'absoluto' ? 'absoluto' : 'adicional';
+                    const adicionalTexto = Number(v.preco_adicional) > 0
+                        ? (modo === 'absoluto' ? ` (${formatarPreco(v.preco_adicional)})` : ` (+${formatarPreco(v.preco_adicional)})`)
+                        : '';
 
                     if (estilo === 'cor') {
                         const corFundo = v.cor_hex || v.valor.toLowerCase();
                         return `
                             <label class="opcaoVariacaoCor" title="${escaparHtml(v.valor)}${adicionalTexto}">
-                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span class="amostraCor" style="background-color: ${escaparHtml(corFundo)};"></span>
                                 <span class="nomeCor">${escaparHtml(v.valor)}</span>
                             </label>
@@ -281,7 +284,7 @@
 
                         return `
                             <label class="opcaoVariacaoFoto">
-                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span class="cartaoFoto">
                                     ${miolo}
                                     <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
@@ -293,7 +296,7 @@
                     if (estilo === 'botao') {
                         return `
                             <label class="opcaoVariacaoBotao">
-                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                                <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                                 <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
                             </label>
                         `;
@@ -302,7 +305,7 @@
                     const classeOpcao = estilo === 'caixa' ? 'opcaoVariacaoCaixa' : 'opcaoVariacaoRadio';
                     return `
                         <label class="${classeOpcao}">
-                            <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
+                            <input type="${tipoInput}" name="variacaoVenda-${slug}" value="${v.id}" data-adicional="${v.preco_adicional}" data-modo="${modo}" data-valor="${escaparHtml(v.valor)}" ${marcado}>
                             <span>${escaparHtml(v.valor)}${adicionalTexto}</span>
                         </label>
                     `;
@@ -350,6 +353,7 @@
         // botão, cor, foto) do modal — devolve o adicional de preço e a descrição.
         function coletarVariacoesSelecionadasVenda() {
             let adicionalTotal = 0;
+            let precoAbsoluto = null;
             let variacaoIdPrincipal = null;
             const partesNome = [];
 
@@ -360,12 +364,17 @@
                 const selecionado = grupo.querySelector('input:checked');
                 if (!selecionado) return;
 
-                adicionalTotal += Number(selecionado.dataset.adicional) || 0;
+                const valor = Number(selecionado.dataset.adicional) || 0;
+                if (selecionado.dataset.modo === 'absoluto') {
+                    precoAbsoluto = valor;
+                } else {
+                    adicionalTotal += valor;
+                }
                 partesNome.push(`${tipoNome}: ${selecionado.dataset.valor}`);
                 if (!variacaoIdPrincipal) variacaoIdPrincipal = selecionado.value;
             });
 
-            return { adicionalTotal, variacaoIdPrincipal, descricao: partesNome.join(', ') };
+            return { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao: partesNome.join(', ') };
         }
 
         // ---------- Produtos disponíveis ----------
@@ -417,7 +426,7 @@
         async function carregarProdutos() {
             const { data, error } = await supabase
                 .from('produtos')
-                .select('*, variacoes_produto(id, tipo, valor, preco_adicional, estilo_exibicao, imagem_url, cor_hex)')
+                .select('*, variacoes_produto(id, tipo, valor, preco_adicional, preco_modo, estilo_exibicao, imagem_url, cor_hex)')
                 .eq('status', 'ativo')
                 .order('nome');
 
@@ -610,18 +619,21 @@
         function montarItensVariacaoVenda(produto) {
             const { precoFinal, precoOriginal, promocao } = calcularPrecoComDesconto(produto, promocoesAtivas);
             const grupoQuantidade = corpoModalVariacaoVenda.querySelector('.grupoVariacaoProduto[data-estilo="quantidade"]');
-            const { adicionalTotal, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadasVenda();
+            const { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadasVenda();
 
             if (!grupoQuantidade) {
+                // Se alguma variação foi marcada "é o valor do produto" (não
+                // soma), o preço dela substitui o preço base do produto.
+                const precoBase = precoAbsoluto !== null ? precoAbsoluto : Number(precoFinal);
                 return [{
                     chave: `${produto.id}|${variacaoIdPrincipal || '_base'}`,
                     produtoId: produto.id,
                     variacaoId: variacaoIdPrincipal,
                     variacaoDescricao: descricao,
                     nome: produto.nome,
-                    preco: Number(precoFinal) + adicionalTotal,
-                    precoOriginal,
-                    promocao,
+                    preco: precoBase + adicionalTotal,
+                    precoOriginal: precoAbsoluto !== null ? null : precoOriginal,
+                    promocao: precoAbsoluto !== null ? null : promocao,
                     quantidade: 1
                 }];
             }
