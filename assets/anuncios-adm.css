@@ -892,3 +892,85 @@ body{
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 1024px){
+    .linhaFiltrosAnuncios{
+        flex-wrap: wrap;
+    }
+
+    .buscaAnuncios{
+        flex: 1 1 100%;
+    }
+
+    .filtroAnuncios{
+        flex: 1 1 auto;
+    }
+
+    .tabelaAnunciosAdm{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .linhaTabelaAnunciosAdm{
+        min-width: 820px;
+    }
+
+    .cardFormAnuncio{
+        padding: 24px;
+    }
+
+    .gridFormAnuncio{
+        gap: 28px;
+    }
+}
+
+@media (max-width: 600px){
+    .linhaFiltrosAnuncios{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+    }
+
+    .buscaAnuncios,
+    .filtroAnuncios{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cardTabelaAnuncios{
+        padding: 16px;
+    }
+
+    .cardFormAnuncio{
+        padding: 18px;
+    }
+
+    .linhaFormAnuncio{
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .campoFormAnuncio:has(#ordem){
+        max-width: none !important;
+    }
+
+    .grupoRadioLink{
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .grupoCheckboxPaginas{
+        gap: 10px;
+    }
+
+    .acoesFormAnuncio{
+        flex-direction: column-reverse;
+    }
+
+    .acoesFormAnuncio .botaoSalvarAnuncio,
+    .acoesFormAnuncio .botaoCancelarAnuncio{
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+}

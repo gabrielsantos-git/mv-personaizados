@@ -1317,3 +1317,129 @@ body{
     accent-color: var(--cor-primaria);
     width: auto;
 }
+
+/* ---------- Responsivo (tablet/mobile) — Promoções ---------- */
+@media (max-width: 1024px){
+    .cardKpiAdm{
+        flex: 1 1 calc(50% - 10px);
+        min-width: 180px;
+    }
+
+    .linhaFiltrosPromocoes{
+        flex-wrap: wrap;
+    }
+
+    .buscaPromocoes{
+        flex: 1 1 100%;
+    }
+
+    .filtroAnuncios{
+        flex: 1 1 auto;
+    }
+
+    .tabelaPromocoesAdm{
+        overflow-x: auto;
+    }
+
+    .linhaTabelaPromocoesAdm{
+        min-width: 1180px;
+    }
+
+    .colPromoNome{
+        min-width: 160px;
+    }
+
+    .gridFormAnuncio{
+        grid-template-columns: 1fr;
+    }
+
+    .linhaFormAnuncio{
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .cabecalhoTopoFormAnuncio{
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 600px){
+    .cardKpiAdm{
+        flex: 1 1 calc(50% - 8px);
+        min-width: 0;
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .valorCardKpi{
+        font-size: 22px;
+    }
+
+    .cabecalhoCardKpi span{
+        font-size: 12px;
+    }
+
+    .acoesTopoAnuncios{
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .botaoNovoAnuncio{
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .abasPromocoes{
+        gap: 20px;
+        overflow-x: auto;
+    }
+
+    .abaPromocao{
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .linhaFiltrosPromocoes{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .filtroAnuncios{
+        width: 100%;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    .cardTabelaPromocoes{
+        padding: 16px;
+    }
+
+    .paginacaoPromocoes{
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .cardFormAnuncio{
+        padding: 20px;
+    }
+
+    .acoesFormAnuncio{
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .botaoCancelarAnuncio,
+    .botaoSalvarAnuncio{
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .cardLateralPromocao{
+        padding: 16px;
+    }
+}

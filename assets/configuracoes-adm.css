@@ -493,3 +493,89 @@ body{
     padding: 8px 16px;
     font-size: 13px;
 }
+
+/* ---------- Responsivo (tablet/mobile) — Configurações ---------- */
+@media (max-width: 1024px){
+    .areaConteudoAdm{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .cardFormProduto{
+        max-width: 100%;
+    }
+
+    .linhaFormProduto{
+        flex-wrap: wrap;
+    }
+
+    .campoFormProduto{
+        flex: 1 1 240px;
+    }
+}
+
+@media (max-width: 600px){
+    .cardFormProduto{
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .linhaFormProduto{
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .linhaFormProduto .campoFormProduto{
+        flex: 1 1 auto;
+    }
+
+    .acoesFormProduto{
+        justify-content: stretch;
+    }
+
+    .acoesFormProduto .botaoSalvarProduto{
+        width: 100%;
+    }
+
+    .linhaCategoriaAdm{
+        padding: 12px;
+    }
+
+    .infoCategoriaAdm{
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    .inputEditarCategoria{
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .acoesCategoriaAdm{
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .acoesCategoriaAdm .botaoSalvarCategoria,
+    .acoesCategoriaAdm .botaoCancelarEdicaoCategoria{
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .painelMoverCategoria .selectMoverCategoria{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .acoesPainelMoverCategoria{
+        flex-direction: column-reverse;
+    }
+
+    .acoesPainelMoverCategoria .botaoAcaoProduto,
+    .acoesPainelMoverCategoria .botaoSalvarProduto{
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}

@@ -506,3 +506,163 @@ main{
     background-position: center;
     background-repeat: no-repeat;
 }
+
+/* ===================== Tablet ===================== */
+@media (max-width: 1024px){
+    .galeriaCompra{
+        width: 92vw;
+        gap: 30px;
+    }
+
+    .imgProdutoPrincipal{
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .infoCompraProduto{
+        max-width: 100%;
+    }
+
+    .linhaProdutoRelacionado,
+    .anuncio{
+        width: 92vw;
+    }
+
+    .linhaScrollProdutos{
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+    }
+
+    .linhaScrollProdutos > a{
+        flex: 0 0 auto;
+    }
+
+    .anuncio{
+        flex-wrap: wrap;
+    }
+}
+
+/* ===================== Mobile ===================== */
+@media (max-width: 600px){
+    main{
+        overflow-x: hidden;
+    }
+
+    .galeriaCompra{
+        flex-direction: column;
+        align-items: center;
+        width: 92vw;
+        margin-top: 24px;
+        gap: 24px;
+    }
+
+    .galeriaProduto{
+        width: 100%;
+        align-items: center;
+    }
+
+    .imgProdutoPrincipal{
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .imgProdutosMiniaturas{
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .infoCompraProduto{
+        width: 100%;
+        max-width: 100%;
+        gap: 18px;
+    }
+
+    .tituloProduto h2{
+        font-size: 22px;
+    }
+
+    .tituloProduto h5{
+        font-size: 15px;
+    }
+
+    .descricaoCompraProduto p{
+        font-size: 15px;
+    }
+
+    .quantidadeCompra{
+        flex-wrap: wrap;
+        font-size: 15px;
+    }
+
+    .opcoesGrupoVariacao{
+        gap: 8px;
+    }
+
+    .itemQuantidadeVariacao{
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .botaoOrcamento{
+        width: 100%;
+        max-width: 320px;
+    }
+
+    #botaoAdicionarCarrinho{
+        padding: 0 20px;
+    }
+
+    .linhaProdutoRelacionado{
+        width: 92vw;
+        margin-top: 60px;
+    }
+
+    .infoLinhaProduto h3{
+        font-size: 18px;
+    }
+
+    .linhaScrollProdutos{
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 20px;
+        padding-bottom: 10px;
+    }
+
+    .linhaScrollProdutos > a{
+        flex: 0 0 auto;
+    }
+
+    .imgProduto,
+    .imgProduto img{
+        width: 150px;
+        height: 150px;
+    }
+
+    .descricaoProduto{
+        width: 150px;
+        margin-top: -20px;
+    }
+
+    .anuncio{
+        width: 92vw;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 60px;
+        gap: 20px;
+    }
+
+    .cardAnuncio{
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+}

@@ -820,3 +820,73 @@ body{
     background-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
+
+/* ---------- Responsivo (tablet/mobile) ---------- */
+@media (max-width: 1024px){
+    .cardFormProduto{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px){
+    .cardFormProduto{
+        padding: 16px;
+        gap: 20px;
+    }
+
+    .linhaFormProduto{
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .imagemExistenteItem,
+    .uploadImagemItem,
+    .botaoAdicionarImagem{
+        width: calc(50% - 8px);
+        height: 110px;
+    }
+
+    .novoTipoVariacao{
+        flex-wrap: wrap;
+    }
+
+    .novoTipoVariacao input{
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .novoTipoVariacao button{
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+
+    .linhaVariacaoProduto{
+        gap: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .linhaVariacaoProduto .campoFormProduto{
+        flex: 1 1 120px;
+        min-width: 120px;
+    }
+
+    .linhaVariacaoProduto .campoFormProduto:first-child,
+    .campoPrecoVariacao,
+    .campoEstiloVariacao{
+        max-width: none;
+    }
+
+    .acoesFormProduto{
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .botaoCancelarProduto,
+    .botaoSalvarProduto{
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}

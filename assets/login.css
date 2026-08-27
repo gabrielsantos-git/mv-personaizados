@@ -164,3 +164,64 @@
     flex-direction: column;
     gap: 24px;
 }
+
+@media (max-width: 1024px){
+    .loginPage{
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .faixaLogin{
+        width: 100%;
+        padding: 24px 0;
+    }
+
+    .logoFaixaLogin{
+        width: 40%;
+        max-width: 220px;
+    }
+
+    .areaFormLogin{
+        padding: 32px 24px;
+    }
+
+    .cardLogin{
+        width: 600px;
+        padding: 40px;
+    }
+}
+
+@media (max-width: 600px){
+    .headerLogin{
+        padding: 0 16px;
+    }
+
+    .areaFormLogin{
+        padding: 24px 16px;
+    }
+
+    .cardLogin{
+        width: 100%;
+        max-width: 100%;
+        padding: 28px 20px;
+        border-radius: 24px;
+        gap: 18px;
+    }
+
+    .cardLogin h1{
+        font-size: 32px;
+    }
+
+    .campoLogin label{
+        font-size: 18px;
+    }
+
+    .campoLogin input{
+        font-size: 16px;
+    }
+
+    .botaoFazerLogin{
+        width: 100%;
+        font-size: 18px;
+    }
+}

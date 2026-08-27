@@ -303,7 +303,32 @@
             if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
 
             const { error } = await supabase.from('produtos').delete().eq('id', id);
+
             if (error) {
+                // 23503 = violação de chave estrangeira — o produto já apareceu em
+                // algum pedido (itens_pedido), então o banco impede a exclusão pra
+                // não quebrar o histórico de pedidos. Nesse caso oferece inativar
+                // o produto em vez de excluir (some da loja, mas mantém o histórico).
+                if (error.code === '23503') {
+                    const inativar = confirm(
+                        `"${nome}" já está em pedidos feitos por clientes, então não pode ser excluído (isso quebraria o histórico de pedidos).\n\nDeseja inativar o produto em vez disso? Ele deixa de aparecer na loja, mas continua no histórico.`
+                    );
+
+                    if (inativar) {
+                        const { error: erroInativar } = await supabase.from('produtos').update({ status: 'inativo' }).eq('id', id);
+                        if (erroInativar) {
+                            alert('Não foi possível inativar o produto.');
+                            return;
+                        }
+
+                        const produto = todosProdutos.find((p) => p.id === id);
+                        if (produto) produto.status = 'inativo';
+                        atualizarKpis(todosProdutos);
+                        renderizarLista();
+                    }
+                    return;
+                }
+
                 alert('Não foi possível excluir o produto.');
                 return;
             }

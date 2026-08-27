@@ -756,3 +756,97 @@ body{
     background-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
+
+/* ---------- Responsivo (tablet) ---------- */
+@media (max-width: 1024px){
+    .cardKpiAdm{
+        flex: 1 1 calc(50% - 10px);
+        min-width: 200px;
+    }
+
+    .linhaMeioAdm{
+        flex-direction: column;
+    }
+
+    .cardProdutosTopAdm{
+        width: 100%;
+    }
+
+    .cabecalhoPedidosRecentes{
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .tabelaPedidosRecentes{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .linhaTabelaPedidos,
+    .cabecalhoTabelaPedidos{
+        min-width: 700px;
+    }
+}
+
+/* ---------- Responsivo (mobile) ---------- */
+@media (max-width: 600px){
+    .linhaKpiAdm{
+        gap: 12px;
+    }
+
+    .cardKpiAdm{
+        flex: 1 1 100%;
+        gap: 10px;
+        padding: 16px;
+    }
+
+    .valorCardKpi{
+        font-size: 22px;
+    }
+
+    .cardGraficoAdm,
+    .cardProdutosTopAdm,
+    .cardPedidosRecentesAdm{
+        padding: 16px;
+    }
+
+    .cabecalhoGrafico{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .graficoBarrasAdm{
+        height: 180px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .barraGrafico{
+        width: 26px;
+    }
+
+    .linhaProdutoRank{
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+
+    .infoProdutoRank{
+        flex-basis: 100%;
+    }
+
+    .vendasProdutoRank{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% - 36px);
+        margin-left: 36px;
+        gap: 8px;
+    }
+
+    .cabecalhoPedidosRecentes{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

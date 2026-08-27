@@ -835,3 +835,60 @@ body{
     background-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
+
+@media (max-width: 1024px){
+    .cardKpiAdm{
+        flex: 1 1 45%;
+        min-width: 200px;
+    }
+
+    .linhaFiltrosPedidos{
+        flex-wrap: wrap;
+    }
+
+    .buscaPedidos{
+        flex: 1 1 100%;
+    }
+
+    .tabelaPedidosAdm{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .linhaTabelaPedidosAdm{
+        min-width: 900px;
+    }
+}
+
+@media (max-width: 600px){
+    .cardKpiAdm{
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .linhaFiltrosPedidos{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+    }
+
+    .buscaPedidos,
+    .filtroProdutos{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cardTabelaPedidos{
+        padding: 16px;
+    }
+
+    .cabecalhoTabelaCard h3{
+        font-size: 16px;
+    }
+
+    .paginacaoPedidos{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

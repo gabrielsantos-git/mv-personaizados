@@ -932,3 +932,189 @@ hr.divisorConta{
         position: static;
     }
 }
+
+/* ==========================================================================
+   Responsivo — Tablet e Mobile
+   (Carrinho, Checkout, Minha Conta, Meus Pedidos, Meus Cartões)
+   ========================================================================== */
+
+@media (max-width: 1024px){
+    .contaPage,
+    .paginaCarrinho{
+        width: 94vw;
+        gap: 24px;
+        margin: 40px 0 80px;
+    }
+
+    .contaSidebar{
+        width: 220px;
+        padding: 24px;
+    }
+
+    .resumoCarrinho{
+        width: 260px;
+        padding: 22px;
+    }
+
+    .cardConta{
+        padding: 24px;
+    }
+
+    .gridCartoes{
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .caixaModal{
+        max-width: 92vw;
+    }
+}
+
+@media (max-width: 600px){
+    .contaPage,
+    .paginaCarrinho{
+        flex-direction: column;
+        width: 92vw;
+        gap: 20px;
+        margin: 24px 0 60px;
+    }
+
+    .contaSidebar{
+        width: 100%;
+        position: static;
+        padding: 20px;
+    }
+
+    .contaSidebar h3{
+        font-size: 22px;
+    }
+
+    .resumoCarrinho{
+        width: 100%;
+        position: static;
+        padding: 20px;
+    }
+
+    .contaConteudo,
+    .colunaItensCarrinho{
+        gap: 24px;
+    }
+
+    .contaConteudo h1,
+    .paginaCarrinho h1{
+        font-size: 24px;
+        margin: 0 0 16px;
+    }
+
+    .cardConta{
+        padding: 20px;
+        gap: 18px;
+    }
+
+    .cardConta h2{
+        font-size: 20px;
+    }
+
+    .cabecalhoCardConta{
+        flex-wrap: wrap;
+    }
+
+    /* Linhas de campo de formulário (dados pessoais, endereço, pagamento,
+       arte da personalização) empilham em uma coluna só, cada campo
+       ocupando a largura toda pra facilitar o toque. */
+    .linhaContaCampo{
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .campoConta{
+        min-width: 0;
+        width: 100%;
+    }
+
+    .contaTopoConteudo .botaoConta{
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ---------- Pedidos ---------- */
+
+    .pedidoMetaLinha{
+        gap: 20px;
+    }
+
+    .acoesPedido{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acoesPedido .botaoConta{
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ---------- Cartões ---------- */
+
+    .gridCartoes{
+        grid-template-columns: 1fr;
+    }
+
+    .cartaoVisual{
+        padding: 18px;
+        min-height: 170px;
+    }
+
+    .acoesFormCartao{
+        flex-direction: column;
+    }
+
+    .acoesFormCartao .botaoConta{
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ---------- Carrinho ---------- */
+
+    .itemCarrinho{
+        padding: 14px;
+        gap: 14px;
+    }
+
+    .itemCarrinhoImg{
+        width: 60px;
+        height: 60px;
+    }
+
+    .grupoProdutoInfo{
+        gap: 10px;
+    }
+
+    .cabecalhoGrupoProduto h4{
+        font-size: 15px;
+    }
+
+    .linhaVariacaoCarrinho{
+        flex-wrap: wrap;
+        row-gap: 8px;
+        column-gap: 12px;
+    }
+
+    .descricaoVariacaoCarrinho{
+        flex-basis: 100%;
+    }
+
+    .itemCarrinhoSubtotal{
+        width: auto;
+        text-align: left;
+    }
+
+    .blocoArteProduto{
+        gap: 12px;
+    }
+
+    /* ---------- Modal ---------- */
+
+    .caixaModal{
+        max-width: 92vw;
+        padding: 20px;
+    }
+}

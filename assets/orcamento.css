@@ -209,3 +209,69 @@ main{
 .botaoEnviarOrcamento:hover{
     background-color: #e2e2e2;
 }
+
+@media (max-width: 1024px){
+    .orcamentoPage{
+        gap: 40px;
+        width: 92vw;
+    }
+
+    .resumoOrcamento,
+    .dadosCliente{
+        width: 100%;
+        max-width: 480px;
+    }
+}
+
+@media (max-width: 600px){
+    .orcamentoPage{
+        width: 92vw;
+        margin-top: 24px;
+        margin-bottom: 60px;
+        gap: 32px;
+    }
+
+    .resumoOrcamento,
+    .dadosCliente{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .produtoResumo{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .infoProdutoResumo{
+        width: 100%;
+    }
+
+    .quantidadeCompra{
+        justify-content: center;
+    }
+
+    .infoAdicionalOrcamento h3,
+    .uploadArte h3{
+        width: 100%;
+    }
+
+    .uploadArte{
+        width: 100%;
+    }
+
+    .campoDados{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .campoDados label{
+        width: auto;
+    }
+
+    .botaoEnviarOrcamento{
+        align-self: stretch;
+        width: 100%;
+    }
+}

@@ -711,3 +711,84 @@ body{
     background-color: rgba(255, 255, 255, 0.08);
     opacity: 1;
 }
+
+/* ---------- Responsivo (tablet/mobile) ---------- */
+@media (max-width: 1024px){
+    .cardKpiAdm{
+        flex: 1 1 calc(50% - 10px);
+        min-width: 180px;
+    }
+
+    .linhaFiltrosProdutos{
+        flex-wrap: wrap;
+    }
+
+    .buscaProdutosAdm{
+        flex: 1 1 100%;
+    }
+
+    .filtroProdutos{
+        flex: 1 1 auto;
+    }
+
+    .tabelaProdutosAdm{
+        overflow-x: auto;
+    }
+
+    .linhaTabelaProdutosAdm{
+        min-width: 640px;
+    }
+}
+
+@media (max-width: 600px){
+    .linhaKpiAdm{
+        gap: 12px;
+    }
+
+    .cardKpiAdm{
+        flex: 1 1 calc(50% - 6px);
+        min-width: 0;
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .valorCardKpi{
+        font-size: 22px;
+    }
+
+    .cabecalhoCardKpi span{
+        font-size: 12px;
+    }
+
+    .acoesTopoProdutos{
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .botaoNovoProduto{
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .linhaFiltrosProdutos{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .filtroProdutos{
+        width: 100%;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    .cardTabelaProdutos{
+        padding: 16px;
+    }
+
+    .paginacaoProdutos{
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}

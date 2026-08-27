@@ -175,3 +175,98 @@ article{
 .cartDescricao:hover{
     color: var(--cor-primaria);
 }
+
+@media (max-width: 1024px){
+    .article-img{
+        width: 92vw;
+        height: 320px;
+    }
+
+    .MaisVendidos{
+        margin-top: 60px;
+    }
+
+    .produtosLinhas{
+        margin-top: 60px;
+    }
+
+    .infoMaisVendidos{
+        width: 92vw;
+    }
+
+    .infoProdutosLinha{
+        width: 92vw;
+    }
+
+    .rowProduto{
+        width: 92vw;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .imgAnuncio{
+        width: 280px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 600px){
+    .article-img{
+        width: 92vw;
+        height: 220px;
+        border-radius: 16px;
+    }
+
+    .MaisVendidos{
+        margin-top: 40px;
+    }
+
+    .produtosLinhas{
+        margin-top: 40px;
+    }
+
+    .infoMaisVendidos{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+
+    .infoProdutosLinha{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+
+    .rowProduto{
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+        gap: 24px;
+    }
+
+    .imgProduto{
+        width: 70vw;
+        height: 70vw;
+        max-width: 280px;
+        max-height: 280px;
+    }
+
+    .imgProduto img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .descricaoProduto{
+        width: 70vw;
+        max-width: 280px;
+    }
+
+    .imgAnuncio{
+        width: 70vw;
+        height: 70vw;
+        max-width: 280px;
+        max-height: 280px;
+    }
+}
