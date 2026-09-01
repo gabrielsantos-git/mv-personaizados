@@ -361,8 +361,11 @@ img{
 @media (max-width: 600px){
     .header{
         flex-wrap: wrap;
+        align-items: center;
         gap: 12px;
-        padding: 10px 16px 0;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(167, 12, 36, 0.73);
+        box-sizing: border-box;
     }
 
     .logo img{
@@ -370,10 +373,40 @@ img{
         height: 56px;
     }
 
+    /* Ícones do header menores no mobile, do jeito que o Figma mostra
+       (cabeçalho enxuto: logo + ícones pequenos), em vez do mesmo tamanho
+       usado no desktop. */
+    .cart-button svg,
+    .profile-button svg,
+    .botaoMenuMobile svg{
+        width: 22px;
+        height: 22px;
+    }
+
     .buscaHeaderWrapper{
         order: 4;
         flex: 1 1 100%;
         width: 100%;
+        position: relative;
+    }
+
+    /* Lupa dentro da barra de busca, como no Figma — em CSS puro pra não
+       precisar mexer no buscaHeader.js (que envolve o input num wrapper
+       depois que a página já carregou). */
+    .buscaHeaderWrapper::before{
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23a70c24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat center / contain;
+        pointer-events: none;
+    }
+
+    #search{
+        padding-left: 34px;
     }
 
     .cart-button,
