@@ -172,6 +172,10 @@ nav ul, a{
     font-size: 15px;
 }
 
+.linkContaMobile{
+    display: none;
+}
+
 .botaoMenuMobile{
     display: none;
 
@@ -377,10 +381,16 @@ img{
        (cabeçalho enxuto: logo + ícones pequenos), em vez do mesmo tamanho
        usado no desktop. */
     .cart-button svg,
-    .profile-button svg,
     .botaoMenuMobile svg{
-        width: 22px;
-        height: 22px;
+        width: 26px;
+        height: 26px;
+    }
+
+    /* O Figma não tem o ícone de perfil no header mobile — só carrinho e
+       menu. O acesso a "Minha conta" continua existindo, movido pro menu
+       hambúrguer (ver .linkContaMobile em nav#navPrincipal). */
+    .profile-button{
+        display: none;
     }
 
     .buscaHeaderWrapper{
@@ -396,27 +406,34 @@ img{
     .buscaHeaderWrapper::before{
         content: "";
         position: absolute;
-        left: 12px;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23a70c24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat center / contain;
         pointer-events: none;
     }
 
     #search{
-        padding-left: 34px;
+        height: 48px;
+        border-radius: 16px;
+        padding-left: 40px;
     }
 
-    .cart-button,
-    .profile-button{
+    .cart-button{
         margin-left: 0;
     }
 
     .botaoMenuMobile{
         display: flex;
         align-items: center;
+    }
+
+    /* Item extra no menu hambúrguer, só no mobile (no desktop o acesso à
+       conta continua sendo o ícone de perfil no header). */
+    .linkContaMobile{
+        display: list-item;
     }
 
     nav{
