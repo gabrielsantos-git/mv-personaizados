@@ -159,7 +159,7 @@
                         <h6 class="descricaoProduto">${escaparHtml(produto.descricao || '')}</h6>
                         <div class="infoProduto">
                             ${blocoPrecoHtml(produto, promocoesAtivas, formatarPreco)}
-                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${precoFinal}" data-imagem="${imagem}" data-categoria="${escaparHtml(produto.categoria || '')}">${iconeCarrinho}</button>
+                            <button type="button" class="cartDescricao" data-id="${produto.id}" data-nome="${escaparHtml(produto.nome)}" data-preco="${precoFinal}" data-imagem="${imagem}" data-categoria="${escaparHtml(produto.categoria || '')}">${iconeCarrinho}<span class="textoAdicionar">Adicionar</span></button>
                         </div>
                 </div>
                 </a>
