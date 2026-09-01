@@ -279,6 +279,26 @@ main{
     gap: 35px;
 }
 
+.produtosGrid > a{
+    /* Sem isso, o nome do produto (white-space: nowrap, pra cortar com "...")
+       força a coluna inteira do grid a crescer pra caber o texto inteiro sem
+       quebrar — mesmo com width:100% no nome. min-width:0 deixa o item do
+       grid encolher até a largura real da coluna, e o nome trunca certinho. */
+    min-width: 0;
+}
+
+.produtosGrid .produto{
+    /* assets/style.css tem uma regra global "a{ display: flex }" (pensada
+       pro menu) que acaba virando todo <a> do site num container flex —
+       inclusive o <a class="clicarProduto"> do card. Isso faz esse <div
+       class="produto"> virar um item flex, que por padrão também não
+       encolhe abaixo do conteúdo (mesmo problema do min-width:0 acima, um
+       nível mais embaixo). Sem isso aqui, o nome do produto voltava a
+       forçar o card inteiro pra fora da coluna do grid. */
+    min-width: 0;
+    width: 100%;
+}
+
 .imgProduto{
     width: 200px;
     height: 200px;
@@ -381,6 +401,11 @@ main{
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .nomeProduto{
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .descricaoProduto{
