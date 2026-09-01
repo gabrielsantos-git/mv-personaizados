@@ -150,6 +150,7 @@ article{
     margin-top: -30px;
     width: 200px;
     color: black;
+    text-align: justify;
 
     display: -webkit-box;
     -webkit-line-clamp: 2;

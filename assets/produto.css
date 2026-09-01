@@ -102,6 +102,10 @@ main{
     margin: 0;
 }
 
+.descricaoCompraProduto p:first-child{
+    text-align: justify;
+}
+
 .precoAtualProduto{
     font-size: 30px;
     font-weight: 700;
@@ -471,6 +475,7 @@ main{
     margin-top: -30px;
     width: 200px;
     color: black;
+    text-align: justify;
 
     display: -webkit-box;
     -webkit-line-clamp: 2;
