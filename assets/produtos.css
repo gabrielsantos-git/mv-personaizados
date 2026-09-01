@@ -302,12 +302,22 @@ main{
     color: var(--cor-primaria);
 
     margin-top: 15px;
+
+    width: 190px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .descricaoProduto{
     margin-top: -30px;
     width: 200px;
     color: black;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .preco{
