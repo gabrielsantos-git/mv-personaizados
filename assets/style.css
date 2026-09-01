@@ -8,6 +8,15 @@
     --cor-quintenaria: #E32F4C;
 }
 
+html{
+    /* O menu lateral mobile fica fora da tela via transform:translateX
+       quando fechado — sem isso, esse deslocamento conta como conteúdo
+       "fora" da página e cria uma barra de rolagem horizontal (dá pra
+       confirmar com window.innerWidth crescendo além da largura real da
+       tela assim que o drawer entra no DOM). */
+    overflow-x: hidden;
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -172,10 +181,6 @@ nav ul, a{
     font-size: 15px;
 }
 
-.linkContaMobile{
-    display: none;
-}
-
 .botaoMenuMobile{
     display: none;
 
@@ -185,6 +190,16 @@ nav ul, a{
     padding: 4px;
 
     color: var(--cor-secundaria);
+}
+
+/* ---------- Menu lateral mobile (drawer da direita pra esquerda) ---------- */
+
+.overlayMenuMobile,
+.cabecalhoDrawer,
+.contaDrawer{
+    /* Só existem pro drawer mobile — no desktop o nav continua sendo a
+       barra horizontal de sempre. */
+    display: none;
 }
 
 footer{
@@ -387,8 +402,8 @@ img{
     }
 
     /* O Figma não tem o ícone de perfil no header mobile — só carrinho e
-       menu. O acesso a "Minha conta" continua existindo, movido pro menu
-       hambúrguer (ver .linkContaMobile em nav#navPrincipal). */
+       menu. O acesso à conta continua existindo dentro do menu lateral
+       (seção "Minha Conta" do drawer, ver .contaDrawer). */
     .profile-button{
         display: none;
     }
@@ -430,29 +445,161 @@ img{
         align-items: center;
     }
 
-    /* Item extra no menu hambúrguer, só no mobile (no desktop o acesso à
-       conta continua sendo o ícone de perfil no header). */
-    .linkContaMobile{
-        display: list-item;
+    /* Fundo escurecido atrás do menu lateral, como no Figma
+       (Dimmed-Background-Overlay). */
+    .overlayMenuMobile{
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+
+        background-color: rgba(0, 0, 0, 0.5);
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
     }
 
-    nav{
-        width: 100%;
+    .overlayMenuMobile.overlayAberto{
+        opacity: 1;
+        pointer-events: auto;
     }
 
+    /* O menu vira um painel (Drawer-Panel) fixo, encostado na borda
+       direita da tela, que desliza da direita pra esquerda ao abrir —
+       em vez do dropdown que caía abaixo do header. */
     nav#navPrincipal{
-        display: none;
-        padding-bottom: 12px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 41;
+
+        width: min(292px, 78vw);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+
+        background-color: white;
+        box-shadow: -6px 0 12px rgba(0, 0, 0, 0.15);
+
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+
+        overflow-y: auto;
     }
 
     nav#navPrincipal.navAberta{
-        display: block;
+        transform: translateX(0);
+    }
+
+    .cabecalhoDrawer{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 20px 16px 20px 20px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .logoDrawer{
+        /* A logo é branca (pensada pra ficar sobre o vermelho do header) —
+           sem isso, ela some no fundo branco do drawer. */
+        display: flex;
+        align-items: center;
+
+        background-color: var(--cor-primaria);
+        border-radius: 8px;
+        padding: 4px 10px;
+    }
+
+    .logoDrawer img{
+        width: auto;
+        height: 40px;
+    }
+
+    .botaoFecharDrawer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #f8fafc;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        padding: 10px;
+
+        color: var(--cor-primaria);
     }
 
     nav#navPrincipal ul{
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        gap: 4px;
+
+        margin: 0;
+        padding: 16px 12px;
+    }
+
+    nav#navPrincipal ul li a{
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 14px 16px;
+        border-radius: 8px;
+
+        color: #1e293b;
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+    nav#navPrincipal ul li a.linkNavAtivo{
+        background-color: rgba(167, 12, 36, 0.07);
+        color: var(--cor-primaria);
+        font-weight: 800;
+    }
+
+    .contaDrawer{
+        display: flex;
+        flex-direction: column;
         gap: 12px;
+
+        padding: 16px 24px 24px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .tituloContaDrawer{
+        margin: 0;
+
+        font-size: 12px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+    }
+
+    .linksContaDrawer{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .linksContaDrawer a{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        color: #1e293b;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    .linksContaDrawer svg{
+        flex-shrink: 0;
+        color: var(--cor-primaria);
     }
 
     footer{
