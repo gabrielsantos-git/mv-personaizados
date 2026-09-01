@@ -4,100 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style.css">
-    <title>Insira o código que enviamos - Mv Personalizados</title>
+    <link rel="stylesheet" href="assets/login.css">
+    <title>Inserir Código - Mv Personalizados</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="icon" type="image/svg+xml" href="assets/favicon-dark.svg" media="(prefers-color-scheme: dark)">
 </head>
 <body>
-    <header>
-        <section class="header">
-            <a href="index.html" class="logo"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
-            <input type="text" name="q" id="search" placeholder="Pesquisar produtos..." autocomplete="off">
-            <a href="carrinho.html" class="cart-button" aria-label="Carrinho">
-                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M360-640v-80h240v80H360ZM223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
-                <span class="badgeCarrinho"></span>
-            </a>
-            <a href="minha-conta.html" class="profile-button" aria-label="Minha conta">
-                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
-            </a>
-            <button type="button" class="botaoMenuMobile" id="botaoMenuMobile" aria-label="Abrir menu" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            </button>
-        </section>
-        <nav id="navPrincipal">
-            <ul>
-                <li><a href="produtos.html?categoria=informatica">Tecnologia</a></li>
-                <li><a href="produtos.html">Produtos</a></li>
-                <li><a href="contato.html">Contato</a></li>
-                <li><a href="#quemsomos">Quem somos</a></li>
-            </ul>
-        </nav>
+    <header class="headerLogin">
+        <a href="index.html"><img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados"></a>
     </header>
 
-    <main>
-        <section class="inserirCodigo">
-            <h2>Insira o código que enviamos para o seu email</h2>
-            <h2>Enviamos seu código para este E-mail exemplo@gmail.com</h2>
-            <input type="text" name="codigo" id="codigo" placeholder="Código">
-            <button>Reeviar código</button>
-            <button>Enviar</button>
-        </section>
+    <main class="loginPage">
+        <div class="faixaLogin">
+            <img src="assets/MvPersonalizados.svg" alt="Logo Mv Personalizados" class="logoFaixaLogin">
+        </div>
+
+        <div class="areaFormLogin">
+            <form action="" class="cardLogin" id="formCodigo">
+                <div>
+                    <h1 style="margin-bottom: 12px;">Inserir Código</h1>
+                    <p style="font-family: 'Almarai', sans-serif; font-size: 16px; color: white; opacity: 0.8; text-align: center; margin: 0;">
+                        Enviamos um código de verificação para o seu e-mail. Insira o código abaixo para confirmar sua conta.
+                        <br>
+                        <strong id="emailCodigo" style="opacity: 1;"></strong>
+                    </p>
+                </div>
+
+                <div class="gradeCodigo" id="gradeCodigo">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito" autocomplete="one-time-code">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito">
+                    <input type="text" inputmode="numeric" maxlength="1" class="campoDigito">
+                </div>
+
+                <p class="mensagemAuth" id="mensagemCodigo"></p>
+
+                <div class="acoesCodigo">
+                    <button type="submit" class="botaoFazerLogin" id="botaoVerificar">Verificar Código</button>
+                    <button type="button" class="linkAuxiliarCodigo" id="botaoReenviar">Reenviar código</button>
+                    <a href="login.html" class="linkAuxiliarCodigo" style="text-decoration: underline;">Voltar para login</a>
+                </div>
+            </form>
+        </div>
     </main>
 
-    <footer>
-        <section class="footerInfo">
-            <div class="infoEmpresa" id="quemsomos">
-                <img src="assets/MvPersonalizados.svg" alt="imgEmpresa">
+    <script type="module">
+        import { supabase } from './assets/supabaseClient.js';
 
-                <a href="#"><h6>Quem somos</h6></a>
-                <a href="orcamento.html"><h6>Orçamento</h6></a>
-                <a href="contato.html"><h6>Contato</h6></a>
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email') || '';
 
-                <button class="buttonFooter">
-                    <div>
-                        <h7>Contate nos</h7>
-                        <h7>Via WhatsApp</h7>
-                    </div>
-                </button>
-            </div>
+        if (!email) {
+            // Não tem como confirmar código sem saber o email — volta pro cadastro.
+            window.location.href = 'cadastro.html';
+        }
 
-            <div class="InfoAtendimento" id="contato">
-                <div class="title">
-                    <h4>ATENDIMENTO AO CLIENTE</h4>
-                </div>
+        document.getElementById('emailCodigo').textContent = email;
 
-                <a href="#"><h6 id="footerHorarioAtendimento">Atendimento: seg. à sex. das 8h às 17h</h6></a>
-                <a href="#"><h6 id="footerTelefoneContato">Contato: (71) 9232-6512</h6></a>
-                <a href="#"><h6 id="footerEmailContato">E-mail: exemplo@gmail.com</h6></a>
-            </div>
+        const form = document.getElementById('formCodigo');
+        const mensagem = document.getElementById('mensagemCodigo');
+        const botaoVerificar = document.getElementById('botaoVerificar');
+        const botaoReenviar = document.getElementById('botaoReenviar');
+        const grade = document.getElementById('gradeCodigo');
+        const campos = [...grade.querySelectorAll('.campoDigito')];
 
-            <div class="InfoPoliticas">
-                <div class="title">
-                    <h4>POLÍTICAS DA EMPRESA</h4>
-                </div>
+        // Só dígito em cada campo, avança pro próximo ao digitar e volta ao
+        // apagar — o padrão usual de campo de código de verificação.
+        campos.forEach((campo, indice) => {
+            campo.addEventListener('input', () => {
+                campo.value = campo.value.replace(/[^0-9]/g, '').slice(0, 1);
+                if (campo.value && indice < campos.length - 1) {
+                    campos[indice + 1].focus();
+                }
+            });
 
-                <a href="#"><h6>Política de pagamentos</h6></a>
-                <a href="#"><h6>Política de envio e Prazo de entrega</h6></a>
-                <a href="#"><h6>Termos de privacidade</h6></a>
-            </div>
+            campo.addEventListener('keydown', (evento) => {
+                if (evento.key === 'Backspace' && !campo.value && indice > 0) {
+                    campos[indice - 1].focus();
+                }
+            });
 
-            <div class="InfoOndeFicamos">
-                <div class="title">
-                    <h4>ONDE FICAMOS</h4>
-                </div>
+            // Cola o código inteiro de uma vez (ex: veio copiado do email).
+            campo.addEventListener('paste', (evento) => {
+                const colado = (evento.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                if (!colado) return;
+                evento.preventDefault();
+                colado.slice(0, campos.length).split('').forEach((digito, i) => {
+                    if (campos[i]) campos[i].value = digito;
+                });
+                const proximo = campos[Math.min(colado.length, campos.length - 1)];
+                proximo.focus();
+            });
+        });
 
-                <a href="#"><h6 id="footerEndereco">Rua exemplo, 123 - Bairro Exemplo - Cidade Exemplo - Estado Exemplo</h6></a>
-            </div>
-        </section>
+        campos[0].focus();
 
-        <section class="footerCopyright">
-            <h5>Copyright © 2026 Mv Personalizados. Todos os direitos reservados.</h5>
-        </section>
-    </footer>
+        form.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            mensagem.textContent = '';
 
-    <script type="module" src="assets/carrinho.js"></script>
-    <script type="module" src="assets/configuracoesLoja.js"></script>
-    <script type="module" src="assets/buscaHeader.js"></script>
-    <script type="module" src="assets/mobileNav.js"></script>
+            const codigo = campos.map((c) => c.value).join('');
+            if (codigo.length < campos.length) {
+                mensagem.textContent = 'Preencha todos os dígitos do código.';
+                return;
+            }
+
+            botaoVerificar.disabled = true;
+            botaoVerificar.textContent = 'Verificando...';
+
+            const { error } = await supabase.auth.verifyOtp({ email, token: codigo, type: 'signup' });
+
+            botaoVerificar.disabled = false;
+            botaoVerificar.textContent = 'Verificar Código';
+
+            if (error) {
+                mensagem.textContent = 'Código incorreto ou expirado. Confira e tente de novo.';
+                campos.forEach((c) => { c.value = ''; });
+                campos[0].focus();
+                return;
+            }
+
+            // Email confirmado, conta ativa e já logado — segue pra loja.
+            window.location.href = 'index.html';
+        });
+
+        let cooldown = 0;
+        let temporizador = null;
+
+        function atualizarBotaoReenviar() {
+            if (cooldown > 0) {
+                botaoReenviar.disabled = true;
+                botaoReenviar.textContent = `Reenviar código (${cooldown}s)`;
+            } else {
+                botaoReenviar.disabled = false;
+                botaoReenviar.textContent = 'Reenviar código';
+                clearInterval(temporizador);
+            }
+        }
+
+        botaoReenviar.addEventListener('click', async () => {
+            mensagem.textContent = '';
+            botaoReenviar.disabled = true;
+
+            const { error } = await supabase.auth.resend({ type: 'signup', email });
+
+            if (error) {
+                mensagem.textContent = 'Não foi possível reenviar o código agora. Tente novamente em instantes.';
+                botaoReenviar.disabled = false;
+                return;
+            }
+
+            mensagem.textContent = 'Código reenviado! Confira seu email.';
+            cooldown = 60;
+            atualizarBotaoReenviar();
+            temporizador = setInterval(() => {
+                cooldown -= 1;
+                atualizarBotaoReenviar();
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

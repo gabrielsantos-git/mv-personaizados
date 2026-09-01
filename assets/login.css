@@ -165,6 +165,64 @@
     gap: 24px;
 }
 
+/* ---------- Inserir código (confirmação de email) ---------- */
+
+.gradeCodigo{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.campoDigito{
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+
+    background-color: white;
+    border: none;
+    border-radius: 12px;
+    box-sizing: border-box;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-align: center;
+}
+
+.campoDigito:focus{
+    outline: 3px solid #780013;
+    outline-offset: 1px;
+}
+
+.acoesCodigo{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.linkAuxiliarCodigo{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: 'Almarai', sans-serif;
+    font-size: 16px;
+    color: var(--cor-secundaria);
+    text-decoration: underline;
+}
+
+.linkAuxiliarCodigo:disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 @media (max-width: 1024px){
     .loginPage{
         flex-direction: column;
@@ -223,5 +281,16 @@
     .botaoFazerLogin{
         width: 100%;
         font-size: 18px;
+    }
+
+    .gradeCodigo{
+        gap: 8px;
+    }
+
+    .campoDigito{
+        width: 100%;
+        max-width: 48px;
+        height: 52px;
+        font-size: 20px;
     }
 }

@@ -133,10 +133,10 @@
                 return;
             }
 
-            botao.disabled = false;
-            botao.textContent = 'Criar Conta';
-            mensagem.textContent = 'Conta criada! Verifique seu email para confirmar antes de entrar.';
-            form.reset();
+            // Confirmação de email obrigatória (sem sessão ainda) — manda pra
+            // página de inserir o código de verificação que acabou de ser
+            // enviado por email.
+            window.location.href = 'codigo.html?email=' + encodeURIComponent(email);
         });
     </script>
 </body>
