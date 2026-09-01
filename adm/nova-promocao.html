@@ -248,6 +248,7 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { senhaModal, alertModal } from '../assets/modal.js';
 
         const form = document.getElementById('formPromocao');
         const mensagem = document.getElementById('mensagemPromocao');
@@ -371,6 +372,41 @@
             atualizarResumo();
         }
 
+        // Medida de segurança extra pra criar promoção: pede a senha do admin
+        // logado e reautentica com supabase.auth.signInWithPassword (isso não
+        // muda o que tá cadastrado, só confirma que a senha bate). Erra a senha
+        // 4 vezes (a primeira tentativa + 3 chances) e a sessão é encerrada.
+        async function confirmarSenhaAdmin() {
+            const { data: { user } } = await supabase.auth.getUser();
+            const email = user?.email;
+            if (!email) return false;
+
+            const maxTentativas = 4;
+            let mensagemErro = null;
+
+            for (let tentativa = 1; tentativa <= maxTentativas; tentativa++) {
+                const senha = await senhaModal(
+                    'Por segurança, confirme sua senha de administrador pra criar essa promoção.',
+                    { titulo: 'Confirme sua senha', erro: mensagemErro }
+                );
+
+                if (senha === null) return false; // cancelou — só volta pro formulário
+
+                const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
+                if (!error) return true; // senha correta
+
+                const restantes = maxTentativas - tentativa;
+                mensagemErro = restantes > 0
+                    ? `Senha incorreta. Você tem mais ${restantes} tentativa${restantes === 1 ? '' : 's'}.`
+                    : 'Senha incorreta.';
+            }
+
+            await alertModal('Muitas tentativas com a senha errada. Por segurança, sua sessão vai ser encerrada.', { titulo: 'Sessão encerrada' });
+            await supabase.auth.signOut();
+            window.location.href = '../login.html';
+            return false;
+        }
+
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
             mensagem.textContent = '';
@@ -421,6 +457,13 @@
                 }
                 payload.codigo_cupom = codigo;
                 payload.valor_minimo_carrinho = document.getElementById('valorMinimo').value ? Number(document.getElementById('valorMinimo').value) : null;
+            }
+
+            // Medida de segurança: só ao CRIAR uma promoção nova (não ao editar
+            // uma existente), confirma a senha do admin antes de prosseguir.
+            if (!idPromocao) {
+                const confirmou = await confirmarSenhaAdmin();
+                if (!confirmou) return;
             }
 
             botaoSalvar.disabled = true;
