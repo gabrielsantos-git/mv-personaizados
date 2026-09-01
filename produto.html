@@ -431,20 +431,27 @@
             // multiplicar depois que o cliente mexe na quantidade de propósito.
             let quantidadeAlteradaPeloUsuario = false;
 
-            botoesQuantidade.forEach((botao, indice) => {
-                botao.addEventListener('click', () => {
-                    const atual = Number(inputQuantidade.value) || quantidadeMinima;
-                    inputQuantidade.value = indice === 0 ? Math.max(quantidadeMinima, atual - 1) : atual + 1;
+            // Quando o produto tem grupo de variação "Quantidade" (ex: Tamanho
+            // com estoque por valor), o seletor genérico de quantidade nem é
+            // renderizado (#quantidade não existe) — só liga esses eventos
+            // quando ele existe, senão o erro aqui interrompia o resto da
+            // função e quebrava até os steppers de cada tamanho.
+            if (inputQuantidade) {
+                botoesQuantidade.forEach((botao, indice) => {
+                    botao.addEventListener('click', () => {
+                        const atual = Number(inputQuantidade.value) || quantidadeMinima;
+                        inputQuantidade.value = indice === 0 ? Math.max(quantidadeMinima, atual - 1) : atual + 1;
+                        quantidadeAlteradaPeloUsuario = true;
+                        atualizarPrecoExibido();
+                    });
+                });
+
+                // Digitar a quantidade direto no campo também atualiza o preço.
+                inputQuantidade.addEventListener('input', () => {
                     quantidadeAlteradaPeloUsuario = true;
                     atualizarPrecoExibido();
                 });
-            });
-
-            // Digitar a quantidade direto no campo também atualiza o preço.
-            inputQuantidade.addEventListener('input', () => {
-                quantidadeAlteradaPeloUsuario = true;
-                atualizarPrecoExibido();
-            });
+            }
 
             ligarExclusividadeCaixas();
             ligarStepperVariacoes();
