@@ -516,11 +516,11 @@ img{
         bottom: 0;
         z-index: 41;
 
-        width: min(292px, 78vw);
+        width: min(292px, 82vw);
 
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: stretch;
 
         background-color: white;
@@ -546,19 +546,17 @@ img{
     }
 
     .logoDrawer{
-        /* A logo é branca (pensada pra ficar sobre o vermelho do header) —
-           sem isso, ela some no fundo branco do drawer. */
         display: flex;
         align-items: center;
-
-        background-color: var(--cor-primaria);
-        border-radius: 8px;
-        padding: 4px 10px;
     }
 
     .logoDrawer img{
         width: auto;
-        height: 40px;
+        height: 48px;
+        /* A logo do arquivo é branca (feita pro fundo vermelho do header);
+           no fundo branco do drawer, invertida ela fica escura e visível —
+           mesmo tratamento que login.html/cadastro.html usam. */
+        filter: invert(1);
     }
 
     .botaoFecharDrawer{
@@ -608,8 +606,17 @@ img{
         flex-direction: column;
         gap: 12px;
 
-        padding: 16px 24px 24px;
-        border-top: 1px solid #e2e8f0;
+        padding: 16px 24px;
+    }
+
+    .contaDrawer::before{
+        /* Divisória curta (~100px) acima de "MINHA CONTA", como no Figma —
+           não é uma linha de largura cheia. */
+        content: "";
+        width: 100px;
+        height: 1px;
+        background-color: #e2e8f0;
+        margin-bottom: 4px;
     }
 
     .tituloContaDrawer{
