@@ -333,6 +333,47 @@ footer{
     white-space: nowrap;
 }
 
+/* ---------- Botão de mostrar/esconder senha (telas de login/cadastro/
+   redefinição) — o wrapper é criado pelo assets/verSenha.js ---------- */
+
+.campoSenhaWrapper{
+    position: relative;
+}
+
+.campoLogin .campoSenhaWrapper input{
+    /* especificidade acima de ".campoLogin input" pra vencer o
+       "padding: 0 16px" do login.css/cadastro.css (carregados depois). */
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 48px;
+}
+
+.botaoVerSenha{
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    color: var(--cor-primaria);
+    opacity: 0.65;
+}
+
+.botaoVerSenha:hover{
+    opacity: 1;
+}
+
 /* ---------- Responsivo: header, nav e footer (compartilhados por quase
    toda página da loja) ---------- */
 
