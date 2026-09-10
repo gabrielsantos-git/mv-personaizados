@@ -539,24 +539,10 @@ img{
     .cabecalhoDrawer{
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
 
-        padding: 20px 16px 20px 20px;
+        padding: 16px;
         border-bottom: 1px solid #e2e8f0;
-    }
-
-    .logoDrawer{
-        display: flex;
-        align-items: center;
-    }
-
-    .logoDrawer img{
-        width: auto;
-        height: 48px;
-        /* A logo do arquivo é branca (feita pro fundo vermelho do header);
-           no fundo branco do drawer, invertida ela fica escura e visível —
-           mesmo tratamento que login.html/cadastro.html usam. */
-        filter: invert(1);
     }
 
     .botaoFecharDrawer{
