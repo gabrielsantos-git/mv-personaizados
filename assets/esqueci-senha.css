@@ -183,24 +183,37 @@
 }
 
 @media (max-width: 600px){
+    /* Layout mobile do Figma (node 2166:6): sem a barra branca do topo —
+       só o header vermelho com a logo branca e o card vermelho embaixo. */
     .headerLogin{
-        padding: 0 16px;
+        display: none;
+    }
+
+    .faixaLogin{
+        width: 100%;
+        padding: 12px 0 24px;
+    }
+
+    .logoFaixaLogin{
+        width: 180px;
+        max-width: 62%;
     }
 
     .areaFormLogin{
-        padding: 24px 16px;
+        padding: 24px 20px 40px;
     }
 
     .cardLogin{
         width: 100%;
         max-width: 100%;
-        padding: 28px 20px;
+        gap: 22px;
+        padding: 24px;
         border-radius: 24px;
-        gap: 18px;
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
     }
 
     .cardLogin h1{
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .campoLogin label{
@@ -208,11 +221,20 @@
     }
 
     .campoLogin input{
+        height: 50px;
+        border-radius: 10px;
+        /* 16px de propósito: abaixo disso o iOS dá zoom no foco do campo. */
         font-size: 16px;
     }
 
     .botaoFazerLogin{
         width: 100%;
-        font-size: 18px;
+        height: 52px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .linkCriarConta{
+        font-size: 14px;
     }
 }
