@@ -1,7 +1,6 @@
 /* ==========================================================================
-   TESTE EXPERIMENTAL — Skeleton Loading com Shimmer nos cards de produto.
-   Para remover: apagar este arquivo + assets/skeleton.js e tirar as 2 linhas
-   que os incluem em index.html e produtos.html.
+   Skeleton Loading com Shimmer nos cards de produto (index.html e
+   produtos.html), preenchidos pelo assets/skeleton.js.
 
    Os skeletons usam as MESMAS classes dos cards reais (.produto, .imgProduto,
    .nomeProduto...), então herdam automaticamente tamanho, margens e layout
