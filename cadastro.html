@@ -75,20 +75,42 @@
 
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
+        import { aplicarMascaraTelefone, normalizarTelefone } from './assets/telefone.js';
+        import { aplicarMascaraCep, normalizarCep } from './assets/cep.js';
 
         const form = document.getElementById('formCadastro');
         const mensagem = document.getElementById('mensagemCadastro');
         const botao = form.querySelector('.botaoFazerLogin');
 
+        // Erro de um campo aparece no aviso do formulário e some quando corrigido.
+        function mensageiroDeErro() {
+            let ultima = '';
+            return (texto) => {
+                if (texto) mensagem.textContent = texto;
+                else if (mensagem.textContent === ultima) mensagem.textContent = '';
+                ultima = texto;
+            };
+        }
+
+        const telefoneInput = document.getElementById('telefone');
+        const cepInput = document.getElementById('cep');
+        const mascaraTelefone = aplicarMascaraTelefone(telefoneInput, { aoValidar: mensageiroDeErro() });
+        const mascaraCep = aplicarMascaraCep(cepInput, { aoValidar: mensageiroDeErro() });
+
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
             mensagem.textContent = '';
 
+            // Telefone e CEP são opcionais, mas se preenchidos têm que estar completos.
+            if (mascaraTelefone.validar()) { telefoneInput.focus(); return; }
+            if (mascaraCep.validar()) { cepInput.focus(); return; }
+
             const nome = document.getElementById('nome').value.trim();
             const sobrenome = document.getElementById('sobrenome').value.trim();
             const email = document.getElementById('email').value.trim();
-            const telefone = document.getElementById('telefone').value.trim();
-            const cep = document.getElementById('cep').value.trim();
+            // Vão pro banco só os dígitos, sem máscara.
+            const telefone = normalizarTelefone(telefoneInput.value);
+            const cep = normalizarCep(cepInput.value);
             const senha = document.getElementById('senha').value;
             const confirmarSenha = document.getElementById('confirmarSenha').value;
 

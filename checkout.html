@@ -113,6 +113,7 @@
         import { supabase } from './assets/supabaseClient.js';
         import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
         import { getArtePorProduto, limparArtes, taxaArte, taxaTotalArtes, todasArtesCompletas, TAXA_ARTE_LOJA } from './assets/arte.js';
+        import { ligarCep, cepCompleto, formatarCep } from './assets/cep.js';
 
         const pagina = document.getElementById('paginaCheckout');
 
@@ -229,6 +230,16 @@
                 </aside>
             `;
 
+            // CEP com máscara + busca no ViaCEP ao digitar os 8 dígitos
+            // (preenche rua, bairro e cidade; complemento nunca é alterado).
+            // O CEP salvo no perfil só é formatado, não dispara consulta.
+            ligarCep({
+                cep: document.getElementById('cep'),
+                rua: document.getElementById('rua'),
+                bairro: document.getElementById('bairro'),
+                cidade: document.getElementById('cidade')
+            });
+
             // Só produtos da categoria "personalizado" pedem arte.
             const produtoIdsComArte = [...new Set(itens.filter((item) => item.categoria === 'personalizado').map((item) => item.produtoId))];
 
@@ -261,7 +272,15 @@
                     return;
                 }
 
-                const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${cep})`;
+                // Só exige os 8 dígitos — se o ViaCEP estiver fora do ar, o
+                // pedido segue normalmente com o endereço digitado à mão.
+                if (!cepCompleto(cep)) {
+                    mensagem.textContent = 'CEP incompleto: digite os 8 números.';
+                    document.getElementById('cep').focus();
+                    return;
+                }
+
+                const enderecoEntrega = [rua, bairro, cidade, complemento].filter(Boolean).join(' - ') + ` (CEP ${formatarCep(cep)})`;
                 const formaPagamento = document.getElementById('formaPagamento').value;
                 const cartaoEl = document.getElementById('cartaoEscolhido');
                 const cartaoTexto = cartaoEl && cartaoEl.value

@@ -374,6 +374,45 @@ footer{
     opacity: 1;
 }
 
+/* ---------- Status da busca de CEP (criado pelo assets/cep.js) ----------
+   [role] aumenta a especificidade pra não herdar o estilo de "small" dos
+   formulários (.campoConta small etc.). */
+
+.statusCep[role="status"]{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.statusCep[role="status"]:empty{
+    display: none;
+}
+
+.statusCep[data-tipo="carregando"]::before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: girarStatusCep 0.7s linear infinite;
+}
+
+.statusCep[data-tipo="aviso"],
+.statusCep[data-tipo="erro"]{
+    color: #b91c1c;
+}
+
+@keyframes girarStatusCep{
+    to{ transform: rotate(360deg); }
+}
+
 /* ---------- Responsivo: header, nav e footer (compartilhados por quase
    toda página da loja) ---------- */
 

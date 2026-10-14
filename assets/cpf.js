@@ -10,11 +10,11 @@
 // Validação = consistência matemática dos dígitos verificadores. Não comprova
 // que o CPF existe, a quem pertence nem a situação na Receita Federal.
 
-const TOTAL_DIGITOS = 11;
+import { somenteDigitos, mascararComCursor as mascararGenerico, ligarMascara } from './mascaraCampo.js';
 
-export function somenteDigitos(valor) {
-    return String(valor ?? '').replace(/\D/g, '');
-}
+export { somenteDigitos };
+
+const TOTAL_DIGITOS = 11;
 
 // Valor que vai para o banco/APIs: só os dígitos, sem pontos nem traço.
 export function normalizarCpf(valor) {
@@ -66,110 +66,21 @@ export function mensagemErroCpf(valor) {
     return '';
 }
 
-// Reaplica a máscara num texto qualquer mantendo o cursor logo depois do
-// mesmo dígito em que ele estava (para editar no meio sem o cursor pular).
+// Reaplica a máscara de CPF mantendo o cursor no mesmo dígito.
 export function mascararComCursor(valorBruto, cursor) {
-    const bruto = String(valorBruto ?? '');
-    const posicao = Math.max(0, Math.min(cursor ?? bruto.length, bruto.length));
-    const digitos = normalizarCpf(bruto);
-    const digitosAntes = Math.min(somenteDigitos(bruto.slice(0, posicao)).length, digitos.length);
-    const valor = formatarCpf(digitos);
-
-    let novoCursor = 0;
-    let contados = 0;
-    while (novoCursor < valor.length && contados < digitosAntes) {
-        if (/\d/.test(valor[novoCursor])) contados++;
-        novoCursor++;
-    }
-    return { valor, cursor: novoCursor };
+    return mascararGenerico(valorBruto, cursor, formatarCpf, TOTAL_DIGITOS);
 }
 
-// Liga a máscara, a restrição a dígitos e a validação num <input>.
+// Liga a máscara, a restrição a dígitos e a validação num <input> de CPF.
 // opcoes.aoValidar(mensagem) é chamado com a mensagem de erro ('' se ok).
 export function aplicarMascaraCpf(input, opcoes = {}) {
-    if (!input || input.dataset.mascaraCpf === 'true') return;
-    input.dataset.mascaraCpf = 'true';
-
-    // type="text" + inputmode="numeric": teclado numérico no celular sem os
-    // problemas do type="number" (zeros à esquerda, "e", setinhas, etc.).
+    if (!input) return null;
     input.type = 'text';
-    input.inputMode = 'numeric';
     input.autocomplete = 'off';
-    input.removeAttribute('maxlength'); // cortaria colagens com texto extra antes da limpeza
-    input.value = formatarCpf(input.value);
-
-    function aplicar(valorBruto, cursor) {
-        const r = mascararComCursor(valorBruto, cursor);
-        input.value = r.valor;
-        if (document.activeElement === input) input.setSelectionRange(r.cursor, r.cursor);
-    }
-
-    function validar() {
-        const mensagem = mensagemErroCpf(input.value);
-        input.setCustomValidity(mensagem);
-        if (mensagem) input.setAttribute('aria-invalid', 'true');
-        else input.removeAttribute('aria-invalid');
-        opcoes.aoValidar?.(mensagem);
-        return mensagem;
-    }
-
-    input.addEventListener('beforeinput', (evento) => {
-        const { inputType, data } = evento;
-        const inicio = input.selectionStart ?? input.value.length;
-        const fim = input.selectionEnd ?? inicio;
-        const valor = input.value;
-
-        // Digitação de letra/espaço/símbolo: bloqueia já na tecla.
-        if (inputType === 'insertText' && data && !/\d/.test(data)) {
-            evento.preventDefault();
-            return;
-        }
-
-        // Colar/arrastar algo sem nenhum número: ignora (não apaga o campo).
-        const transferido = evento.dataTransfer?.getData('text/plain');
-        if (inputType.startsWith('insertFrom') && transferido !== undefined && !/\d/.test(transferido)) {
-            evento.preventDefault();
-            return;
-        }
-
-        // Já tem 11 dígitos e não há nada selecionado pra substituir.
-        if (inputType === 'insertText' && data && inicio === fim
-            && somenteDigitos(valor).length + somenteDigitos(data).length > TOTAL_DIGITOS) {
-            evento.preventDefault();
-            return;
-        }
-
-        // Backspace logo depois de "." ou "-": apaga o dígito anterior ao
-        // separador (senão a máscara recolocaria o separador e nada mudaria).
-        if (inputType === 'deleteContentBackward' && inicio === fim && inicio > 0 && !/\d/.test(valor[inicio - 1])) {
-            evento.preventDefault();
-            let i = inicio - 1;
-            while (i >= 0 && !/\d/.test(valor[i])) i--;
-            if (i >= 0) aplicar(valor.slice(0, i) + valor.slice(i + 1), i);
-            if (input.getAttribute('aria-invalid') === 'true') validar();
-            return;
-        }
-
-        // Delete logo antes de um separador: apaga o próximo dígito.
-        if (inputType === 'deleteContentForward' && inicio === fim && inicio < valor.length && !/\d/.test(valor[inicio])) {
-            evento.preventDefault();
-            let i = inicio;
-            while (i < valor.length && !/\d/.test(valor[i])) i++;
-            if (i < valor.length) aplicar(valor.slice(0, i) + valor.slice(i + 1), inicio);
-            if (input.getAttribute('aria-invalid') === 'true') validar();
-        }
+    return ligarMascara(input, {
+        formatar: formatarCpf,
+        maxDigitos: TOTAL_DIGITOS,
+        mensagemErro: mensagemErroCpf,
+        aoValidar: opcoes.aoValidar
     });
-
-    // Rede de segurança para tudo que o beforeinput não cobre (colar, arrastar,
-    // autocompletar, teclados de celular que ignoram o preventDefault):
-    // tira tudo que não é dígito e reaplica a máscara.
-    input.addEventListener('input', () => {
-        aplicar(input.value, input.selectionStart ?? input.value.length);
-        // Se já estava marcado com erro, revalida enquanto a pessoa corrige.
-        if (input.getAttribute('aria-invalid') === 'true') validar();
-    });
-
-    input.addEventListener('blur', validar);
-
-    return { validar };
 }

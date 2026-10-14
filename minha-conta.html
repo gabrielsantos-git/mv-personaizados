@@ -232,30 +232,53 @@
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
         import { aplicarMascaraCpf, formatarCpf, normalizarCpf, mensagemErroCpf } from './assets/cpf.js';
+        import { aplicarMascaraTelefone, formatarTelefone, normalizarTelefone } from './assets/telefone.js';
+        import { ligarCep, formatarCep, normalizarCep } from './assets/cep.js';
 
         const emailInput = document.getElementById('email');
 
-        // CPF: máscara 000.000.000-00, só dígitos e validação (regra única em
-        // assets/cpf.js). Só é enviado ao banco se a pessoa mexer no campo —
-        // assim um CPF antigo já gravado nunca é reescrito por acidente ao
-        // salvar nome/telefone.
+        // CPF, telefone e CEP: máscaras e validação com as regras únicas de
+        // assets/cpf.js, telefone.js e cep.js. Cada um só é enviado ao banco
+        // se a pessoa mexer no campo — assim um valor antigo já gravado nunca
+        // é reescrito por acidente ao salvar outro campo do card.
         const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+        const cepInput = document.getElementById('cep');
         const mensagemDados = document.getElementById('mensagemDados');
         let cpfAlterado = false;
-        let ultimaMensagemCpf = '';
+        let telefoneAlterado = false;
+        let cepAlterado = false;
 
-        function mostrarErroCpf(mensagem) {
-            if (mensagem) {
-                mensagemDados.classList.remove('sucesso');
-                mensagemDados.textContent = mensagem;
-            } else if (mensagemDados.textContent === ultimaMensagemCpf) {
-                mensagemDados.textContent = '';
-            }
-            ultimaMensagemCpf = mensagem;
+        // Mostra/limpa o erro de um campo no aviso do card, sem apagar uma
+        // mensagem que veio de outro campo.
+        function mensageiroDeErro(elemento) {
+            let ultima = '';
+            return (mensagem) => {
+                if (mensagem) {
+                    elemento.classList.remove('sucesso');
+                    elemento.textContent = mensagem;
+                } else if (elemento.textContent === ultima) {
+                    elemento.textContent = '';
+                }
+                ultima = mensagem;
+            };
         }
 
-        const mascaraCpf = aplicarMascaraCpf(cpfInput, { aoValidar: mostrarErroCpf });
+        const mascaraCpf = aplicarMascaraCpf(cpfInput, { aoValidar: mensageiroDeErro(mensagemDados) });
         cpfInput.addEventListener('input', () => { cpfAlterado = true; });
+
+        const mascaraTelefone = aplicarMascaraTelefone(telefoneInput, { aoValidar: mensageiroDeErro(mensagemDados) });
+        telefoneInput.addEventListener('input', () => { telefoneAlterado = true; });
+
+        // CEP: ao digitar os 8 dígitos, busca no ViaCEP e preenche rua, bairro
+        // e cidade (o erro/andamento aparece logo abaixo do campo de CEP).
+        const buscaCep = ligarCep({
+            cep: cepInput,
+            rua: document.getElementById('rua'),
+            bairro: document.getElementById('bairro'),
+            cidade: document.getElementById('cidade')
+        });
+        cepInput.addEventListener('input', () => { cepAlterado = true; });
 
         function configurarCardEditavel({ botaoId, inputsIds, mensagemId, salvar, validar }) {
             const botao = document.getElementById(botaoId);
@@ -308,10 +331,12 @@
 
             emailInput.value = session.user.email || '';
             document.getElementById('nome').value = perfil?.nome || '';
-            document.getElementById('telefone').value = perfil?.telefone || '';
+            telefoneInput.value = formatarTelefone(perfil?.telefone);
+            telefoneAlterado = false;
             cpfInput.value = formatarCpf(perfil?.cpf);
             cpfAlterado = false;
-            document.getElementById('cep').value = perfil?.cep || '';
+            cepInput.value = formatarCep(perfil?.cep);
+            cepAlterado = false;
             document.getElementById('rua').value = perfil?.rua || '';
             document.getElementById('bairro').value = perfil?.bairro || '';
             document.getElementById('cidade').value = perfil?.cidade || '';
@@ -323,16 +348,22 @@
             inputsIds: ['nome', 'email', 'telefone', 'cpf'],
             mensagemId: 'mensagemDados',
             validar: () => {
-                if (!cpfAlterado) return true;
-                const erro = mascaraCpf.validar();
-                if (erro) cpfInput.focus();
-                return !erro;
+                if (telefoneAlterado && mascaraTelefone.validar()) {
+                    telefoneInput.focus();
+                    return false;
+                }
+                if (cpfAlterado && mascaraCpf.validar()) {
+                    cpfInput.focus();
+                    return false;
+                }
+                return true;
             },
             salvar: async () => {
                 const dados = {
-                    nome: document.getElementById('nome').value.trim(),
-                    telefone: document.getElementById('telefone').value.trim()
+                    nome: document.getElementById('nome').value.trim()
                 };
+                // Telefone vai só com os dígitos (DDD + número), como já é gravado.
+                if (telefoneAlterado) dados.telefone = normalizarTelefone(telefoneInput.value);
                 // Vai só os 11 dígitos (sem máscara); campo apagado = sem CPF.
                 if (cpfAlterado) dados.cpf = normalizarCpf(cpfInput.value) || null;
 
@@ -346,6 +377,7 @@
                     return false;
                 }
                 cpfAlterado = false;
+                telefoneAlterado = false;
                 return true;
             }
         });
@@ -354,19 +386,31 @@
             botaoId: 'botaoEditarEndereco',
             inputsIds: ['cep', 'rua', 'bairro', 'cidade', 'complemento'],
             mensagemId: 'mensagemEndereco',
+            validar: () => {
+                // CEP incompleto não salva; ViaCEP fora do ar NÃO impede salvar.
+                if (cepAlterado && buscaCep.validar()) {
+                    cepInput.focus();
+                    return false;
+                }
+                return true;
+            },
             salvar: async () => {
-                const { error } = await supabase.from('profiles').update({
-                    cep: document.getElementById('cep').value.trim(),
+                const dados = {
                     rua: document.getElementById('rua').value.trim(),
                     bairro: document.getElementById('bairro').value.trim(),
                     cidade: document.getElementById('cidade').value.trim(),
                     complemento: document.getElementById('complemento').value.trim()
-                }).eq('id', window.contaSession.user.id);
+                };
+                // CEP vai só com os 8 dígitos (sem o hífen).
+                if (cepAlterado) dados.cep = normalizarCep(cepInput.value);
+
+                const { error } = await supabase.from('profiles').update(dados).eq('id', window.contaSession.user.id);
 
                 if (error) {
                     document.getElementById('mensagemEndereco').textContent = 'Não foi possível salvar o endereço.';
                     return false;
                 }
+                cepAlterado = false;
                 return true;
             }
         });

@@ -4,6 +4,7 @@
 // página, simplesmente ignora — assim o mesmo script serve pra todas as páginas.
 
 import { supabase } from './supabaseClient.js';
+import { exibirTelefone } from './telefone.js';
 
 function preencherTexto(id, texto) {
     const el = document.getElementById(id);
@@ -19,16 +20,19 @@ export async function carregarConfiguracoesLoja() {
 
     if (error || !data) return null;
 
+    // Telefone gravado só com dígitos (ou num formato antigo) aparece formatado.
+    const telefone = exibirTelefone(data.telefone);
+
     // Rodapé (presente em quase todas as páginas)
     preencherTexto('footerHorarioAtendimento', data.horario_atendimento ? `Atendimento: ${data.horario_atendimento}` : null);
-    preencherTexto('footerTelefoneContato', data.telefone ? `Contato: ${data.telefone}` : null);
+    preencherTexto('footerTelefoneContato', telefone ? `Contato: ${telefone}` : null);
     preencherTexto('footerEmailContato', data.email ? `E-mail: ${data.email}` : null);
     preencherTexto('footerEndereco', data.endereco);
 
     // Página de Contato (card "Onde estamos")
     preencherTexto('contatoEndereco', data.endereco);
     preencherTexto('contatoEmail', data.email);
-    preencherTexto('contatoTelefone', data.telefone);
+    preencherTexto('contatoTelefone', telefone);
 
     return data;
 }

@@ -153,10 +153,31 @@
 
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
+        import { aplicarMascaraTelefone, formatarTelefone, normalizarTelefone } from '../assets/telefone.js';
 
         const form = document.getElementById('formConfiguracoes');
         const mensagem = document.getElementById('mensagemConfiguracoes');
         const botaoSalvar = document.getElementById('botaoSalvarConfiguracoes');
+
+        // Telefone da loja com máscara (regra única de assets/telefone.js).
+        // Só é regravado (com os dígitos, sem máscara) se for alterado — o
+        // valor antigo já salvo continua igual se ninguém mexer no campo.
+        const telefoneInput = document.getElementById('telefone');
+        let telefoneOriginal = '';
+        let telefoneAlterado = false;
+        const mascaraTelefone = aplicarMascaraTelefone(telefoneInput, {
+            aoValidar: (texto) => {
+                if (texto) {
+                    mensagem.classList.remove('mensagemSucesso');
+                    mensagem.classList.add('mensagemErro');
+                    mensagem.textContent = texto;
+                } else if (mensagem.classList.contains('mensagemErro') && mensagem.textContent.startsWith('Telefone')) {
+                    mensagem.textContent = '';
+                    mensagem.classList.remove('mensagemErro');
+                }
+            }
+        });
+        telefoneInput.addEventListener('input', () => { telefoneAlterado = true; });
 
         async function carregarConfiguracoes() {
             const { data, error } = await supabase
@@ -173,7 +194,9 @@
 
             document.getElementById('email').value = data.email || '';
             document.getElementById('cnpj').value = data.cnpj || '';
-            document.getElementById('telefone').value = data.telefone || '';
+            telefoneOriginal = data.telefone || '';
+            telefoneAlterado = false;
+            telefoneInput.value = formatarTelefone(telefoneOriginal);
             document.getElementById('horarioAtendimento').value = data.horario_atendimento || '';
             document.getElementById('endereco').value = data.endereco || '';
         }
@@ -183,10 +206,15 @@
             mensagem.textContent = '';
             mensagem.classList.remove('mensagemErro', 'mensagemSucesso');
 
+            if (telefoneAlterado && mascaraTelefone.validar()) {
+                telefoneInput.focus();
+                return;
+            }
+
             const payload = {
                 email: document.getElementById('email').value.trim(),
                 cnpj: document.getElementById('cnpj').value.trim(),
-                telefone: document.getElementById('telefone').value.trim(),
+                telefone: telefoneAlterado ? normalizarTelefone(telefoneInput.value) : telefoneOriginal,
                 horario_atendimento: document.getElementById('horarioAtendimento').value.trim(),
                 endereco: document.getElementById('endereco').value.trim(),
                 updated_at: new Date().toISOString()
@@ -205,6 +233,9 @@
                 mensagem.classList.add('mensagemErro');
                 return;
             }
+
+            telefoneOriginal = payload.telefone;
+            telefoneAlterado = false;
 
             mensagem.textContent = 'Configurações salvas com sucesso!';
             mensagem.classList.add('mensagemSucesso');

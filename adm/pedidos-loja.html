@@ -184,6 +184,7 @@
     <script type="module">
         import { supabase } from '../assets/supabaseClient.js';
         import { confirmModal, alertModal } from '../assets/modal.js';
+        import { exibirTelefone } from '../assets/telefone.js';
 
         const corpoTabela = document.getElementById('corpoTabelaPedidos');
         const estadoVazio = document.getElementById('estadoVazioPedidos');
@@ -245,7 +246,7 @@
             const idCurto = pedido.id.slice(0, 8).toUpperCase();
             const cliente = pedido.perfilCliente;
             const nomeCliente = cliente ? [cliente.nome, cliente.sobrenome].filter(Boolean).join(' ') : 'Cliente';
-            const telefone = cliente?.telefone || '–';
+            const telefone = exibirTelefone(cliente?.telefone) || '–';
             const podeAvancar = !!proximoStatus[pedido.status];
             const podeCancelar = pedido.status !== 'entregue' && pedido.status !== 'cancelado';
 
@@ -277,7 +278,7 @@
                     ${pedido.observacoes ? `<p class="infoExtraPedido"><strong>Observações:</strong> ${escaparHtml(pedido.observacoes)}</p>` : ''}
                     ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'cliente').map((i) => `<p class="infoExtraPedido"><strong>Arte (${escaparHtml(i.nome_produto)}):</strong> enviada pelo cliente — <a href="${escaparHtml(i.arte_url)}" target="_blank" rel="noopener">ver arquivo</a></p>`).join('')}
                     ${(pedido.itens_pedido || []).filter((i) => i.arte_tipo === 'loja').map((i) => `<p class="infoExtraPedido"><strong>Arte (${escaparHtml(i.nome_produto)}):</strong> a loja precisa criar — "${escaparHtml(i.arte_descricao)}"</p>`).join('')}
-                    ${cliente?.telefone ? `<p class="infoExtraPedido"><strong>Contato do cliente:</strong> ${escaparHtml(cliente.telefone)}</p>` : ''}
+                    ${cliente?.telefone ? `<p class="infoExtraPedido"><strong>Contato do cliente:</strong> ${escaparHtml(exibirTelefone(cliente.telefone))}</p>` : ''}
                 </div>
             `;
         }
@@ -477,7 +478,7 @@
 
                     <div class="blocoCliente">
                         <div><strong>Cliente:</strong> ${escaparHtml(nomeCliente)}</div>
-                        <div><strong>Telefone:</strong> ${escaparHtml(cliente?.telefone || '–')}</div>
+                        <div><strong>Telefone:</strong> ${escaparHtml(exibirTelefone(cliente?.telefone) || '–')}</div>
                         <div><strong>Endereço:</strong> ${escaparHtml(pedido.endereco_entrega) || '–'}</div>
                         <div><strong>Pagamento:</strong> ${nomesFormaPagamento[pedido.forma_pagamento] || pedido.forma_pagamento || '–'}</div>
                     </div>
