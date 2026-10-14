@@ -248,6 +248,11 @@ hr.divisorConta{
     border-color: var(--cor-primaria);
 }
 
+/* Campo marcado como inválido (hoje: CPF, via assets/cpf.js). */
+.campoConta input[aria-invalid="true"]{
+    border-color: #dc2626;
+}
+
 .opcaoRadioArte{
     display: flex;
     align-items: center;

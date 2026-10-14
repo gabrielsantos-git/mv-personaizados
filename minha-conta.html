@@ -113,7 +113,7 @@
 
                             <div class="campoConta">
                                 <label for="cpf">CPF</label>
-                                <input type="text" id="cpf" placeholder="000.000.000-00" disabled>
+                                <input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" autocomplete="off" disabled>
                             </div>
                         </div>
 
@@ -231,10 +231,33 @@
     <script type="module" src="assets/carrinho.js"></script>
     <script type="module">
         import { supabase } from './assets/supabaseClient.js';
+        import { aplicarMascaraCpf, formatarCpf, normalizarCpf, mensagemErroCpf } from './assets/cpf.js';
 
         const emailInput = document.getElementById('email');
 
-        function configurarCardEditavel({ botaoId, inputsIds, mensagemId, salvar }) {
+        // CPF: máscara 000.000.000-00, só dígitos e validação (regra única em
+        // assets/cpf.js). Só é enviado ao banco se a pessoa mexer no campo —
+        // assim um CPF antigo já gravado nunca é reescrito por acidente ao
+        // salvar nome/telefone.
+        const cpfInput = document.getElementById('cpf');
+        const mensagemDados = document.getElementById('mensagemDados');
+        let cpfAlterado = false;
+        let ultimaMensagemCpf = '';
+
+        function mostrarErroCpf(mensagem) {
+            if (mensagem) {
+                mensagemDados.classList.remove('sucesso');
+                mensagemDados.textContent = mensagem;
+            } else if (mensagemDados.textContent === ultimaMensagemCpf) {
+                mensagemDados.textContent = '';
+            }
+            ultimaMensagemCpf = mensagem;
+        }
+
+        const mascaraCpf = aplicarMascaraCpf(cpfInput, { aoValidar: mostrarErroCpf });
+        cpfInput.addEventListener('input', () => { cpfAlterado = true; });
+
+        function configurarCardEditavel({ botaoId, inputsIds, mensagemId, salvar, validar }) {
             const botao = document.getElementById(botaoId);
             const textoBotao = botao.querySelector('span');
             const mensagem = document.getElementById(mensagemId);
@@ -257,6 +280,10 @@
 
                 mensagem.textContent = '';
                 mensagem.classList.remove('sucesso');
+
+                // Dado inválido: continua no modo edição pra pessoa corrigir.
+                if (validar && !validar()) return;
+
                 botao.disabled = true;
                 textoBotao.textContent = 'Salvando...';
 
@@ -282,7 +309,8 @@
             emailInput.value = session.user.email || '';
             document.getElementById('nome').value = perfil?.nome || '';
             document.getElementById('telefone').value = perfil?.telefone || '';
-            document.getElementById('cpf').value = perfil?.cpf || '';
+            cpfInput.value = formatarCpf(perfil?.cpf);
+            cpfAlterado = false;
             document.getElementById('cep').value = perfil?.cep || '';
             document.getElementById('rua').value = perfil?.rua || '';
             document.getElementById('bairro').value = perfil?.bairro || '';
@@ -294,17 +322,30 @@
             botaoId: 'botaoEditarDados',
             inputsIds: ['nome', 'email', 'telefone', 'cpf'],
             mensagemId: 'mensagemDados',
+            validar: () => {
+                if (!cpfAlterado) return true;
+                const erro = mascaraCpf.validar();
+                if (erro) cpfInput.focus();
+                return !erro;
+            },
             salvar: async () => {
-                const { error } = await supabase.from('profiles').update({
+                const dados = {
                     nome: document.getElementById('nome').value.trim(),
-                    telefone: document.getElementById('telefone').value.trim(),
-                    cpf: document.getElementById('cpf').value.trim()
-                }).eq('id', window.contaSession.user.id);
+                    telefone: document.getElementById('telefone').value.trim()
+                };
+                // Vai só os 11 dígitos (sem máscara); campo apagado = sem CPF.
+                if (cpfAlterado) dados.cpf = normalizarCpf(cpfInput.value) || null;
+
+                const { error } = await supabase.from('profiles').update(dados).eq('id', window.contaSession.user.id);
 
                 if (error) {
-                    document.getElementById('mensagemDados').textContent = 'Não foi possível salvar seus dados.';
+                    // 23514 = CPF recusado pela validação do banco.
+                    mensagemDados.textContent = error.code === '23514'
+                        ? (mensagemErroCpf(cpfInput.value) || 'CPF inválido. Confira os números digitados.')
+                        : 'Não foi possível salvar seus dados.';
                     return false;
                 }
+                cpfAlterado = false;
                 return true;
             }
         });
