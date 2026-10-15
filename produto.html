@@ -415,6 +415,9 @@
             let adicionalTotal = 0;
             let precoAbsoluto = null; // se alguma variação marcada "é o valor do produto" foi escolhida
             let variacaoIdPrincipal = null;
+            // Todas as variações escolhidas — o servidor recalcula o preço a
+            // partir delas ao fechar o pedido (ver supabase/pedidos_1_criar_pedido.sql).
+            const variacaoIds = [];
             const partesNome = [];
 
             document.querySelectorAll('.grupoVariacaoProduto').forEach((grupo) => {
@@ -431,10 +434,11 @@
                     adicionalTotal += valor;
                 }
                 partesNome.push(`${tipoNome}: ${selecionado.dataset.valor}`);
+                variacaoIds.push(selecionado.value);
                 if (!variacaoIdPrincipal) variacaoIdPrincipal = selecionado.value;
             });
 
-            return { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao: partesNome.join(', ') };
+            return { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, variacaoIds, descricao: partesNome.join(', ') };
         }
 
         function ligarEventosCompra(produto, imagemPrincipal, precoFinal, itensNoCarrinho, modoEdicao) {
@@ -484,7 +488,7 @@
             // Com grupo de quantidade: 1 item pra cada valor com quantidade > 0
             // (ex: 1x Camisa P, 4x Camisa M), cada um levando os outros grupos escolhidos.
             function montarItensCarrinho() {
-                const { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, descricao } = coletarVariacoesSelecionadas();
+                const { adicionalTotal, precoAbsoluto, variacaoIdPrincipal, variacaoIds, descricao } = coletarVariacoesSelecionadas();
 
                 if (!grupoQuantidade) {
                     const quantidade = Math.max(quantidadeMinima, Number(inputQuantidade.value) || quantidadeMinima);
@@ -496,6 +500,7 @@
                     return [{
                         produtoId: produto.id,
                         variacaoId: variacaoIdPrincipal,
+                        variacaoIds,
                         nome: produto.nome + (descricao ? ` (${descricao})` : ''),
                         produtoNome: produto.nome,
                         categoria: produto.categoria,
@@ -519,6 +524,7 @@
                     itens.push({
                         produtoId: produto.id,
                         variacaoId: item.dataset.id,
+                        variacaoIds: [...variacaoIds, item.dataset.id],
                         nome: `${produto.nome} (${partes.join(', ')})`,
                         produtoNome: produto.nome,
                         categoria: produto.categoria,

@@ -114,6 +114,7 @@
         import { getCarrinho, totalCarrinho, limparCarrinho } from './assets/carrinho.js';
         import { getArtePorProduto, limparArtes, taxaArte, taxaTotalArtes, todasArtesCompletas, TAXA_ARTE_LOJA } from './assets/arte.js';
         import { ligarCep, cepCompleto, formatarCep } from './assets/cep.js';
+        import { montarItensPedido, interpretarErroPedido } from './assets/pedido.js';
 
         const pagina = document.getElementById('paginaCheckout');
 
@@ -291,48 +292,24 @@
                 botao.disabled = true;
                 botao.textContent = 'Enviando pedido...';
 
-                const { data: pedido, error: erroPedido } = await supabase
-                    .from('pedidos')
-                    .insert({
-                        cliente_id: window.contaSession.user.id,
-                        status: 'pendente',
-                        total,
-                        forma_pagamento: formaPagamento,
-                        endereco_entrega: enderecoEntrega,
-                        observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null
-                    })
-                    .select('id')
-                    .single();
-
-                if (erroPedido || !pedido) {
-                    botao.disabled = false;
-                    botao.textContent = 'Confirmar Pedido';
-                    mensagem.textContent = 'Não foi possível criar o pedido. Tente novamente.';
-                    return;
-                }
-
-                const itensParaInserir = itens.map((item) => {
-                    const arte = getArtePorProduto(item.produtoId);
-                    return {
-                        pedido_id: pedido.id,
-                        produto_id: item.produtoId,
-                        variacao_id: item.variacaoId || null,
-                        nome_produto: item.nome,
-                        preco_unitario: item.preco,
-                        quantidade: item.quantidade,
-                        subtotal: item.preco * item.quantidade,
-                        arte_tipo: arte?.tipo || null,
-                        arte_url: arte?.tipo === 'cliente' ? arte.arteUrl : null,
-                        arte_descricao: arte?.tipo === 'loja' ? arte.descricao : null
-                    };
+                // O servidor recalcula preços, descontos, taxa de arte e total
+                // a partir do banco e grava pedido + itens de uma vez (tudo ou
+                // nada). O total mostrado na tela vai junto só pra conferência:
+                // se não bater com o do servidor, o pedido não é criado.
+                const { error: erroPedido } = await supabase.rpc('criar_pedido', {
+                    p_itens: montarItensPedido(itens, getArtePorProduto),
+                    p_endereco_entrega: enderecoEntrega,
+                    p_forma_pagamento: formaPagamento,
+                    p_observacoes: cartaoTexto ? `Pagamento no cartão: ${cartaoTexto}` : null,
+                    p_total_esperado: Math.round(total * 100) / 100
                 });
 
-                const { error: erroItens } = await supabase.from('itens_pedido').insert(itensParaInserir);
-
-                if (erroItens) {
+                if (erroPedido) {
+                    const { mensagem: texto, voltarAoCarrinho } = interpretarErroPedido(erroPedido);
                     botao.disabled = false;
                     botao.textContent = 'Confirmar Pedido';
-                    mensagem.textContent = 'Pedido criado, mas houve um problema ao registrar os itens. Fale com o suporte.';
+                    mensagem.textContent = texto;
+                    if (voltarAoCarrinho) setTimeout(() => { window.location.href = 'carrinho.html'; }, 2500);
                     return;
                 }
 

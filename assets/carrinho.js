@@ -20,10 +20,25 @@ function salvarCarrinho(itens) {
     atualizarBadgeCarrinho();
 }
 
-// item: { produtoId, variacaoId, nome, preco, quantidade, imagem }
+// Todas as variações escolhidas no item. Itens antigos (de antes de o
+// carrinho guardar a lista completa) só têm a variação principal.
+export function variacoesDoItem(item) {
+    if (Array.isArray(item.variacaoIds)) return item.variacaoIds.filter(Boolean);
+    return item.variacaoId ? [item.variacaoId] : [];
+}
+
+// Dois itens só se juntam (somando quantidade) se forem o mesmo produto com
+// exatamente as mesmas variações — senão "P + azul" e "P + verde" virariam
+// uma linha só, com o preço de uma delas.
+export function chaveDoItem(item) {
+    return `${item.produtoId}|${[...variacoesDoItem(item)].sort().join(',')}`;
+}
+
+// item: { produtoId, variacaoId, variacaoIds, nome, preco, quantidade, imagem }
 export function adicionarItem(item) {
     const itens = getCarrinho();
-    const existente = itens.find((i) => i.produtoId === item.produtoId && i.variacaoId === item.variacaoId);
+    const chave = chaveDoItem(item);
+    const existente = itens.find((i) => chaveDoItem(i) === chave);
 
     if (existente) {
         existente.quantidade += item.quantidade;
